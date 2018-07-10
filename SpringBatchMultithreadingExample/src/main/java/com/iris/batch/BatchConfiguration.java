@@ -1,5 +1,7 @@
 package com.iris.batch;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
@@ -12,13 +14,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.util.Assert;
 
 import com.iris.batch.listener.JobCompletionNotificationListener;
-import com.iris.batch.model.MrMarketEvent;
+import com.iris.batch.model.TradeBase;
 import com.iris.batch.model.MrMarketVolumeStore;
-import com.iris.batch.model.Trade;
+import com.iris.batch.model.Trade1;
 import com.iris.batch.processor.MrMarketEventProcessor;
 import com.iris.batch.reader.MrMarketEventReader;
+import com.iris.batch.util.PropertiesUtil;
 import com.iris.batch.writer.StockVolumeWriter;
 
 /**
@@ -29,6 +33,7 @@ import com.iris.batch.writer.StockVolumeWriter;
 @Configuration
 @EnableBatchProcessing
 public class BatchConfiguration {
+	private static final Logger log = LoggerFactory.getLogger(BatchConfiguration.class);
 
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
@@ -68,22 +73,47 @@ public class BatchConfiguration {
 	// Configure job step
 	@Bean
 	public Job fxMarketPricesETLJob() {
-		return jobBuilderFactory.get("CITI Market Risk").incrementer(new RunIdIncrementer()).listener(listener()).flow(etlStep()).end().build();
+		return jobBuilderFactory.get("CITI Market Risk").incrementer(new RunIdIncrementer()).listener(listener())
+				.flow(etlStep()).end().build();
 	}
-	
+
 	@Bean
-	public TaskExecutor taskExecutor(){
-	    SimpleAsyncTaskExecutor asyncTaskExecutor=new SimpleAsyncTaskExecutor("Thread-");
-	    asyncTaskExecutor.setConcurrencyLimit(5);
-	    return asyncTaskExecutor;
+	public TaskExecutor taskExecutor() {
+
+		int concurrencyInt = Integer.MAX_VALUE;
+
+		try {
+			String concurrency = PropertiesUtil.get("concurrency_limit");
+			Assert.isNull(concurrency, "concurrency_limit not found in application.properties file");
+
+			concurrencyInt = Integer.parseInt(concurrency);
+
+		} catch (NumberFormatException e) {
+			log.error("Chunk size is not integer");
+		}
+		
+		SimpleAsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor("Thread-");
+		asyncTaskExecutor.setConcurrencyLimit(concurrencyInt);
+		return asyncTaskExecutor;
 	}
-    
+
 	@Bean
 	public Step etlStep() {
-		return stepBuilderFactory.get("Extract -> Transform -> Aggregate -> Load").<MrMarketEvent, Trade> chunk(10000)
-				.reader(mrMarketEventReader()).processor(mrMarketEventProcessor())
-				.writer(stockVolumeWriter())
-				.taskExecutor(taskExecutor()).build();
+		
+		int chunkSizeInt = Integer.MAX_VALUE;
+		
+		try {
+			String chuntSize = PropertiesUtil.get("chunk_size");
+			Assert.isNull(chuntSize, "chunk_size not found in application.properties file");
+
+			chunkSizeInt = Integer.parseInt(chuntSize);
+
+		} catch (NumberFormatException e) {
+			log.error("Chunk size is not integer");
+		}
+		return stepBuilderFactory.get("Extract -> Transform -> Aggregate -> Load")
+				.<TradeBase, Trade1>chunk(chunkSizeInt).reader(mrMarketEventReader())
+				.processor(mrMarketEventProcessor()).writer(stockVolumeWriter()).taskExecutor(taskExecutor()).build();
 	}
 
 }
