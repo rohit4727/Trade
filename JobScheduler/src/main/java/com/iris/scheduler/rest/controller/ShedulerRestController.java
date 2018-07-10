@@ -18,13 +18,9 @@ import com.iris.scheduler.beans.ResponseBean;
 import com.iris.scheduler.constants.IControllerConstants;
 import com.iris.scheduler.entity.JobScheduler;
 import com.iris.scheduler.exception.ResourceNotFoundException;
-import com.iris.scheduler.repository.CronRepository;
-import com.iris.scheduler.repository.JobSchedulerRepository;
-<<<<<<< .mine
 
-=======
-import com.iris.scheduler.service.SchedularServiceImpl;
->>>>>>> .theirs
+import com.iris.scheduler.repository.JobSchedulerRepository;
+
 
 import com.iris.scheduler.service.SchedulerService;
 
