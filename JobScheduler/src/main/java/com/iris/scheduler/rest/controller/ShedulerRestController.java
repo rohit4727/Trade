@@ -28,8 +28,8 @@ import com.iris.scheduler.entity.JobScheduler;
 import com.iris.scheduler.exception.ResourceNotFoundException;
 import com.iris.scheduler.repository.CronRepository;
 import com.iris.scheduler.repository.JobSchedulerRepository;
-import com.iris.scheduler.service.SchedularService;
-import com.iris.scheduler.service.SchedularServiceImpl;
+
+import com.iris.scheduler.service.SchedulerService;
 
 @RestController
 @RequestMapping(IControllerConstants.JOB_SCHEDULER)
@@ -39,10 +39,8 @@ public class ShedulerRestController {
 	JobSchedulerRepository jobSchedulerRepository;
 
 	@Autowired
-	SchedularServiceImpl schedularService;
+	SchedulerService schedularService;
 
-	@Autowired
-	CronRepository cronRepository;
 
 	@GetMapping(IControllerConstants.GET_ALL_JOB_SCHEDULE_DETAILS)
 	public List<JobScheduler> getAllJobScheduleDetails() {
@@ -102,17 +100,17 @@ public class ShedulerRestController {
 	@ResponseBody
 	public ResponseBean runJob(@PathVariable Long id) {
 		boolean flag = false;
-		JobScheduler job = cronRepository.findbyjobId(id);
+		JobScheduler job = schedularService.findbyjobId(id);
 		flag = schedularService.checkfilepath(job.getBatchFilePath());
 
 		if (flag) {
 			schedularService.runcmd(job, flag);
 			job.setStatus(IControllerConstants.DONE);
-			jobSchedulerRepository.save(job);
+			schedularService.savestatus(job);
 			return new ResponseBean(IControllerConstants.DONE, IControllerConstants.SUCCESS);
 		} else {
 			job.setStatus(IControllerConstants.FAIL);
-			jobSchedulerRepository.save(job);
+			schedularService.savestatus(job);
 			return new ResponseBean(IControllerConstants.FAIL, IControllerConstants.FAILED);
 		}
 

@@ -16,11 +16,13 @@ public class ResponseBean {
 		this.message = message;
 	}
 
-	public String getId() {
+
+
+	public String getStatuscode() {
 		return statuscode;
 	}
 
-	public void setId(String statuscode) {
+	public void setStatuscode(String statuscode) {
 		this.statuscode = statuscode;
 	}
 
