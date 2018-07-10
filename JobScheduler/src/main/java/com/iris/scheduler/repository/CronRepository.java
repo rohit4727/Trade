@@ -12,7 +12,6 @@ import com.iris.scheduler.entity.JobScheduler;
 public interface CronRepository extends CrudRepository<JobScheduler, Long>{
 	
 	@Query("SELECT p FROM JobScheduler p WHERE p.scheduleDate<=now() and p.status=0")
-	
 	public List<JobScheduler> findbycurDate();
 	@Query("SELECT p FROM JobScheduler p WHERE p.id=:id")
     public JobScheduler findbyjobId(@Param("id") Long id);

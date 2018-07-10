@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 >>>>>>> f7721f6f67af8155fe6a718701ef2b0019773d84
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iris.schedular.beans.ResponseBean;
+import com.iris.scheduler.beans.ResponseBean;
 import com.iris.scheduler.constants.IControllerConstants;
 import com.iris.scheduler.entity.JobScheduler;
 import com.iris.scheduler.exception.ResourceNotFoundException;
