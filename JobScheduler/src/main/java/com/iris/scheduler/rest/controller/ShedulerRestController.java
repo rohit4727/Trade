@@ -18,14 +18,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iris.schedular.beans.ResponseBean;
 import com.iris.scheduler.constants.IControllerConstants;
 import com.iris.scheduler.entity.JobScheduler;
 import com.iris.scheduler.exception.ResourceNotFoundException;
 import com.iris.scheduler.repository.CronRepository;
 import com.iris.scheduler.repository.JobSchedulerRepository;
+import com.iris.scheduler.service.SchedularService;
+import com.iris.scheduler.service.SchedularServiceImpl;
 
 @RestController
 @RequestMapping(IControllerConstants.JOB_SCHEDULER)
@@ -33,6 +37,9 @@ public class ShedulerRestController {
 
 	@Autowired
 	JobSchedulerRepository jobSchedulerRepository;
+
+	@Autowired
+	SchedularServiceImpl schedularService;
 
 	@Autowired
 	CronRepository cronRepository;
@@ -86,22 +93,27 @@ public class ShedulerRestController {
 
 	// Get JobScheduler By Schedule Date
 	@GetMapping(IControllerConstants.FIND_JOB_SCHEDULER_BY_SCHEDULE_DATE)
-	public List<JobScheduler> findJobSchedulerByScheduleDate(@PathVariable(value = IControllerConstants.SCHEDULE_DATE) Date scheduleDate) {
-	    return jobSchedulerRepository.findByScheduleDate(scheduleDate);
+	public List<JobScheduler> findJobSchedulerByScheduleDate(
+			@PathVariable(value = IControllerConstants.SCHEDULE_DATE) Date scheduleDate) {
+		return jobSchedulerRepository.findByScheduleDate(scheduleDate);
 	}
 
 	@GetMapping(IControllerConstants.RUN_JOB_SCHEDULER)
-	public String runJob(@PathVariable Long id) {
+	@ResponseBody
+	public ResponseBean runJob(@PathVariable Long id) {
+		boolean flag = false;
 		JobScheduler job = cronRepository.findbyjobId(id);
+		flag = schedularService.checkfilepath(job.getBatchFilePath());
 
-		String path = "cmd /c start " + job.getBatchFilePath();
-		try {
-
-			Runtime.getRuntime().exec(path);
-			return IControllerConstants.SUCCESS;
-
-		} catch (IOException e) {
-			return IControllerConstants.FAILED;
+		if (flag) {
+			schedularService.runcmd(job, flag);
+			job.setStatus(IControllerConstants.DONE);
+			jobSchedulerRepository.save(job);
+			return new ResponseBean(IControllerConstants.DONE, IControllerConstants.SUCCESS);
+		} else {
+			job.setStatus(IControllerConstants.FAIL);
+			jobSchedulerRepository.save(job);
+			return new ResponseBean(IControllerConstants.FAIL, IControllerConstants.FAILED);
 		}
 
 	}

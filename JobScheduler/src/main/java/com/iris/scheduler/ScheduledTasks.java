@@ -15,25 +15,35 @@ import org.springframework.stereotype.Component;
 import com.iris.scheduler.constants.IControllerConstants;
 import com.iris.scheduler.entity.JobScheduler;
 import com.iris.scheduler.repository.CronRepository;
+import com.iris.scheduler.repository.JobSchedulerRepository;
+import com.iris.scheduler.service.SchedularService;
+import com.iris.scheduler.service.SchedularServiceImpl;
 
 @Component
 public class ScheduledTasks {
 
 	@Autowired
 	CronRepository cronRepository;
+	@Autowired
+	JobSchedulerRepository jobSchedulerRepository;
 
-	@Scheduled(fixedDelay = 1000)
+	@Autowired
+	SchedularServiceImpl scheduarService;
+
+	@Scheduled(fixedDelay = IControllerConstants.SCHEDULE_TIMING)
 	public void scheduleJob() {
 		List<JobScheduler> joblisttorun = cronRepository.findbycurDate();
 		for (JobScheduler job : joblisttorun) {
-			try {
-				
-				String path = "cmd /c start " + job.getBatchFilePath();
-				Runtime.getRuntime().exec(path);
-			} catch (IOException e) {
+			boolean flag = false;
+			flag = scheduarService.checkfilepath(job.getBatchFilePath());
 
-			}
+			if (flag) {
+				scheduarService.runcmd(job, flag);
+				job.setStatus(IControllerConstants.DONE);
 
+			} else
+				job.setStatus(IControllerConstants.FAIL);
+			jobSchedulerRepository.save(job);
 		}
 
 	}
