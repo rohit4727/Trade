@@ -1,5 +1,5 @@
 Ext.define('ui.model.Base', {
-    extend: 'Ext.data.Model',
+    extend: 'ui.model.WebPartModel',
 
     schema: {
         namespace: 'ui.model'

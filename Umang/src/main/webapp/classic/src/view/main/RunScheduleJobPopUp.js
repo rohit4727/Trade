@@ -2,6 +2,7 @@
 Ext.define('ui.view.main.RunScheduleJobPopUp', {
     extend: 'Ext.window.Window'
     , xtype: 'runschedulejobpopup'
+	, reference: 'runschedulejobpopup'
 	, autoScroll: true
     , defaults: {
         labelSeparator: ''
@@ -23,7 +24,7 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 	                xtype: 'button'
 	                , iconCls: 'x-fa fa-arrow-right'
 	                , text: 'Go'
-	                //, handler: 'onJobListRunJobButtonClick'
+	                , handler: 'onRunScheduleJobGoButtonClick'
 	            },
 	            {
 	                xtype: 'button'
@@ -45,28 +46,40 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 			   , style: 'padding:10px;background: #e6e6d8;font-weight:bold;margin: -20px -20px 10px -20px;'
 		   },
 		   {
-		        xtype: 'tagfield'
-		        , fieldLabel: 'Select Job(s)'	        	
-		        , displayField: 'name'
-		        , valueField: 'id'
-		        , queryMode: 'local'
-	        	, labelWidth: 200
-	        	, width: '100%'
-		        , filterPickList: true
-		        , store: new Ext.create('Ext.data.Store', {
-		            fields: ['id','name'],
-		            data: [
-		                {id: 1, name: 'Job 1'}
-		                , {id: 2, name: 'Job 2'}
-		                , {id: 3, name: 'Job 3'}
-		            ]
-		        })
-		    },
+		    	xtype: 'container'
+	    		, layout: 'hbox'
+	   			, defaults: {
+	   		        labelSeparator: ''
+	   		    	, labelAlign: 'top'
+	   		        , labelStyle: 'font-weight:bold;'
+	   		    }
+	    		, items: [
+	    			{
+	    		    	xtype:'textfield'
+	    				, fieldLabel: 'Job Name'
+	    				, flex: 0.75
+	    				, bind:{
+	    					value: '{jobItem.job_name}'	    					
+	    				}
+	    				, style: 'margin-right:20px;'
+	    		    },
+	    		    {
+	    		    	xtype:'textfield'
+	    				, fieldLabel: 'Job Path'
+	    				, flex: 1
+	    				, bind:{
+	    					value: '{jobItem.path}'	    					
+	    				}
+	    		    }
+	    		]
+		    },		   
 		    {
 		        xtype: 'radiogroup'
 		        , fieldLabel: 'Choose any one'
 		        , columns: 1
-		        
+		        , bind:{
+					value: '{jobItem.run_frequency}'	    					
+				}
 		        , items: [
 		        	{ boxLabel: 'Run Now', name: 'rb', inputValue: 1, checked: true, reference: 'RunRadio'},
 		            { boxLabel: 'Schedule for later', name: 'rb', inputValue: 2 }		            
@@ -89,6 +102,10 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 	    	    		, name: 'ScheduleDate'
 	    		    	, minValue: new Date()
 	    				, fieldLabel: 'Date'
+    					, bind:{
+    						value: '{jobItem.date}'
+							, disabled:'{RunRadio.checked}'
+    					}
 	    				, flex: 1
 	    				, style: 'margin-right:20px;'
 	    		    },
@@ -98,6 +115,10 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 	    		        , fieldLabel: 'Time'
 	    		        , increment: 30
 	    		        , flex: 1
+	    		        , bind:{
+    						value: '{jobItem.time}'
+							, disabled:'{RunRadio.checked}'
+    					}
 	    		    }
 	    		]
 		    }		    

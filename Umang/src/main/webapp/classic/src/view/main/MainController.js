@@ -28,6 +28,24 @@ Ext.define('ui.view.main.MainController', {
             , height:400
             , title: 'Run/Schedule Jobs!'
         	, modal: true
+        	, mode: 'add'
         }).showBy(Ext.getBody());
     }
+    
+    , onRunScheduleJobGoButtonClick: function() {
+    	 var viewModel = this.getViewModel()
+	         , jobItem = viewModel.get('jobItem')
+	         , win = this.lookupReference('runschedulejobpopup')
+	         , me = this;
+     
+	     	
+    	 jobItem[win.mode == 'add' ? 'create' : 'update']({
+	         scope: this
+	         , maskCmp: win
+	         , callback: function () {
+	             //me.loadCategoryPostList();
+	             win.destroy();
+	         }
+	     });
+	}
 });
