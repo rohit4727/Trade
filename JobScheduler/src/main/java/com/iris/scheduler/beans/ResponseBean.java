@@ -1,4 +1,4 @@
-package com.iris.schedular.beans;
+package com.iris.scheduler.beans;
 
 public class ResponseBean {
 
