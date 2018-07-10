@@ -11,6 +11,4 @@ import com.iris.scheduler.entity.JobScheduler;
 @Repository
 public interface JobSchedulerRepository extends JpaRepository<JobScheduler, Long>{
 	
-	public List<JobScheduler> findByScheduleDate(Date scheduleDate);
-	
-}
+	public List<JobScheduler> findByScheduleDate(Date scheduleDate);}
