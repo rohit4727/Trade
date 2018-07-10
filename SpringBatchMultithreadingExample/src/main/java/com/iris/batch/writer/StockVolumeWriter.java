@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.iris.batch.model.MrMarketVolumeStore;
 import com.iris.batch.model.StockVolume;
-import com.iris.batch.model.Trade;
+import com.iris.batch.model.Trade1;
 
 /**
  * The Class StockVolumeAggregator.
  * 
  * @author Satyveer
  */
-public class StockVolumeWriter implements ItemWriter<Trade> {
+public class StockVolumeWriter implements ItemWriter<Trade1> {
 
 	@Autowired
 	private MrMarketVolumeStore mrMarketVolumeStore;
@@ -24,7 +24,7 @@ public class StockVolumeWriter implements ItemWriter<Trade> {
 	private static final Logger log = LoggerFactory.getLogger(StockVolumeWriter.class);
 
 	@Override
-	public void write(List<? extends Trade> trades) throws Exception {
+	public void write(List<? extends Trade1> trades) throws Exception {
 		
 		
 		trades.forEach(t -> System.out.println(Thread.currentThread().getName()+" === "+t.toString()));
