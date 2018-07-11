@@ -3,6 +3,7 @@ package com.iris.trade;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,11 @@ public class TradeAppController {
 		return "index";
 	}
 	
+	@Bean
+	public RestTemplate restTemplate() {
+	    return new RestTemplate();
+	}
+	
 	@PostMapping(IControllerConstants.SCHEDULE_JOB)
 	@ResponseBody
 	public JobShedulerResponse sheduleJob(@Valid @RequestBody JobScheduler jobScheduler) {
@@ -36,7 +42,7 @@ public class TradeAppController {
 		jobShedulerResponse.setStatusCode(HttpStatus.OK.toString());
 		jobShedulerResponse.setMessage(IControllerConstants.SCHEDULE_JOB_SUCCESS);
 		
-		jobScheduler = restTemplate.postForObject("http://localhost:8090/jobScheduler/createJobScheduler",jobScheduler , JobScheduler.class) ;
+		jobScheduler = restTemplate.postForObject("http://172.16.14.32:8090/jobScheduler/createJobScheduler",jobScheduler , JobScheduler.class) ;
 		return jobShedulerResponse;
 	}
 	

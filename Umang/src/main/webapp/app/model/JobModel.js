@@ -1,18 +1,20 @@
 Ext.define('ui.model.JobModel', {
 	extend: 'ui.model.Base'
-    , idProperty: 'guid'
+    , idProperty: 'id'
     , fields: [
-        { name: 'guid' }
-        , { name: 'job_name' }
-        , { name: 'path' }
-        , { name: 'run_frequency' }
+        { name: 'id' }
+        , { name: 'jobName' }
+        , { name: 'batchFilePath' }
+        , { name: 'runFrequency' }
         , { name: 'date' }
-        , { name: 'time' }        
+        , { name: 'time' } 
+        , { name: 'status'}
+        , { name: 'scheduleDate'}
     ]
     , proxy: {
         type: 'ajax'
         , api: {
-            create: '/run_schedule_job'
+            create: '/scheduleJob'
             , update: {
             	url: '/schedule_job_update'
             }

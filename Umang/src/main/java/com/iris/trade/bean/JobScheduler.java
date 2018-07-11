@@ -9,6 +9,7 @@ public class JobScheduler {
 	private String batchFilePath;
 	private Date scheduleDate;
 	private String status;
+	private String runFrequency;
 	
 	public Long getId() {
 		return id;
@@ -39,6 +40,12 @@ public class JobScheduler {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getRunFrequency() {
+		return runFrequency;
+	}
+	public void setRunFrequency(String runFrequency) {
+		this.runFrequency = runFrequency;
 	}
 	
 	
