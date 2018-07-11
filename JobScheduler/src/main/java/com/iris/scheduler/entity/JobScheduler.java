@@ -6,26 +6,46 @@ import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "schedule_job_details")
 public class JobScheduler {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(
+	    strategy= GenerationType.AUTO, 
+	    generator="native"
+	)
+	@GenericGenerator(
+	    name = "native", 
+	    strategy = "native"
+	)
+	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 	
 	@NotBlank
+	@Column(name = "job_name", unique = true)
 	private String jobName;
 	
 	@NotBlank
+	@Column(name = "batch_file_path")
 	private String batchFilePath;
 	
-	@Column(nullable = false)
+	@Column(name = "schedule_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date scheduleDate;
 	
 	@NotBlank
 	private String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public Long getId() {
 		return id;
@@ -54,5 +74,6 @@ public class JobScheduler {
 	public void setScheduleDate(Date scheduleDate) {
 		this.scheduleDate = scheduleDate;
 	}
+
 	
 }
