@@ -17,7 +17,7 @@ Ext.define('ui.view.main.MainController', {
         }
     }
     
-    , onJobListRunJobButtonClick:function(){
+    , onJobListRunOrScheduleJobBtnClick:function(){
     	var view = this.getView();
     	
     	view.add({
@@ -32,7 +32,7 @@ Ext.define('ui.view.main.MainController', {
         }).showBy(Ext.getBody());
     }
     
-    , onRunScheduleJobGoButtonClick: function() {
+    , onRunScheduleJobWindowGoButtonClick: function() {
     	 var viewModel = this.getViewModel()
 	         , jobItem = viewModel.get('jobItem')
 	         , win = this.lookupReference('runschedulejobpopup')
@@ -48,4 +48,26 @@ Ext.define('ui.view.main.MainController', {
 	         }
 	     });
 	}
+    , onRunScheduleJobWindowCancelButtonClick: function (btn) {
+        var win = btn.up('window');
+        win.close();
+    }
+    
+    , onScheduleJobListEditBtnClick:function(grid, ri){
+    	var rec = grid.getStore().getAt(ri)
+    		, viewModel = this.getViewModel();
+    	
+    	viewModel.set('jobItem', rec);
+    	
+    	this.getView().add({
+            xtype: 'runschedulejobpopup'
+            , autoShow: true
+            , renderTo: Ext.getBody()
+            , width: 600
+            , height:400
+            , title: 'Update Schedule Job!'
+        	, modal: true
+        	, mode: 'edit'
+        }).showBy(Ext.getBody());
+    }
 });

@@ -24,16 +24,13 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 	                xtype: 'button'
 	                , iconCls: 'x-fa fa-arrow-right'
 	                , text: 'Go'
-	                , handler: 'onRunScheduleJobGoButtonClick'
+	                , handler: 'onRunScheduleJobWindowGoButtonClick'
 	            },
 	            {
 	                xtype: 'button'
 	                , iconCls: 'x-fa fa-times'
 	                , text: 'Close'
-	            	, scope: this
-	                , handler: function(){
-	                	this.close();            	
-	                }
+	                , handler: 'onRunScheduleJobWindowCancelButtonClick'
 	            }
 	        ]
 	    }
@@ -42,7 +39,7 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 	   return [
 		   {
 			   xtype:'box'
-			   , html:'<i class="fa fa-play-circle" aria-hidden="true" style="vertical-align: middle;margin-right: 5px;"></i>You may run or schedule multiple jobs.'
+			   , html:'<i class="fa fa-play-circle" aria-hidden="true" style="vertical-align: middle;margin-right: 5px;"></i>You may run now or schedule a job for later.'
 			   , style: 'padding:10px;background: #e6e6d8;font-weight:bold;margin: -20px -20px 10px -20px;'
 		   },
 		   {
