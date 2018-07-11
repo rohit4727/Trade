@@ -1,4 +1,4 @@
-package com.MyApp.MyApp;
+package com.iris.trade;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
