@@ -1,8 +1,9 @@
 package com.iris.scheduler.rest.controller;
 
-import java.util.Date;
 import java.util.List;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,25 +15,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.iris.scheduler.beans.ResponseBean;
 import com.iris.scheduler.constants.IControllerConstants;
 import com.iris.scheduler.entity.JobScheduler;
-import com.iris.scheduler.exception.ResourceNotFoundException;
-import com.iris.scheduler.repository.CronRepository;
 import com.iris.scheduler.service.JobSchedulerDetailService;
-import com.iris.scheduler.service.SchedularServiceImpl;
+import com.iris.scheduler.service.SchedulerService;
 
 @RestController
 @RequestMapping(IControllerConstants.JOB_SCHEDULER)
 public class ShedulerRestController {
 
 	@Autowired
-	SchedularServiceImpl schedularService;
+	SchedulerService schedularService;
 	@Autowired
 	JobSchedulerDetailService jobSchedulerDetailService;
 
-	@Autowired
-	CronRepository cronRepository;
 
 	@GetMapping(IControllerConstants.GET_ALL_JOB_SCHEDULE_DETAILS)
 	public List<JobScheduler> getAllJobScheduleDetails() {
@@ -81,17 +79,19 @@ public class ShedulerRestController {
 	@ResponseBody
 	public ResponseBean runJob(@PathVariable Long id) {
 		boolean flag = false;
-		JobScheduler job = cronRepository.findbyjobId(id);
+		JobScheduler job = schedularService.findbyjobId(id);
 		flag = schedularService.checkfilepath(job.getBatchFilePath());
 
 		if (flag) {
 			schedularService.runcmd(job, flag);
 			job.setStatus(IControllerConstants.DONE);
 			jobSchedulerDetailService.createOrUpdateJobScheduler(job);
+			schedularService.savestatus(job);
 			return new ResponseBean(IControllerConstants.DONE, IControllerConstants.SUCCESS);
 		} else {
 			job.setStatus(IControllerConstants.FAIL);
 			jobSchedulerDetailService.createOrUpdateJobScheduler(job);
+			schedularService.savestatus(job);
 			return new ResponseBean(IControllerConstants.FAIL, IControllerConstants.FAILED);
 		}
 
