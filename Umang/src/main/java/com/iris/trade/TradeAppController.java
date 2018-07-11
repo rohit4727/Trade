@@ -39,31 +39,28 @@ public class TradeAppController {
 	@Autowired
 	TradeAppPropertyBean tradeAppProperty;
 	
-	@PostMapping(IControllerConstants.SCHEDULE_JOB)
+	@PostMapping(IControllerConstants.SCHEDULE_OR_RUN_JOB)
 	@ResponseBody
 	public JobShedulerResponse sheduleJob(@Valid @RequestBody JobScheduler jobScheduler) {
 		
 		JobShedulerResponse jobShedulerResponse = new JobShedulerResponse();
-		jobShedulerResponse.setStatusCode(HttpStatus.NOT_MODIFIED.toString());
-		jobShedulerResponse.setMessage(IControllerConstants.SCHEDULE_JOB_FAILURE);
-		jobScheduler = restTemplate.postForObject(tradeAppProperty.scheduleJobRestAPI,jobScheduler , JobScheduler.class) ;
-		
-		if(jobScheduler != null && jobScheduler.getId() != null) {
-			jobShedulerResponse.setStatusCode(HttpStatus.OK.toString());
-			jobShedulerResponse.setMessage(IControllerConstants.SCHEDULE_JOB_SUCCESS);
+		if(jobScheduler.getRunFrequency().equals("1")){
+			jobShedulerResponse.setStatusCode(HttpStatus.NOT_MODIFIED.toString());
+			jobShedulerResponse.setMessage(IControllerConstants.SCHEDULE_JOB_FAILURE);
+			jobScheduler = restTemplate.postForObject(tradeAppProperty.scheduleJobRestAPI,jobScheduler , JobScheduler.class) ;
+			
+			if(jobScheduler.getId() != null) {
+				jobShedulerResponse.setStatusCode(HttpStatus.OK.toString());
+				jobShedulerResponse.setMessage(IControllerConstants.SCHEDULE_JOB_SUCCESS);
+			}
+		} else {
+			ResponseBean responseBean = restTemplate.postForObject(tradeAppProperty.runJobRestAPI, jobScheduler , ResponseBean.class) ;
+			jobShedulerResponse.setStatusCode(responseBean.getStatuscode());
+			jobShedulerResponse.setMessage(responseBean.getMessage());
 		}
 		
 		return jobShedulerResponse;
 	}
 	
-	@PostMapping(IControllerConstants.RUN_JOB)
-	@ResponseBody
-	public ResponseBean runJob(@Valid @RequestBody JobScheduler jobScheduler) {
 		
-		ResponseBean responseBean = restTemplate.postForObject(tradeAppProperty.runJobRestAPI, jobScheduler , ResponseBean.class) ;
-		
-		return responseBean;
-	}
-	
-	
 }

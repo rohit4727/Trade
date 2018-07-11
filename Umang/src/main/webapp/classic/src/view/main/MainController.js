@@ -23,11 +23,8 @@ Ext.define('ui.view.main.MainController', {
     	view.add({
             xtype: 'runschedulejobpopup'
             , autoShow: true
-            , renderTo: Ext.getBody()
-            , width: 600
-            , height:400
-            , title: 'Run/Schedule Jobs!'
-        	, modal: true
+            , renderTo: Ext.getBody()            
+            , title: 'Run/Schedule Jobs!'        	
         	, mode: 'add'
         }).showBy(Ext.getBody());
     }
@@ -38,12 +35,28 @@ Ext.define('ui.view.main.MainController', {
 	         , win = this.lookupReference('runschedulejobpopup')
 	         , me = this;
      
-	     	
+    	 jobItem.set('scheduleDate', new Date(jobItem.get('date') + ' ' + jobItem.get('time')));	
+    	 
+    	 
     	 jobItem[win.mode == 'add' ? 'create' : 'update']({
 	         scope: this
-	         , maskCmp: win
-	         , callback: function () {
+	         , maskCmp: win	        
+	         , callback: function (records, operation, success) {
+	        	 //var data = Ext.decode(operation.response.responseText);
+	        	 //console.log(operation.response.responseText);
 	             //me.loadCategoryPostList();
+	        	 
+	        	 if (!success) {
+	        		 var error = operation.getError()
+	        		 	, resptext = Ext.decode(error.response.responseText);
+	        		 
+	        		 
+	        		 swal({
+        			  title: "Error",
+        			  text: resptext.message,
+        			  icon: "error"
+        			});	        		 
+	        	 }
 	             win.destroy();
 	         }
 	     });
@@ -63,8 +76,6 @@ Ext.define('ui.view.main.MainController', {
             xtype: 'runschedulejobpopup'
             , autoShow: true
             , renderTo: Ext.getBody()
-            , width: 600
-            , height:400
             , title: 'Update Schedule Job!'
         	, modal: true
         	, mode: 'edit'
