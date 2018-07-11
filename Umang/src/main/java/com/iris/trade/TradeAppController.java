@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.iris.trade.bean.JobScheduler;
+import com.iris.trade.bean.ResponseBean;
 import com.iris.trade.bean.TradeAppPropertyBean;
 import com.iris.trade.constants.IControllerConstants;
 import com.iris.trade.response.bean.JobShedulerResponse;
@@ -53,6 +54,15 @@ public class TradeAppController {
 		}
 		
 		return jobShedulerResponse;
+	}
+	
+	@PostMapping(IControllerConstants.RUN_JOB)
+	@ResponseBody
+	public ResponseBean runJob(@Valid @RequestBody JobScheduler jobScheduler) {
+		
+		ResponseBean responseBean = restTemplate.postForObject(tradeAppProperty.runJobRestAPI, jobScheduler , ResponseBean.class) ;
+		
+		return responseBean;
 	}
 	
 	

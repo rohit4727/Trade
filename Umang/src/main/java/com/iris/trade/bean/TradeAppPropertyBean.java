@@ -10,5 +10,8 @@ public class TradeAppPropertyBean {
 	
     @Value("${scheduleJobRestAPI}")
 	public String scheduleJobRestAPI;
+    
+    @Value("${runJobRestAPI}")
+	public String runJobRestAPI;
 
 }
