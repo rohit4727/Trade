@@ -36,10 +36,12 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 	    }
 	]
 	, buildItems: function () {
+		var me = this;
+		
 	   return [
 		   {
 			   xtype:'box'
-			   , html:'<i class="fa fa-play-circle" aria-hidden="true" style="vertical-align: middle;margin-right: 5px;"></i>You may run now or schedule a job for later.'
+			   , html:'<i class="fa fa-play-circle" aria-hidden="true" style="vertical-align: middle;margin-right: 5px;"></i>'+ (me.mode=='add'? 'You may run now or schedule a job for later.':'Update Your Schedule Job')
 			   , style: 'padding:10px;background: #e6e6d8;font-weight:bold;margin: -20px -20px 10px -20px;'
 		   },
 		   {
@@ -78,8 +80,20 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 					value: '{jobItem.run_frequency}'	    					
 				}
 		        , items: [
-		        	{ boxLabel: 'Run Now', name: 'rb', inputValue: 1, checked: true, reference: 'RunRadio'},
-		            { boxLabel: 'Schedule for later', name: 'rb', inputValue: 2 }		            
+		        	{ 
+		        		boxLabel: 'Run Now'
+	        			, name: 'rb'
+        				, inputValue: 1
+        				, checked: me.mode=='add'
+    					, disabled: me.mode=='edit'
+    					, reference: 'RunRadio'
+					},		        	
+		            { 
+						boxLabel: 'Schedule for later'
+						, name: 'rb'
+						, inputValue: 2
+						, checked: me.mode=='edit'										            
+		            }
 		        ]
 		    },
 		    {
