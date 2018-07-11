@@ -19,7 +19,7 @@ import com.iris.scheduler.constants.IControllerConstants;
 import com.iris.scheduler.entity.JobScheduler;
 import com.iris.scheduler.exception.ResourceNotFoundException;
 import com.iris.scheduler.repository.CronRepository;
-import com.iris.scheduler.repository.JobSchedulerRepository;
+import com.iris.scheduler.service.JobSchedulerDetailService;
 import com.iris.scheduler.service.SchedularServiceImpl;
 
 @RestController
@@ -27,30 +27,28 @@ import com.iris.scheduler.service.SchedularServiceImpl;
 public class ShedulerRestController {
 
 	@Autowired
-	JobSchedulerRepository jobSchedulerRepository;
-
-	@Autowired
 	SchedularServiceImpl schedularService;
+	@Autowired
+	JobSchedulerDetailService jobSchedulerDetailService;
 
 	@Autowired
 	CronRepository cronRepository;
 
 	@GetMapping(IControllerConstants.GET_ALL_JOB_SCHEDULE_DETAILS)
 	public List<JobScheduler> getAllJobScheduleDetails() {
-		return jobSchedulerRepository.findAll();
+		return jobSchedulerDetailService.getAllJobScheduleDetails();
 	}
 
 	@PostMapping(IControllerConstants.CREATE_JOB_SCHEDULER)
 	public JobScheduler createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
-		return jobSchedulerRepository.save(jobScheduler);
+		return jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
 	}
 
 	// Get a Single JobScheduler
 	@GetMapping(IControllerConstants.GET_JOB_SCHEDULER_BY_ID)
 	public JobScheduler getJobSchedulerById(@PathVariable(value = IControllerConstants.ID) Long jobId) {
-		return jobSchedulerRepository.findById(jobId)
-				.orElseThrow(() -> new ResourceNotFoundException(IControllerConstants.JOB_SCHEDULER_LBL,
-						IControllerConstants.ID, jobId));
+		return jobSchedulerDetailService.getJobSchedulerById(jobId);
+				
 	}
 
 	// Update a JobScheduler
@@ -58,37 +56,27 @@ public class ShedulerRestController {
 	public JobScheduler updateJobSchedulerDetail(@PathVariable(value = IControllerConstants.ID) Long jobId,
 			@Valid @RequestBody JobScheduler jobSchedulerDetails) {
 
-		JobScheduler jobScheduler = jobSchedulerRepository.findById(jobId)
-				.orElseThrow(() -> new ResourceNotFoundException(IControllerConstants.JOB_SCHEDULER_LBL,
-						IControllerConstants.ID, jobId));
+		JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(jobId);
 
 		jobScheduler.setJobName(jobSchedulerDetails.getJobName());
 		jobScheduler.setBatchFilePath(jobSchedulerDetails.getBatchFilePath());
 		jobScheduler.setScheduleDate(jobSchedulerDetails.getScheduleDate());
 
-		JobScheduler updatedJobScheduler = jobSchedulerRepository.save(jobSchedulerDetails);
+		JobScheduler updatedJobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobSchedulerDetails);
 		return updatedJobScheduler;
 	}
 
 	// Delete a JobScheduler
 	@DeleteMapping(IControllerConstants.DELETE_JOB_SCHEDULER)
 	public ResponseEntity<?> deleteJobScheduler(@PathVariable(value = IControllerConstants.ID) Long jobId) {
-		JobScheduler jobScheduler = jobSchedulerRepository.findById(jobId)
-				.orElseThrow(() -> new ResourceNotFoundException(IControllerConstants.JOB_SCHEDULER_LBL,
-						IControllerConstants.ID, jobId));
+		JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(jobId);
 
-		jobSchedulerRepository.delete(jobScheduler);
+		jobSchedulerDetailService.deleteJobScheduler(jobScheduler);
 
 		return ResponseEntity.ok().build();
 	}
 
-	// Get JobScheduler By Schedule Date
-	@GetMapping(IControllerConstants.FIND_JOB_SCHEDULER_BY_SCHEDULE_DATE)
-	public List<JobScheduler> findJobSchedulerByScheduleDate(
-			@PathVariable(value = IControllerConstants.SCHEDULE_DATE) Date scheduleDate) {
-		return jobSchedulerRepository.findByScheduleDate(scheduleDate);
-	}
-
+	
 	@GetMapping(IControllerConstants.RUN_JOB_SCHEDULER)
 	@ResponseBody
 	public ResponseBean runJob(@PathVariable Long id) {
@@ -99,11 +87,11 @@ public class ShedulerRestController {
 		if (flag) {
 			schedularService.runcmd(job, flag);
 			job.setStatus(IControllerConstants.DONE);
-			jobSchedulerRepository.save(job);
+			jobSchedulerDetailService.createOrUpdateJobScheduler(job);
 			return new ResponseBean(IControllerConstants.DONE, IControllerConstants.SUCCESS);
 		} else {
 			job.setStatus(IControllerConstants.FAIL);
-			jobSchedulerRepository.save(job);
+			jobSchedulerDetailService.createOrUpdateJobScheduler(job);
 			return new ResponseBean(IControllerConstants.FAIL, IControllerConstants.FAILED);
 		}
 
