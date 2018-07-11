@@ -7,4 +7,6 @@ public interface ETLConstants {
 	String column = "csvmapping.column";
 	String tradeClassName="Trade";
 	String fileName = "SampleTrade.csv";
+	String concurrencyLimit = "concurrency_limit";
+	String chunkSize = "chunk_size";
 }

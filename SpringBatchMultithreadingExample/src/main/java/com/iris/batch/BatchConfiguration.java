@@ -82,7 +82,7 @@ public class BatchConfiguration {
 		int concurrencyInt = Integer.MAX_VALUE;
 
 		try {
-			String concurrency = PropertiesUtil.get("concurrency_limit");
+			String concurrency = PropertiesUtil.get(ETLConstants.concurrencyLimit);
 			if (concurrency == null || concurrency.isEmpty()) {
 				log.error(ErrorMsg.concurrencyLimitNotFound);
 				throw new RuntimeException();
@@ -105,7 +105,7 @@ public class BatchConfiguration {
 		int chunkSizeInt = Integer.MAX_VALUE;
 
 		try {
-			String chuntSize = PropertiesUtil.get("chunk_size");
+			String chuntSize = PropertiesUtil.get(ETLConstants.chunkSize);
 			if (chuntSize == null || chuntSize.isEmpty()) {
 				log.error(ErrorMsg.chunkSizeNotFound);
 				throw new RuntimeException();

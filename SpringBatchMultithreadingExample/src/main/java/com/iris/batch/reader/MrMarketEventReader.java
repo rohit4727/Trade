@@ -55,7 +55,7 @@ public class MrMarketEventReader<T extends TradeBase> extends FlatFileItemReader
 				{
 					setLineTokenizer(new DelimitedLineTokenizer() {
 						{
-							setNames((String[]) CSVColumns.properties.keySet().toArray());
+							setNames(CSVColumns.colNames);
 						}
 					});
 					setFieldSetMapper(new BeanWrapperFieldSetMapper<T>() {
