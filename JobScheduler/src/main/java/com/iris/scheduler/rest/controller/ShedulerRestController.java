@@ -98,6 +98,8 @@ public class ShedulerRestController {
 				schedularService.runcmd(jobScheduler, flag);
 				return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
 			} else {
+				jobScheduler.setStatus(IControllerConstants.FAIL);
+				jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
 				return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
 			}
 		}
