@@ -44,7 +44,7 @@ public class TradeAppController {
 	public JobShedulerResponse sheduleJob(@Valid @RequestBody JobScheduler jobScheduler) {
 		
 		JobShedulerResponse jobShedulerResponse = new JobShedulerResponse();
-		if(jobScheduler.getRunFrequency().equals("1")){
+		if(jobScheduler.getRunFrequency().equals("0")){
 			jobShedulerResponse.setStatusCode(HttpStatus.NOT_MODIFIED.toString());
 			jobShedulerResponse.setMessage(IControllerConstants.SCHEDULE_JOB_FAILURE);
 			jobScheduler = restTemplate.postForObject(tradeAppProperty.scheduleJobRestAPI,jobScheduler , JobScheduler.class) ;

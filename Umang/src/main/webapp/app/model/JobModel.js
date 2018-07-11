@@ -1,12 +1,13 @@
 Ext.define('ui.model.JobModel', {
 	extend: 'ui.model.Base'
-    , idProperty: 'id'
+    , idProperty: 'guid'
     , fields: [
-        { name: 'id' }
+        { name: 'guid' }
+        , { name: 'id' }
         , { name: 'jobName' }
-        , { name: 'batchFilePath' }
-        , { name: 'status', defaultValue: 0, mapping: 'runFrequency'}
+        , { name: 'batchFilePath' }        
         , { name: 'scheduleDate'}
+        , { name: 'status', type: 'int'}
         , { name: 'runFrequency', defaultValue: 1, type: 'int', convert: function (v, rec) {
             return v == '1' ? 1 : (v == true ? 1 : 0);
         	} 
