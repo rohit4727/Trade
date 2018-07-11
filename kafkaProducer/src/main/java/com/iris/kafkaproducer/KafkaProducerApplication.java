@@ -1,12 +1,12 @@
-package com.MyApp.MyApp;
+package com.iris.kafkaproducer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MyAppApplication {
+public class KafkaProducerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MyAppApplication.class, args);
+		SpringApplication.run(KafkaProducerApplication.class, args);
 	}
 }

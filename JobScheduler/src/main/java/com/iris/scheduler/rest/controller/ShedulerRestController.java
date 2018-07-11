@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +40,12 @@ public class ShedulerRestController {
 
 	@PostMapping(IControllerConstants.CREATE_JOB_SCHEDULER)
 	public JobScheduler createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
-		return jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+		try {
+			jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+		} catch(Exception ex) {
+			
+		}
+		return jobScheduler;
 	}
 
 	// Get a Single JobScheduler
@@ -75,25 +81,28 @@ public class ShedulerRestController {
 	}
 
 	
-	@GetMapping(IControllerConstants.RUN_JOB_SCHEDULER)
+	@PostMapping(IControllerConstants.RUN_JOB_SCHEDULER)
 	@ResponseBody
-	public ResponseBean runJob(@PathVariable Long id) {
-		boolean flag = false;
-		JobScheduler job = schedularService.findbyjobId(id);
-		flag = schedularService.checkfilepath(job.getBatchFilePath());
+	public ResponseBean runJob(@Valid @RequestBody JobScheduler jobScheduler) {
+		
+		try {
+			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+		} catch (Exception ex) {
 
-		if (flag) {
-			schedularService.runcmd(job, flag);
-			job.setStatus(IControllerConstants.DONE);
-			jobSchedulerDetailService.createOrUpdateJobScheduler(job);
-			schedularService.savestatus(job);
-			return new ResponseBean(IControllerConstants.DONE, IControllerConstants.SUCCESS);
-		} else {
-			job.setStatus(IControllerConstants.FAIL);
-			jobSchedulerDetailService.createOrUpdateJobScheduler(job);
-			schedularService.savestatus(job);
-			return new ResponseBean(IControllerConstants.FAIL, IControllerConstants.FAILED);
 		}
+			
+		boolean flag = false;
+		if (jobScheduler != null && jobScheduler.getId() != null) {
+			flag = schedularService.checkfilepath(jobScheduler.getBatchFilePath());
+			if (flag) {
+				schedularService.runcmd(jobScheduler, flag);
+				return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
+			} else {
+				return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
+			}
+		}
+		
+		return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
 
 	}
 

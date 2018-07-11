@@ -1,4 +1,4 @@
-package com.MyApp.MyApp;
+package com.iris.kafkaproducer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MyAppApplicationTests {
+public class KafkaProducerApplicationTests {
 
 	@Test
 	public void contextLoads() {
