@@ -15,9 +15,11 @@ public class MrMarketEventProcessor<T extends TradeBase> implements ItemProcesso
 
 	private static final Logger log = LoggerFactory.getLogger(MrMarketEventProcessor.class);
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public T process(final T trade) throws Exception {
-
+	public TradeBase process(final TradeBase trade) throws Exception {
+		log.info("processed trade with id " + trade.getTradeid());
+		trade.setDeviation(12);
 		return trade;
 	}
 

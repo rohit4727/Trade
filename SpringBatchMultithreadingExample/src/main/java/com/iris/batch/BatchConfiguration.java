@@ -1,5 +1,7 @@
 package com.iris.batch;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -9,21 +11,23 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
-import org.springframework.util.Assert;
 
 import com.iris.batch.listener.JobCompletionNotificationListener;
 import com.iris.batch.model.TradeBase;
-import com.iris.batch.model.MrMarketVolumeStore;
-import com.iris.batch.model.Trade1;
 import com.iris.batch.processor.MrMarketEventProcessor;
 import com.iris.batch.reader.MrMarketEventReader;
+import com.iris.batch.util.ETLConstants;
+import com.iris.batch.util.ErrorMsg;
 import com.iris.batch.util.PropertiesUtil;
-import com.iris.batch.writer.StockVolumeWriter;
+import com.iris.batch.writer.TradeWriter;
 
 /**
  * The Class BatchConfiguration.
@@ -41,27 +45,22 @@ public class BatchConfiguration {
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
 
-	@Bean
-	public MrMarketVolumeStore fxMarketPricesStore() {
-		return new MrMarketVolumeStore();
-	}
-
 	// FxMarketEventReader (Reader)
 	@Bean
-	public MrMarketEventReader mrMarketEventReader() {
-		return new MrMarketEventReader();
+	public MrMarketEventReader<? extends TradeBase> mrMarketEventReader() {
+		return new MrMarketEventReader(ETLConstants.fileName);
 	}
 
 	// FxMarketEventProcessor (Processor)
 	@Bean
-	public MrMarketEventProcessor mrMarketEventProcessor() {
+	public ItemProcessor<? super TradeBase, ? extends TradeBase> mrMarketEventProcessor() {
 		return new MrMarketEventProcessor();
 	}
 
 	// StockVolumeAggregator (Writer)
 	@Bean
-	public StockVolumeWriter stockVolumeWriter() {
-		return new StockVolumeWriter();
+	public JdbcBatchItemWriter<? super TradeBase> stockVolumeWriter(DataSource dataSource) {
+		return new TradeWriter(dataSource);
 	}
 
 	// JobCompletionNotificationListener (File loader)
@@ -72,9 +71,9 @@ public class BatchConfiguration {
 
 	// Configure job step
 	@Bean
-	public Job fxMarketPricesETLJob() {
-		return jobBuilderFactory.get("CITI Market Risk").incrementer(new RunIdIncrementer()).listener(listener())
-				.flow(etlStep()).end().build();
+	public Job fxMarketPricesETLJob(Step step1) {
+		return jobBuilderFactory.get(ETLConstants.jobName).incrementer(new RunIdIncrementer()).listener(listener())
+				.flow(step1).end().build();
 	}
 
 	@Bean
@@ -84,36 +83,42 @@ public class BatchConfiguration {
 
 		try {
 			String concurrency = PropertiesUtil.get("concurrency_limit");
-			Assert.isNull(concurrency, "concurrency_limit not found in application.properties file");
+			if (concurrency == null || concurrency.isEmpty()) {
+				log.error(ErrorMsg.concurrencyLimitNotFound);
+				throw new RuntimeException();
+			}
 
 			concurrencyInt = Integer.parseInt(concurrency);
 
 		} catch (NumberFormatException e) {
-			log.error("Chunk size is not integer");
+			log.error(ErrorMsg.concurrencyLimitNotInt);
 		}
-		
+
 		SimpleAsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor("Thread-");
 		asyncTaskExecutor.setConcurrencyLimit(concurrencyInt);
 		return asyncTaskExecutor;
 	}
 
 	@Bean
-	public Step etlStep() {
-		
+	public Step step1(ItemWriter<? super TradeBase> writer) {
+
 		int chunkSizeInt = Integer.MAX_VALUE;
-		
+
 		try {
 			String chuntSize = PropertiesUtil.get("chunk_size");
-			Assert.isNull(chuntSize, "chunk_size not found in application.properties file");
+			if (chuntSize == null || chuntSize.isEmpty()) {
+				log.error(ErrorMsg.chunkSizeNotFound);
+				throw new RuntimeException();
+			}
 
 			chunkSizeInt = Integer.parseInt(chuntSize);
 
 		} catch (NumberFormatException e) {
-			log.error("Chunk size is not integer");
+			log.error(ErrorMsg.chunkNotInt);
 		}
-		return stepBuilderFactory.get("Extract -> Transform -> Aggregate -> Load")
-				.<TradeBase, Trade1>chunk(chunkSizeInt).reader(mrMarketEventReader())
-				.processor(mrMarketEventProcessor()).writer(stockVolumeWriter()).taskExecutor(taskExecutor()).build();
+		return stepBuilderFactory.get(ETLConstants.stepName).<TradeBase, TradeBase>chunk(chunkSizeInt)
+				.reader(mrMarketEventReader()).processor(mrMarketEventProcessor()).writer(writer)
+				.taskExecutor(taskExecutor()).build();
 	}
 
 }
