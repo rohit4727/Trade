@@ -11,11 +11,13 @@ import java.util.Date;
 public abstract class TradeBase {
 
 	private long tradeid;
+	private long jobId;
 	private double tradePrice;
 	private String security;
 	private String tradeSize;
 	private Date tradeDate;
 	private Timestamp tradeTime;
+	private double deviation;
 
 	public TradeBase() {
 	}
@@ -68,41 +70,20 @@ public abstract class TradeBase {
 		this.tradeTime = tradeTime;
 	}
 
-	// public MrMarketEvent(String tradeid, String tradePrice, String security,
-	// String instrumentType,
-	// String counterParty, String tradeSize, String tradeDate, String tradeTime,
-	// String currency,
-	// String broker, String direction, String tradeAlias, String contoller, String
-	// clearingSystem, String clearinghous) {
-	// super();
-	// this.tradeid = tradeid;
-	// this.tradePrice = tradePrice;
-	// this.security = security;
-	// this.instrumentType = instrumentType;
-	// this.counterParty = counterParty;
-	// this.tradeSize = tradeSize;
-	// this.tradeDate = tradeDate;
-	// this.tradeTime = tradeTime;
-	// this.currency = currency;
-	// this.broker = broker;
-	// this.direction = direction;
-	// this.tradeAlias = tradeAlias;
-	// this.contoller = contoller;
-	// this.clearingSystem = clearingSystem;
-	// this.clearinghous = clearinghous;
-	// }
+	public long getJobId() {
+		return jobId;
+	}
 
-	// @Override
-	// public String toString() {
-	// return "MrMarketEvent [tradeid=" + tradeid + ", tradePrice=" + tradePrice +
-	// ", security=" + security
-	// + ", instrumentType=" + instrumentType + ", counterParty=" + counterParty +
-	// ", tradeSize=" + tradeSize
-	// + ", tradeDate=" + tradeDate + ", currency=" + currency + ", broker=" +
-	// broker + ", direction="
-	// + direction + ", tradeAlias=" + tradeAlias + ", contoller=" + contoller + ",
-	// clearingSystem="
-	// + clearingSystem + ", clearinghous=" + clearinghous + "]";
-	// }
+	public void setJobId(long jobId) {
+		this.jobId = jobId;
+	}
+
+	public double getDeviation() {
+		return deviation;
+	}
+
+	public void setDeviation(double deviation) {
+		this.deviation = deviation;
+	}
 
 }
