@@ -1,11 +1,11 @@
-package com.iris.batchJobService.Constants;
+package com.iris.batchJobService.util;
 
 /*
  * JobProgressConstants class for constants
  * 
  * @author Rohit Elayathu
  */
-public class JobProgressConstants {
+public interface JobProgressConstants {
 	
 	//Job Status 
 	public static final int RUNNING = 0;

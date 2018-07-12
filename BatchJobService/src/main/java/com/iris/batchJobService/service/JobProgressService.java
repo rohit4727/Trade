@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iris.batchJobService.Constants.JobProgressConstants;
 import com.iris.batchJobService.dao.IJobProgressDao;
 import com.iris.batchJobService.entity.JobProgressData;
+import com.iris.batchJobService.util.JobProgressConstants;
 
 /*
  * Service impl
