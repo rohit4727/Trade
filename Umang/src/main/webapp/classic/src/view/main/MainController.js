@@ -18,7 +18,10 @@ Ext.define('ui.view.main.MainController', {
     }
     
     , onJobListRunOrScheduleJobBtnClick:function(){
-    	var view = this.getView();
+    	var view = this.getView()
+    		, viewModel = this.getViewModel();
+    	
+    	viewModel.set('jobItem', Ext.create(ui.model.JobModel, {}));
     	
     	view.add({
             xtype: 'runschedulejobpopup'
@@ -33,10 +36,17 @@ Ext.define('ui.view.main.MainController', {
     	 var viewModel = this.getViewModel()
 	         , jobItem = viewModel.get('jobItem')
 	         , win = this.lookupReference('runschedulejobpopup')
+	         , runFrequency = jobItem.get('runFrequency')
 	         , me = this;
      
-    	 jobItem.set('scheduleDate', new Date(jobItem.get('date') + ' ' + jobItem.get('time')));	
-    	 
+    	 if(runFrequency==1){
+    		 jobItem.set('scheduleDate', new Date());
+    		 jobItem.set('status', 1);
+    	 }
+    	 else{
+    		 jobItem.set('scheduleDate', new Date(jobItem.get('date') + ' ' + jobItem.get('time')));	
+    		 jobItem.set('status', 0);
+    	 }
     	 
     	 jobItem[win.mode == 'add' ? 'create' : 'update']({
 	         scope: this
@@ -50,14 +60,24 @@ Ext.define('ui.view.main.MainController', {
 	        		 var error = operation.getError()
 	        		 	, resptext = Ext.decode(error.response.responseText);
 	        		 
-	        		 
-	        		 swal({
-        			  title: "Error",
-        			  text: resptext.message,
-        			  icon: "error"
-        			});	        		 
+	        		 me.showToast(resptext.message);
 	        	 }
-	             win.destroy();
+	        	 else{
+	        		 var response = Ext.decode(operation._response.responseText);
+	        		 if(response.statusCode=='200'){
+	        			 swal({
+		        			  title: "Success",
+		        			  text: response.message,
+		        			  icon: "success"
+	        			});	
+	        			 
+	        			 win.destroy();
+	        		 }
+	        		 else{	        			 
+	        			 viewModel.set('jobItem', Ext.create(ui.model.JobModel, {}));
+	        			 me.showToast(response.message);	        			 
+	        		 }	        		 
+	        	 }	             
 	         }
 	     });
 	}
@@ -80,5 +100,12 @@ Ext.define('ui.view.main.MainController', {
         	, modal: true
         	, mode: 'edit'
         }).showBy(Ext.getBody());
+    }
+    , showToast: function(s) {
+    	Ext.MessageBox.alert('', [	        				 
+			 '<p><i class="fa fa-times fa-3x" aria-hidden="true" style="vertical-align: middle;margin-right: 5px;color:#bf6c6c;"></i>'
+			 , s
+			 , '</p>'
+		].join(''));    	
     }
 });

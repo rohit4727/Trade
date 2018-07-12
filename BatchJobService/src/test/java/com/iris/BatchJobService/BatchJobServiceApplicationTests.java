@@ -1,4 +1,4 @@
-package com.iris.scheduler;
+package com.iris.BatchJobService;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SchedulerApplicationTest {
+public class BatchJobServiceApplicationTests {
 
 	@Test
 	public void contextLoads() {
