@@ -76,6 +76,7 @@ public class TradeAppController {
 	}
 	
 	@GetMapping(IControllerConstants.GET_ALL_JOB_SCHEDULE_DETAILS)
+	@ResponseBody
 	public List<JobScheduler> getAllJobScheduleDetails() {
 
 		List<JobScheduler> jobSchedulerDetailList = new ArrayList<>();
