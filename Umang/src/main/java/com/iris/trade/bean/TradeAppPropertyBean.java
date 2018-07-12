@@ -13,5 +13,8 @@ public class TradeAppPropertyBean {
     
     @Value("${runJobRestAPI}")
 	public String runJobRestAPI;
+    
+    @Value("${getAllJobScheduleDetails}")
+	public String getAllJobScheduleDetails;
 
 }

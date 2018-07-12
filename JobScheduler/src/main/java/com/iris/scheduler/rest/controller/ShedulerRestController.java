@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -95,13 +96,15 @@ public class ShedulerRestController {
 			flag = schedularService.checkfilepath(jobScheduler.getBatchFilePath());
 			if (flag) {
 				schedularService.runcmd(jobScheduler, flag);
-				return new ResponseBean(IControllerConstants.DONE, IControllerConstants.SUCCESS);
+				return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
 			} else {
-				return new ResponseBean(IControllerConstants.FAIL, IControllerConstants.FAILED);
+				jobScheduler.setStatus(IControllerConstants.FAIL);
+				jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+				return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
 			}
 		}
 		
-		return new ResponseBean(IControllerConstants.FAIL, IControllerConstants.FAILED);
+		return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
 
 	}
 
