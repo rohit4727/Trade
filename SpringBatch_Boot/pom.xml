@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.quantvalley.examples</groupId>
-	<artifactId>spring-batch-multithreading-example</artifactId>
+	<groupId>com.iris.etl</groupId>
+	<artifactId>spring-batch-boot</artifactId>
 	<version>0.1.0</version>
-	<name>Spring Batch Multithreading Example</name>
+	<name>Spring Batch Multithreading</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -18,6 +18,10 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

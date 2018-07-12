@@ -5,7 +5,7 @@ public interface ETLConstants {
 	String stepName = "Extract -> Transform -> Aggregate -> Load";
 	String totalColumn = "csvmapping.totalColumns";
 	String column = "csvmapping.column";
-	String tradeClassName="Trade";
+	String tradeClassName = "Trade";
 	String fileName = "trades.csv";
 	String concurrencyLimit = "concurrency_limit";
 	String chunkSize = "chunk_size";
