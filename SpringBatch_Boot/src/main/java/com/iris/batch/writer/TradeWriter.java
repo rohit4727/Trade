@@ -18,10 +18,10 @@ import com.iris.batch.util.PropertiesUtil;
  */
 public class TradeWriter<T extends TradeBase> extends JdbcBatchItemWriter<T> {
 	private static final Logger log = LoggerFactory.getLogger(TradeWriter.class);
-	
+
 	public TradeWriter(DataSource dataSource) {
 		String insertionQuery = PropertiesUtil.get("insertion.query");
-		if(insertionQuery==null||insertionQuery.isEmpty()) {
+		if (insertionQuery == null || insertionQuery.isEmpty()) {
 			log.error(ErrorMsg.insertionQueryNotFound);
 			throw new RuntimeException();
 		}
