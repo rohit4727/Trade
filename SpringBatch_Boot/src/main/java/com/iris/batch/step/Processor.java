@@ -1,4 +1,4 @@
-package com.iris.batch.processor;
+package com.iris.batch.step;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -18,12 +18,19 @@ import com.iris.mvc.service.TradeService;
  * 
  * @author Satyveer
  */
-public class MrMarketEventProcessor<T extends TradeBase> implements ItemProcessor<T, T> {
+public class Processor<T extends TradeBase> implements ItemProcessor<T, T> {
 
-	private static final Logger log = LoggerFactory.getLogger(MrMarketEventProcessor.class);
+	private static final Logger log = LoggerFactory.getLogger(Processor.class);
 
 	@Autowired
 	TradeService tradeService;
+
+//	@Value("#{jobParameters['jobId']}")
+//	private Long jobId;
+//
+//	public void setJobId(Long jobId) {
+//		this.jobId = jobId;
+//	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -37,6 +44,10 @@ public class MrMarketEventProcessor<T extends TradeBase> implements ItemProcesso
 		if (BestPriceTrade != null) {
 			trade.setDeviation(trade.getTradePrice() - BestPriceTrade.getTradePrice());
 		}
+
+//		if (this.jobId != null && jobId > 0) {
+//			trade.setJobId(jobId);
+//		}
 		return trade;
 	}
 

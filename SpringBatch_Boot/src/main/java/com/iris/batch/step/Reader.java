@@ -1,4 +1,4 @@
-package com.iris.batch.reader;
+package com.iris.batch.step;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,16 +15,18 @@ import com.iris.batch.model.TradeBase;
 import com.iris.batch.util.CSVColumns;
 import com.iris.batch.util.ETLConstants;
 import com.iris.batch.util.ErrorMsg;
+import com.iris.batch.util.PropertiesUtil;
 
 /**
  * The Class FxMarketEventReader.
  *
  * @author Satyveer
  */
-public class MrMarketEventReader<T extends TradeBase> extends FlatFileItemReader<T> {
-	private static final Logger log = LoggerFactory.getLogger(MrMarketEventReader.class);
+public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
+	private static final Logger log = LoggerFactory.getLogger(Reader.class);
 
-	public MrMarketEventReader(String filePath) {
+	public Reader() {
+		String filePath = PropertiesUtil.get("trade_file_name");
 
 		// Set input file
 		this.setResource(new ClassPathResource(filePath));

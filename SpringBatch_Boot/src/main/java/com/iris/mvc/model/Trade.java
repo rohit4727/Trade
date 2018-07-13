@@ -9,7 +9,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "TRADE_LIVE_FEED")
+@Table(name = "trade_live_feed_copy")
 public class Trade {
 
 	@Id

@@ -6,6 +6,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,14 +20,12 @@ public class CompanyController {
 	@Autowired
 	Job job;
 
-	@RequestMapping("hello")
-	String home() {
-
-		// JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
-		// Job job = (Job) context.getBean("fxMarketPricesETLJob");
+	@RequestMapping("runjob/{jobId}")
+	String home(@PathVariable("jobId") Long jobId) {
 
 		try {
-			JobParameters jobParameters = new JobParametersBuilder().addLong("time", System.currentTimeMillis())
+			JobParameters jobParameters = new JobParametersBuilder()
+					.addLong("jobId", jobId)
 					.toJobParameters();
 			JobExecution execution = (JobExecution) jobLauncher.run(job, jobParameters);
 			System.out.println("Exit Status : " + execution.getExitStatus());

@@ -1,4 +1,4 @@
-package com.iris.batch.writer;
+package com.iris.batch.step;
 
 import javax.sql.DataSource;
 
@@ -16,10 +16,10 @@ import com.iris.batch.util.PropertiesUtil;
  * 
  * @author Satyveer
  */
-public class TradeWriter<T extends TradeBase> extends JdbcBatchItemWriter<T> {
-	private static final Logger log = LoggerFactory.getLogger(TradeWriter.class);
+public class Writer<T extends TradeBase> extends JdbcBatchItemWriter<T> {
+	private static final Logger log = LoggerFactory.getLogger(Writer.class);
 
-	public TradeWriter(DataSource dataSource) {
+	public Writer(DataSource dataSource) {
 		String insertionQuery = PropertiesUtil.get("insertion.query");
 		if (insertionQuery == null || insertionQuery.isEmpty()) {
 			log.error(ErrorMsg.insertionQueryNotFound);
