@@ -5,9 +5,10 @@ public interface IControllerConstants {
 	public static final String JOB_SCHEDULER = "/jobScheduler";
 	public static final String GET_ALL_JOB_SCHEDULE_DETAILS = "/getAllJobScheduleDetails";
 	public static final String CREATE_JOB_SCHEDULER = "/createJobScheduler";
-	public static final String GET_JOB_SCHEDULER_BY_ID = "/getJobSchedulerById/{id}";
-	public static final String UPDATE_JOB_SCHEDULER_DETAIL = "/updateJobSchedulerDetail/{id}";
-	public static final String DELETE_JOB_SCHEDULER = "/deleteJobScheduler/{id}";
+	public static final String GET_JOB_SCHEDULER_BY_ID = "/getJobSchedulerById";
+	public static final String ID_PARAM = "/{id}";
+	public static final String UPDATE_JOB_SCHEDULER_DETAIL = "/updateJobSchedulerDetail";
+	public static final String DELETE_JOB_SCHEDULER = "/deleteJobScheduler";
 	public static final String RUN_JOB_SCHEDULER = "/runJobScheduler";
 	public static final String SCHEDULE_JOB_SCHEDULER = "/schJobScheduler/";
 	public static final String ID = "id";

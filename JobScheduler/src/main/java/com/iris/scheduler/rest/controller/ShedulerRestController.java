@@ -29,7 +29,7 @@ import com.iris.scheduler.service.SchedulerService;
 @RequestMapping(IControllerConstants.JOB_SCHEDULER)
 public class ShedulerRestController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ShedulerRestController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ShedulerRestController.class);
 
 	@Autowired
 	SchedulerService schedularService;
@@ -44,15 +44,10 @@ public class ShedulerRestController {
 	@PostMapping(IControllerConstants.CREATE_JOB_SCHEDULER)
 	public ResponseBean createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
 		try {
-
 			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
 
 		} catch (Exception ex) {
-
-			LOGGER.info("createJobScheduler : Create Job Failed for Job Name : ", jobScheduler.getJobName());
-
-
-
+			logger.info("createJobScheduler : create / schedule job faied for JobName: " + jobScheduler.getJobName(), ex);
 		}
 		if (jobScheduler != null && jobScheduler.getId() != null) {
 			return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
@@ -62,14 +57,14 @@ public class ShedulerRestController {
 	}
 
 	// Get a Single JobScheduler
-	@GetMapping(IControllerConstants.GET_JOB_SCHEDULER_BY_ID)
+	@GetMapping(IControllerConstants.GET_JOB_SCHEDULER_BY_ID + IControllerConstants.ID_PARAM)
 	public JobScheduler getJobSchedulerById(@PathVariable(value = IControllerConstants.ID) Long jobId) {
 		return jobSchedulerDetailService.getJobSchedulerById(jobId);
 
 	}
 
 	// Update a JobScheduler
-	@PutMapping(IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL)
+	@PutMapping(IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL + IControllerConstants.ID_PARAM)
 	public JobScheduler updateJobSchedulerDetail(@PathVariable(value = IControllerConstants.ID) Long jobId,
 			@Valid @RequestBody JobScheduler jobSchedulerDetails) {
 
@@ -84,13 +79,14 @@ public class ShedulerRestController {
 	}
 
 	// Delete a JobScheduler
-	@DeleteMapping(IControllerConstants.DELETE_JOB_SCHEDULER)
+	@DeleteMapping(IControllerConstants.DELETE_JOB_SCHEDULER + IControllerConstants.ID_PARAM)
 	public ResponseEntity<?> deleteJobScheduler(@PathVariable(value = IControllerConstants.ID) Long jobId) {
 		JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(jobId);
 
 		jobSchedulerDetailService.deleteJobScheduler(jobScheduler);
 
 		return ResponseEntity.ok().build();
+
 	}
 
 	@PostMapping(IControllerConstants.RUN_JOB_SCHEDULER)
@@ -112,7 +108,7 @@ public class ShedulerRestController {
 					return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
 				}
 			} catch (Exception ex) {
-				LOGGER.info("CreateJobScheduler : Create Job Failed for Run Job Having Name : ",
+				logger.info("CreateJobScheduler : Create Job Failed for Run Job Having Name : ",
 						jobScheduler.getJobName());
 			}
 

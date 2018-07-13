@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,7 +50,6 @@ public class SchedulerRestControllerTest {
 	@Before
 	public void setup() {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-		
 	}
 
 	@Test
@@ -88,7 +88,7 @@ public class SchedulerRestControllerTest {
 	@Test
 	public void verifygetJobSchedulerById() throws Exception {
 		
-		mockMvc.perform(get(IControllerConstants.JOB_SCHEDULER + "/getJobSchedulerById/1"))
+		mockMvc.perform(get(IControllerConstants.JOB_SCHEDULER + IControllerConstants.GET_JOB_SCHEDULER_BY_ID + "/1"))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(jsonPath("$.id").value("1"))
@@ -98,7 +98,7 @@ public class SchedulerRestControllerTest {
 	@Test
 	public void verifygetJobSchedulerByIdFailed() throws Exception {
 		
-		mockMvc.perform(get(IControllerConstants.JOB_SCHEDULER + "/getJobSchedulerById/111"))
+		mockMvc.perform(get(IControllerConstants.JOB_SCHEDULER + IControllerConstants.GET_JOB_SCHEDULER_BY_ID + "/111"))
 		.andExpect(status().isNotFound());
 	}
 	
@@ -110,11 +110,20 @@ public class SchedulerRestControllerTest {
 		
 		assertNotNull(jobScheduler);
 		assertNotNull(jobScheduler.getId());
+				
 		jobScheduler.setJobName("Updated Job Name Test");
 		
-		mockMvc.perform(put(IControllerConstants.JOB_SCHEDULER + "/updateJobSchedulerDetail/"+jobScheduler.getId())
+		mockMvc.perform(put(IControllerConstants.JOB_SCHEDULER + IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL + "/" +jobScheduler.getId())
 				.contentType(MediaType.APPLICATION_JSON_UTF8).content(asJsonString(jobScheduler)))
 				.andExpect(jsonPath("$.jobName").value("Updated Job Name Test"));
+	}
+	
+	@Test
+	public void verifyDeleteToDo() throws Exception {
+		JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(2L);
+		assertNotNull(jobScheduler);
+		mockMvc.perform(delete(IControllerConstants.JOB_SCHEDULER + IControllerConstants.DELETE_JOB_SCHEDULER + "/" +jobScheduler.getId()).accept(MediaType.APPLICATION_JSON))
+		.andExpect(status().isOk());
 	}
 
 	public static String asJsonString(final Object obj) {
