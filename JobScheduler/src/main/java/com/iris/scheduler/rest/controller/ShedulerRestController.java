@@ -30,8 +30,13 @@ import com.iris.scheduler.service.SchedulerService;
 @RequestMapping(IControllerConstants.JOB_SCHEDULER)
 public class ShedulerRestController {
 
+<<<<<<< .mine
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShedulerRestController.class);
 
+=======
+	private static final Logger logger = LoggerFactory.getLogger(ShedulerRestController.class);
+
+>>>>>>> .theirs
 	@Autowired
 	SchedulerService schedularService;
 	@Autowired
@@ -43,7 +48,7 @@ public class ShedulerRestController {
 	}
 
 	@PostMapping(IControllerConstants.CREATE_JOB_SCHEDULER)
-	public JobScheduler createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
+	public ResponseBean createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
 		try {
 			jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
 
@@ -51,7 +56,11 @@ public class ShedulerRestController {
 			LOGGER.info("createJobScheduler : Create Job Failed for Job Name : ", jobScheduler.getJobName());
 
 		}
-		return jobScheduler;
+		if (jobScheduler != null && jobScheduler.getId() != null) {
+			return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
+		} else {
+			return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
+		}
 	}
 
 	// Get a Single JobScheduler
@@ -86,6 +95,13 @@ public class ShedulerRestController {
 		return ResponseEntity.ok().build();
 	}
 
+<<<<<<< .mine
+
+
+=======
+	}
+
+>>>>>>> .theirs
 	@PostMapping(IControllerConstants.RUN_JOB_SCHEDULER)
 	@ResponseBody
 	public ResponseBean runJob(@Valid @RequestBody JobScheduler jobScheduler) {
@@ -95,6 +111,11 @@ public class ShedulerRestController {
 		} catch (Exception ex) {
 			LOGGER.info("CreateJobScheduler : Create Job Failed for Run Job Having Name : ", jobScheduler.getJobName());
 		}
+<<<<<<< .mine
+
+=======
+
+>>>>>>> .theirs
 		boolean flag = false;
 		if (jobScheduler != null && jobScheduler.getId() != null) {
 			flag = schedularService.checkfilepath(jobScheduler.getBatchFilePath());
@@ -107,7 +128,7 @@ public class ShedulerRestController {
 				return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
 			}
 		}
-		
+
 		return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
 
 	}

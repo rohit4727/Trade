@@ -39,6 +39,17 @@ public class JobScheduler {
 	@NotBlank
 	private String status;
 
+	public JobScheduler () {
+		
+	}
+	
+	public JobScheduler (String jobName, String batchFilePath, Date scheduleDate, String status ) {
+		this.jobName = jobName;
+		this.batchFilePath = batchFilePath;
+		this.scheduleDate = scheduleDate;
+		this.status = status;
+    }
+	
 	public String getStatus() {
 		return status;
 	}
@@ -79,5 +90,4 @@ public class JobScheduler {
 		this.scheduleDate = scheduleDate;
 	}
 
-	
 }
