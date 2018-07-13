@@ -43,13 +43,17 @@ public class ShedulerRestController {
 	}
 
 	@PostMapping(IControllerConstants.CREATE_JOB_SCHEDULER)
-	public JobScheduler createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
+	public ResponseBean createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
 		try {
-			jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
 		} catch(Exception ex) {
 			 LOGGER.info("createJobScheduler : Create Job Failed for Job Name : ", jobScheduler.getJobName());
 		}
-		return jobScheduler;
+		if(jobScheduler != null  && jobScheduler.getId()!=null) {
+			return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
+		} else {
+			return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
+		}
 	}
 
 	// Get a Single JobScheduler

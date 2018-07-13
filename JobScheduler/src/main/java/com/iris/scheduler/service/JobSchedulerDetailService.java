@@ -6,7 +6,7 @@ import com.iris.scheduler.entity.JobScheduler;
 public interface JobSchedulerDetailService {
 	
 	public List<JobScheduler> getAllJobScheduleDetails();
-	public JobScheduler createOrUpdateJobScheduler(JobScheduler jobSchedule);
+	public JobScheduler createOrUpdateJobScheduler(JobScheduler jobScheduler);
 	public JobScheduler getJobSchedulerById(Long jobId);
 	public void deleteJobScheduler(JobScheduler jobScheduler);
 
