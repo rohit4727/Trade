@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iris.scheduler.ScheduledTasks;
 import com.iris.scheduler.beans.ResponseBean;
 import com.iris.scheduler.constants.IControllerConstants;
 import com.iris.scheduler.entity.JobScheduler;
@@ -27,11 +30,12 @@ import com.iris.scheduler.service.SchedulerService;
 @RequestMapping(IControllerConstants.JOB_SCHEDULER)
 public class ShedulerRestController {
 
+	
+	private static final Logger logger = LoggerFactory.getLogger(ShedulerRestController.class);
 	@Autowired
 	SchedulerService schedularService;
 	@Autowired
 	JobSchedulerDetailService jobSchedulerDetailService;
-
 
 	@GetMapping(IControllerConstants.GET_ALL_JOB_SCHEDULE_DETAILS)
 	public List<JobScheduler> getAllJobScheduleDetails() {
@@ -42,8 +46,8 @@ public class ShedulerRestController {
 	public JobScheduler createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
 		try {
 			jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
-		} catch(Exception ex) {
-			
+		} catch (Exception ex) {
+
 		}
 		return jobScheduler;
 	}
@@ -52,7 +56,7 @@ public class ShedulerRestController {
 	@GetMapping(IControllerConstants.GET_JOB_SCHEDULER_BY_ID)
 	public JobScheduler getJobSchedulerById(@PathVariable(value = IControllerConstants.ID) Long jobId) {
 		return jobSchedulerDetailService.getJobSchedulerById(jobId);
-				
+
 	}
 
 	// Update a JobScheduler
@@ -78,32 +82,6 @@ public class ShedulerRestController {
 		jobSchedulerDetailService.deleteJobScheduler(jobScheduler);
 
 		return ResponseEntity.ok().build();
-	}
-
-	
-	@PostMapping(IControllerConstants.RUN_JOB_SCHEDULER)
-	@ResponseBody
-	public ResponseBean runJob(@Valid @RequestBody JobScheduler jobScheduler) {
-		
-		try {
-			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
-		} catch (Exception ex) {
-
-		}
-			
-		boolean flag = false;
-		if (jobScheduler != null && jobScheduler.getId() != null) {
-			flag = schedularService.checkfilepath(jobScheduler.getBatchFilePath());
-			if (flag) {
-				schedularService.runcmd(jobScheduler, flag);
-				return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
-			} else {
-				return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
-			}
-		}
-		
-		return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
 
 	}
-
 }
