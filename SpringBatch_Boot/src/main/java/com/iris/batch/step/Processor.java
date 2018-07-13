@@ -25,12 +25,11 @@ public class Processor<T extends TradeBase> implements ItemProcessor<T, T> {
 	@Autowired
 	TradeService tradeService;
 
-//	@Value("#{jobParameters['jobId']}")
-//	private Long jobId;
-//
-//	public void setJobId(Long jobId) {
-//		this.jobId = jobId;
-//	}
+	private Long jobId;
+
+	public void setJobId(Long jobId) {
+		this.jobId = jobId;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -45,9 +44,9 @@ public class Processor<T extends TradeBase> implements ItemProcessor<T, T> {
 			trade.setDeviation(trade.getTradePrice() - BestPriceTrade.getTradePrice());
 		}
 
-//		if (this.jobId != null && jobId > 0) {
-//			trade.setJobId(jobId);
-//		}
+		if (this.jobId != null && jobId > 0) {
+			trade.setJobId(jobId);
+		}
 		return trade;
 	}
 

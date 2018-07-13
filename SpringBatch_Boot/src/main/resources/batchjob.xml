@@ -16,11 +16,14 @@
 	</job>
 
 	<beans:bean id="itemReader" class="com.iris.batch.step.Reader" />
-	<beans:bean id="itemProcessor" class="com.iris.batch.step.Processor" scope="step" >
+	<beans:bean id="itemProcessor" class="com.iris.batch.step.Processor"
+		scope="step">
 		<beans:property name="jobId" value="#{jobParameters[jobId]}" />
 	</beans:bean>
-	<!-- <beans:bean id="itemProcessor" class="com.iris.batch.step.Processor"/> -->
 	<beans:bean id="itemWriter" class="com.iris.batch.step.Writer" />
 	<beans:bean id="taskExecutor" class="com.iris.batch.step.TaskExecuter" />
-
+	<beans:bean id="stepScope"
+		class="org.springframework.batch.core.scope.StepScope">
+		<beans:property name="autoProxy" value="true" />
+	</beans:bean>
 </beans:beans>
