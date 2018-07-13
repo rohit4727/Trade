@@ -2,14 +2,17 @@ package com.iris.scheduler;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -60,10 +63,15 @@ public class SchedulerRestControllerTest {
 
 	@Test
 	public void verifyGetAllJobScheduleJobList() throws Exception {
+		
+		List<JobScheduler>  allScheduledJobDetailList = jobSchedulerDetailService.getAllJobScheduleDetails();
 
+		assertNotNull(allScheduledJobDetailList);
+		
 		mockMvc.perform(get(IControllerConstants.JOB_SCHEDULER + IControllerConstants.GET_ALL_JOB_SCHEDULE_DETAILS))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(jsonPath("$", hasSize(1))).andExpect(jsonPath("$[0].id", is(1)))
+				.andExpect(jsonPath("$",hasSize(allScheduledJobDetailList.size()) ))
+				.andExpect(jsonPath("$[0].id", is(1)))
 				.andExpect(jsonPath("$[0].jobName").value("Creat Job Test 1"));
 	}
 	
@@ -75,6 +83,22 @@ public class SchedulerRestControllerTest {
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(jsonPath("$.id").value("1"))
 				.andExpect(jsonPath("$.jobName").value("Creat Job Test 1"));
+	}
+	
+	@Test
+	public void verifyUpdateJobSchedulerDetail() throws Exception {
+		
+		JobScheduler jobScheduler = new JobScheduler("Creat Job Test for Update 1", "Batch File Path 1", new Date(), "0");
+		jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+		
+		assertNotNull(jobScheduler);
+		assertNotNull(jobScheduler.getId());
+				
+		jobScheduler.setJobName("Updated Job Name Test");
+		
+		mockMvc.perform(put(IControllerConstants.JOB_SCHEDULER + "/updateJobSchedulerDetail/"+jobScheduler.getId())
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(asJsonString(jobScheduler)))
+				.andExpect(jsonPath("$.jobName").value("Updated Job Name Test"));
 	}
 
 	public static String asJsonString(final Object obj) {
