@@ -12,8 +12,9 @@ public class CSVColumns {
 	private static final Logger log = LoggerFactory.getLogger(MrMarketEventReader.class);
 
 	public final static Map<String, Class<?>> properties = new HashMap<String, Class<?>>();
+	public final static String[] colNames;
 
-	{
+	static {
 		String cols = PropertiesUtil.get(ETLConstants.totalColumn);
 		if (cols == null || cols.isEmpty()) {
 			log.error(ErrorMsg.totalColNotFound);
@@ -24,8 +25,8 @@ public class CSVColumns {
 			int columns = Integer.parseInt(cols);
 
 			String[] columnNames = new String[columns];
+			colNames = new String[columns];
 
-			final Map<String, Class<?>> properties = new HashMap<String, Class<?>>();
 			for (int i = 0; i < columns; i++) {
 				columnNames[i] = PropertiesUtil.get(ETLConstants.column + (i + 1));
 				if (columnNames[i] == null || columnNames[i].isEmpty()) {
@@ -37,6 +38,7 @@ public class CSVColumns {
 
 				properties.put(colNameAndTypes[0],
 						colNameAndTypes[1] != null ? Class.forName(colNameAndTypes[1]) : String.class);
+				colNames[i] = colNameAndTypes[0];
 			}
 		} catch (NumberFormatException e) {
 			log.error(ErrorMsg.totalColNotInt);

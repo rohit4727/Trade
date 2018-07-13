@@ -30,8 +30,13 @@ import com.iris.scheduler.service.SchedulerService;
 @RequestMapping(IControllerConstants.JOB_SCHEDULER)
 public class ShedulerRestController {
 
+<<<<<<< .mine
 	
 	private static final Logger logger = LoggerFactory.getLogger(ShedulerRestController.class);
+=======
+	private static final Logger LOGGER = LoggerFactory.getLogger(ShedulerRestController.class);
+	 
+>>>>>>> .theirs
 	@Autowired
 	SchedulerService schedularService;
 	@Autowired
@@ -46,8 +51,13 @@ public class ShedulerRestController {
 	public JobScheduler createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
 		try {
 			jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+<<<<<<< .mine
 		} catch (Exception ex) {
 
+=======
+		} catch(Exception ex) {
+			 LOGGER.info("createJobScheduler : Create Job Failed for Job Name : ", jobScheduler.getJobName());
+>>>>>>> .theirs
 		}
 		return jobScheduler;
 	}
@@ -83,5 +93,60 @@ public class ShedulerRestController {
 
 		return ResponseEntity.ok().build();
 
+<<<<<<< .mine
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======
+	
+	@PostMapping(IControllerConstants.RUN_JOB_SCHEDULER)
+	@ResponseBody
+	public ResponseBean runJob(@Valid @RequestBody JobScheduler jobScheduler) {
+		
+		try {
+			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+		} catch (Exception ex) {
+
+		}
+			
+		boolean flag = false;
+		if (jobScheduler != null && jobScheduler.getId() != null) {
+			flag = schedularService.checkfilepath(jobScheduler.getBatchFilePath());
+			if (flag) {
+				schedularService.runcmd(jobScheduler, flag);
+				return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
+			} else {
+				jobScheduler.setStatus(IControllerConstants.FAIL);
+				jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+				return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
+			}
+		}
+		
+		return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
+
+>>>>>>> .theirs
 	}
 }

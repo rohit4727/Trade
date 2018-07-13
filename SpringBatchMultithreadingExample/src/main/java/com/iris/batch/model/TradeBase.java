@@ -1,8 +1,5 @@
 package com.iris.batch.model;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 /**
  * The Class FxMarketEvent.
  * 
@@ -10,31 +7,39 @@ import java.util.Date;
  */
 public abstract class TradeBase {
 
-	private long tradeid;
-	private long jobId;
-	private double tradePrice;
+	private Long tradeId;
+	private Long jobId;
+	private Double tradePrice;
 	private String security;
-	private String tradeSize;
-	private Date tradeDate;
-	private Timestamp tradeTime;
+	private Long tradeSize;
+	private String tradeDate;
+	private String tradeTime;
 	private double deviation;
 
 	public TradeBase() {
 	}
 
-	public long getTradeid() {
-		return tradeid;
+	public Long getTradeId() {
+		return tradeId;
 	}
 
-	public void setTradeid(long tradeid) {
-		this.tradeid = tradeid;
+	public void setTradeId(Long tradeId) {
+		this.tradeId = tradeId;
 	}
 
-	public double getTradePrice() {
+	public Long getJobId() {
+		return jobId;
+	}
+
+	public void setJobId(Long jobId) {
+		this.jobId = jobId;
+	}
+
+	public Double getTradePrice() {
 		return tradePrice;
 	}
 
-	public void setTradePrice(double tradePrice) {
+	public void setTradePrice(Double tradePrice) {
 		this.tradePrice = tradePrice;
 	}
 
@@ -46,36 +51,28 @@ public abstract class TradeBase {
 		this.security = security;
 	}
 
-	public String getTradeSize() {
+	public Long getTradeSize() {
 		return tradeSize;
 	}
 
-	public void setTradeSize(String tradeSize) {
+	public void setTradeSize(Long tradeSize) {
 		this.tradeSize = tradeSize;
 	}
 
-	public Date getTradeDate() {
+	public String getTradeDate() {
 		return tradeDate;
 	}
 
-	public void setTradeDate(Date tradeDate) {
+	public void setTradeDate(String tradeDate) {
 		this.tradeDate = tradeDate;
 	}
 
-	public Timestamp getTradeTime() {
+	public String getTradeTime() {
 		return tradeTime;
 	}
 
-	public void setTradeTime(Timestamp tradeTime) {
+	public void setTradeTime(String tradeTime) {
 		this.tradeTime = tradeTime;
-	}
-
-	public long getJobId() {
-		return jobId;
-	}
-
-	public void setJobId(long jobId) {
-		this.jobId = jobId;
 	}
 
 	public double getDeviation() {
@@ -85,5 +82,4 @@ public abstract class TradeBase {
 	public void setDeviation(double deviation) {
 		this.deviation = deviation;
 	}
-
 }

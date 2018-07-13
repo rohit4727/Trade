@@ -18,8 +18,8 @@ public class MrMarketEventProcessor<T extends TradeBase> implements ItemProcesso
 	@SuppressWarnings("unchecked")
 	@Override
 	public TradeBase process(final TradeBase trade) throws Exception {
-		log.info("processed trade with id " + trade.getTradeid());
-		trade.setDeviation(12);
+		log.info("processed trade with id " + trade.getTradeId());
+		trade.setDeviation(12.0);
 		return trade;
 	}
 
