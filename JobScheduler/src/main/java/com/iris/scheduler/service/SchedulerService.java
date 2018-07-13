@@ -9,7 +9,7 @@ import com.iris.scheduler.entity.JobScheduler;
 public interface SchedulerService {
 	
 	public boolean checkfilepath(String filepath);
-	public void runcmd(JobScheduler job,boolean flag);
+	public void runcmd(String filepath);
 	public void savestatus(JobScheduler job);
 	public JobScheduler findbyjobId(Long id);
 	public List<JobScheduler> findbycurDate();

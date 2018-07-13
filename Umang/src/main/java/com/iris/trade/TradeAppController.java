@@ -25,28 +25,27 @@ import com.iris.trade.response.bean.JobShedulerResponse;
 
 @Controller
 public class TradeAppController {
-	
+
 	@Autowired
 	RestTemplate restTemplate;
-	
+
 	@RequestMapping("/")
-	public String Trades(Model model) 
-	{
+	public String Trades(Model model) {
 		return "index";
 	}
-	
+
 	@Bean
 	public RestTemplate restTemplate() {
-	    return new RestTemplate();
+		return new RestTemplate();
 	}
-	
+
 	@Autowired
 	TradeAppPropertyBean tradeAppProperty;
-	
+
 	@PostMapping(IControllerConstants.SCHEDULE_OR_RUN_JOB)
 	@ResponseBody
 	public JobShedulerResponse sheduleJob(@Valid @RequestBody JobScheduler jobScheduler) {
-		
+
 		JobShedulerResponse jobShedulerResponse = new JobShedulerResponse();
 
 		jobShedulerResponse.setStatusCode(HttpStatus.NOT_MODIFIED.toString());
@@ -54,13 +53,10 @@ public class TradeAppController {
 
 		try {
 			if (jobScheduler.getRunFrequency().equals("0")) {
-				jobScheduler = restTemplate.postForObject(tradeAppProperty.scheduleJobRestAPI, jobScheduler,
-						JobScheduler.class);
-
-				if (jobScheduler.getId() != null) {
-					jobShedulerResponse.setStatusCode(HttpStatus.OK.toString());
-					jobShedulerResponse.setMessage(IControllerConstants.SCHEDULE_JOB_SUCCESS);
-				}
+				ResponseBean responseBean = restTemplate.postForObject(tradeAppProperty.scheduleJobRestAPI,
+						jobScheduler, ResponseBean.class);
+				jobShedulerResponse.setStatusCode(responseBean.getStatuscode());
+				jobShedulerResponse.setMessage(responseBean.getMessage());
 			} else {
 				ResponseBean responseBean = restTemplate.postForObject(tradeAppProperty.runJobRestAPI, jobScheduler,
 						ResponseBean.class);
@@ -70,11 +66,10 @@ public class TradeAppController {
 		} catch (Exception ex) {
 
 		}
-		
-		
+
 		return jobShedulerResponse;
 	}
-	
+
 	@GetMapping(IControllerConstants.GET_ALL_JOB_SCHEDULE_DETAILS)
 	@ResponseBody
 	public List<JobScheduler> getAllJobScheduleDetails() {
@@ -82,15 +77,14 @@ public class TradeAppController {
 		List<JobScheduler> jobSchedulerDetailList = new ArrayList<>();
 
 		try {
-			
+
 			jobSchedulerDetailList = restTemplate.getForObject(tradeAppProperty.getAllJobScheduleDetails, List.class);
-			
+
 		} catch (Exception ex) {
 
 		}
 
 		return jobSchedulerDetailList;
 	}
-	
-		
+
 }

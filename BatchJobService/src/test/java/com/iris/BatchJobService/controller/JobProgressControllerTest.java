@@ -89,8 +89,8 @@ public class JobProgressControllerTest {
 
 		mockList.add(jobProgressData);
 
-		Mockito.when(jobProgressService.getCompletedJobs()).thenReturn(mockList);
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/joblist/completed")
+		Mockito.when(jobProgressService.getRunningJobs()).thenReturn(mockList);
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/joblist/running")
 				.accept(MediaType.APPLICATION_JSON);
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();

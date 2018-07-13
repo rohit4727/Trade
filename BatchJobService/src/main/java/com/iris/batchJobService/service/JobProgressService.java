@@ -22,7 +22,7 @@ public class JobProgressService implements IJobProgressService {
 	@Autowired
 	private IJobProgressDao jobProgressDAO;
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory.getLogger(JobProgressService.class);
 
 	@Override
 	public List<JobProgressData> getCompletedJobs() {
