@@ -27,11 +27,10 @@ public class ScheduledTasks {
 	@Autowired
 	SchedulerService schedulerService;
 
-	@Scheduled(fixedDelay = IControllerConstants.SCHEDULE_TIMING)
+	//@Scheduled(fixedDelay = IControllerConstants.SCHEDULE_TIMING)
 	public void scheduleJob() {
 
 		List<JobScheduler> joblisttorun = schedulerService.findbycurDate();
-
 		for (JobScheduler job : joblisttorun) {
 			try {
 				boolean flag = false;

@@ -30,13 +30,8 @@ import com.iris.scheduler.service.SchedulerService;
 @RequestMapping(IControllerConstants.JOB_SCHEDULER)
 public class ShedulerRestController {
 
-<<<<<<< .mine
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShedulerRestController.class);
 
-=======
-	private static final Logger logger = LoggerFactory.getLogger(ShedulerRestController.class);
-
->>>>>>> .theirs
 	@Autowired
 	SchedulerService schedularService;
 	@Autowired
@@ -50,6 +45,7 @@ public class ShedulerRestController {
 	@PostMapping(IControllerConstants.CREATE_JOB_SCHEDULER)
 	public ResponseBean createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
 		try {
+
 			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
 
 		} catch (Exception ex) {
@@ -95,38 +91,29 @@ public class ShedulerRestController {
 		return ResponseEntity.ok().build();
 	}
 
-<<<<<<< .mine
-
-
-=======
-	}
-
->>>>>>> .theirs
 	@PostMapping(IControllerConstants.RUN_JOB_SCHEDULER)
 	@ResponseBody
 	public ResponseBean runJob(@Valid @RequestBody JobScheduler jobScheduler) {
-
-		try {
-			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
-		} catch (Exception ex) {
-			LOGGER.info("CreateJobScheduler : Create Job Failed for Run Job Having Name : ", jobScheduler.getJobName());
-		}
-<<<<<<< .mine
-
-=======
-
->>>>>>> .theirs
+		
 		boolean flag = false;
-		if (jobScheduler != null && jobScheduler.getId() != null) {
-			flag = schedularService.checkfilepath(jobScheduler.getBatchFilePath());
-			if (flag) {
-				schedularService.runcmd(jobScheduler.getBatchFilePath());
-				return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
-			} else {
-				jobScheduler.setStatus(IControllerConstants.FAIL);
+		if (jobScheduler != null) {
+			try {
 				jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
-				return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
+				Long id = jobScheduler.getId();
+				flag = schedularService.checkfilepath(jobScheduler.getBatchFilePath());
+				if (flag) {
+					schedularService.runcmd(jobScheduler.getBatchFilePath());
+					return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
+				} else {
+					jobScheduler.setStatus(IControllerConstants.FAIL);
+					jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+					return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
+				}
+			} catch (Exception ex) {
+				LOGGER.info("CreateJobScheduler : Create Job Failed for Run Job Having Name : ",
+						jobScheduler.getJobName());
 			}
+
 		}
 
 		return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);

@@ -50,6 +50,7 @@ public class SchedulerRestControllerTest {
 	@Before
 	public void setup() {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+		
 	}
 
 	@Test
@@ -93,7 +94,6 @@ public class SchedulerRestControllerTest {
 		
 		assertNotNull(jobScheduler);
 		assertNotNull(jobScheduler.getId());
-				
 		jobScheduler.setJobName("Updated Job Name Test");
 		
 		mockMvc.perform(put(IControllerConstants.JOB_SCHEDULER + "/updateJobSchedulerDetail/"+jobScheduler.getId())

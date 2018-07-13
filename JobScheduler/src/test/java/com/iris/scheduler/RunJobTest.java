@@ -2,11 +2,17 @@
 package com.iris.scheduler;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
+import java.text.ParseException;
+import java.util.Date;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -16,16 +22,23 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.web.mappings.reactive.RequestMappingConditionsDescription.MediaTypeExpressionDescription;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iris.scheduler.beans.ResponseBean;
 import com.iris.scheduler.constants.IControllerConstants;
 import com.iris.scheduler.entity.JobScheduler;
@@ -40,6 +53,9 @@ import ch.qos.logback.core.boolex.Matcher;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class RunJobTest {
 
 	private MockMvc mockMvc;
@@ -64,37 +80,69 @@ public class RunJobTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(schedulerRestController).build();
 	}
 
-	// Test case when all the information are correct
+
 	@Test
 	public void runJobSuccessTestPost() throws Exception {
-		String json = "{\"id\" : \"5\"" + ", \"jobName\" : \"Anchal Job Scheduler3\" "
-				+ ", \"batchFilePath\" : \"E:/Gen/gen.bat\" " + ", \"scheduleDate\" : \"1499396851000\" "
-				+ ", \"status\" : \"0\" " + "}";
-		when(schedulerService.checkfilepath("E:/Gen/gen.bat")).thenReturn(true);
-		mockMvc.perform(
-				MockMvcRequestBuilders.post(IControllerConstants.JOB_SCHEDULER + IControllerConstants.RUN_JOB_SCHEDULER)
-						.contentType(MediaType.APPLICATION_JSON).content(json))
-				.andExpect(jsonPath("$.statuscode").value("200")).andExpect(jsonPath("$.message").value("SUCCESS"))
-				.andExpect(jsonPath("$.*", Matchers.hasSize(2)));
-		verify(schedulerService).checkfilepath("E:/Gen/gen.bat");
-		verify(schedulerService).runcmd("E:/Gen/gen.bat");
+		
+		jobScheduler=new JobScheduler("Anchal", "E:/Gen/gen.bat", new Date(), "1");
+	
+		assertNotNull(jobScheduler);
+	}
+	
+	@Test()
+	public void testFilePath() throws ParseException {
+
+		// missing file path
+		when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(0).getBatchFilePath())).thenReturn(false);
+		assertFalse("Handle Missing File Path in database",
+				schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(0).getBatchFilePath()));
+		verify(schedulerService).checkfilepath(SchedularTestUtil.getJobSchedular(0).getBatchFilePath());
+
+		// wrong file path
+		when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(1).getBatchFilePath())).thenReturn(false);
+		assertFalse("Handle Wrong File Path in database",
+				schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(1).getBatchFilePath()));
+		verify(schedulerService).checkfilepath(SchedularTestUtil.getJobSchedular(1).getBatchFilePath());
+
+		// correct file path
+		when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath())).thenReturn(true);
+		assertTrue("Handle Correct File Path in database",
+				schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath()));
+		verify(schedulerService).checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath());
 	}
 
-	// Test case when filepath information is not correct
+	@Test(expected = NullPointerException.class)
+	public void testFilePathWhenNull() throws ParseException {
+
+		when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath()))
+				.thenThrow(NullPointerException.class);
+
+		schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath());
+		verify(schedulerService).checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath());
+	}
+
 	@Test
-	public void runJobTestWrongFilePathPost() throws Exception {
-		String json = "{\"id\" : \"5\"" + ", \"jobName\" : \"Anchal Job Scheduler3\" "
-				+ ", \"batchFilePath\" : \"E:/Gen/gen.txt\" " + ", \"scheduleDate\" : \"1499396851000\" "
-				+ ", \"status\" : \"0\" " + "}";
-		when(schedulerService.checkfilepath("E:/Gen/gen.txt")).thenReturn(false);
+	public void runJobSuccessTestPost1() throws Exception {
+		
+		//when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(0).getBatchFilePath())).thenReturn(true);
+		JobScheduler jobScheduler = new JobScheduler("Pushpendra Test Run","Path",new Date(),"1");
 		mockMvc.perform(
 				MockMvcRequestBuilders.post(IControllerConstants.JOB_SCHEDULER + IControllerConstants.RUN_JOB_SCHEDULER)
-						.contentType(MediaType.APPLICATION_JSON).content(json))
-				.andExpect(jsonPath("$.statuscode").value("404"))
-				.andExpect(jsonPath("$.message").value("FAILED TO RUN"))
-				.andExpect(jsonPath("$.*", Matchers.hasSize(2)));
-		verify(schedulerService).checkfilepath("E:/Gen/gen.txt");
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(asJsonString(jobScheduler)))
+				.andExpect(jsonPath("$.statuscode").value(HttpStatus.OK.toString()));
+		
+		verify(schedulerService).checkfilepath("E:/Gen/gen.bat");
+	
+	}
 
+	
+	public static String asJsonString(final Object obj) {
+		try {
+			return new ObjectMapper().writeValueAsString(obj);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
