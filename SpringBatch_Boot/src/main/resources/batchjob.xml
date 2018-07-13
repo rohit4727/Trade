@@ -1,0 +1,29 @@
+<beans:beans xmlns="http://www.springframework.org/schema/batch"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/batch
+           http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+	<job id="job">
+		<step id="step1">
+			<tasklet task-executor="taskExecutor">
+				<chunk reader="itemReader" processor="itemProcessor" writer="itemWriter"
+					commit-interval="1" />
+			</tasklet>
+		</step>
+	</job>
+
+	<beans:bean id="itemReader" class="com.iris.batch.step.Reader" />
+	<beans:bean id="itemProcessor" class="com.iris.batch.step.Processor"
+		scope="step">
+		<beans:property name="jobId" value="#{jobParameters[jobId]}" />
+	</beans:bean>
+	<beans:bean id="itemWriter" class="com.iris.batch.step.Writer" />
+	<beans:bean id="taskExecutor" class="com.iris.batch.step.TaskExecuter" />
+	<beans:bean id="stepScope"
+		class="org.springframework.batch.core.scope.StepScope">
+		<beans:property name="autoProxy" value="true" />
+	</beans:bean>
+</beans:beans>

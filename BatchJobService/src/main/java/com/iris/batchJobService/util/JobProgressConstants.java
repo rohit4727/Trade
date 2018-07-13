@@ -6,10 +6,10 @@ package com.iris.batchJobService.util;
  * @author Rohit Elayathu
  */
 public interface JobProgressConstants {
-	
-	//Job Status 
-	public static final int RUNNING = 0;
-	public static final int COMPLETED = 1;
-	public static final int FAILED = 2;
+
+	// Job Status
+	int RUNNING = 0;
+	int COMPLETED = 1;
+	int FAILED = 2;
 
 }

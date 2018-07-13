@@ -2,7 +2,6 @@ package com.iris.scheduler;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,7 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -33,7 +32,7 @@ import com.iris.scheduler.constants.IControllerConstants;
 import com.iris.scheduler.entity.JobScheduler;
 import com.iris.scheduler.service.JobSchedulerDetailService;
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-test.properties")
@@ -63,6 +62,16 @@ public class SchedulerRestControllerTest {
 	}
 
 	@Test
+	public void verifyCreateJobSchedulerFailed() throws Exception {
+		JobScheduler jobScheduler = new JobScheduler("Creat Job Test 1", "Batch File Path 1", new Date(), "0");
+
+		mockMvc.perform(post(IControllerConstants.JOB_SCHEDULER + IControllerConstants.CREATE_JOB_SCHEDULER)
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(asJsonString(jobScheduler)))
+				.andExpect(jsonPath("$.statuscode").value(HttpStatus.NOT_FOUND.toString()));
+	}
+	
+	
+	@Test
 	public void verifyGetAllJobScheduleJobList() throws Exception {
 		
 		List<JobScheduler>  allScheduledJobDetailList = jobSchedulerDetailService.getAllJobScheduleDetails();
@@ -84,6 +93,13 @@ public class SchedulerRestControllerTest {
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(jsonPath("$.id").value("1"))
 				.andExpect(jsonPath("$.jobName").value("Creat Job Test 1"));
+	}
+	
+	@Test
+	public void verifygetJobSchedulerByIdFailed() throws Exception {
+		
+		mockMvc.perform(get(IControllerConstants.JOB_SCHEDULER + "/getJobSchedulerById/111"))
+		.andExpect(status().isNotFound());
 	}
 	
 	@Test

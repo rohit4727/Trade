@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iris.scheduler.ScheduledTasks;
 import com.iris.scheduler.beans.ResponseBean;
 import com.iris.scheduler.constants.IControllerConstants;
 import com.iris.scheduler.entity.JobScheduler;
@@ -49,7 +48,10 @@ public class ShedulerRestController {
 			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
 
 		} catch (Exception ex) {
+
 			LOGGER.info("createJobScheduler : Create Job Failed for Job Name : ", jobScheduler.getJobName());
+
+
 
 		}
 		if (jobScheduler != null && jobScheduler.getId() != null) {

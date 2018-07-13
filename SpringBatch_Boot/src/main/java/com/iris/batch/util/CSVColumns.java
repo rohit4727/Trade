@@ -6,10 +6,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.iris.batch.reader.MrMarketEventReader;
+import com.iris.batch.step.Reader;
 
 public class CSVColumns {
-	private static final Logger log = LoggerFactory.getLogger(MrMarketEventReader.class);
+	private static final Logger log = LoggerFactory.getLogger(Reader.class);
 
 	public final static Map<String, Class<?>> properties = new HashMap<String, Class<?>>();
 	public final static String[] colNames;

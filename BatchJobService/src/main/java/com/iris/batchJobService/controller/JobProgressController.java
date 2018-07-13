@@ -26,7 +26,7 @@ public class JobProgressController {
 	@Autowired
 	private IJobProgressService jobProgressService;
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory.getLogger(JobProgressController.class);
 
 	/*
 	 * This method gets list of all the executed (completed or failed) jobs
@@ -35,19 +35,19 @@ public class JobProgressController {
 	public ResponseEntity<List<JobProgressData>> getCompletedJobs() {
 		List<JobProgressData> list = jobProgressService.getCompletedJobs();
 
-		logger.info("--Inside getCompletedJobs : list size : " + list.size() + "--");
+		logger.info("Inside getCompletedJobs : list size : " + list.size());
 
 		return new ResponseEntity<List<JobProgressData>>(list, HttpStatus.OK);
 	}
 
 	/*
-	 * This method get list of all currently executing jobs
+	 * This method gets list of all currently executing jobs
 	 */
 	@GetMapping("running")
 	public ResponseEntity<List<JobProgressData>> getRunningJobs() {
 		List<JobProgressData> list = jobProgressService.getRunningJobs();
 
-		logger.info("--Inside getRunningJobs : list size : " + list.size() + "--");
+		logger.info("Inside getRunningJobs : list size : " + list.size());
 
 		return new ResponseEntity<List<JobProgressData>>(list, HttpStatus.OK);
 	}
