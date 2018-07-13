@@ -40,7 +40,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 		}
 		catch(Exception e) {
 		
-			logger.error("Failed to run job with path="+path +" and Exception is "+ e.getMessage());
+			logger.error("Failed To Run Job With Path="+path +" and Exception is "+ e.getMessage());
 		}
 		return false;
 
@@ -55,7 +55,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 			Runtime.getRuntime().exec(cronrun);
 
 		} catch (Exception e) {
-			logger.error("Failed to run job with batchfilepath="+batchfilepath+" and Exception is "+ e.getMessage());
+			logger.error("Failed To Run Job With Batchfilepath="+batchfilepath+" and Exception is "+ e.getMessage());
 		}
 
 	}

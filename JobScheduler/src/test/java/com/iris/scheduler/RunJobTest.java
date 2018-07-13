@@ -14,6 +14,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
 import org.springframework.boot.actuate.web.mappings.reactive.RequestMappingConditionsDescription.MediaTypeExpressionDescription;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -62,22 +64,36 @@ public class RunJobTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(schedulerRestController).build();
 	}
 
+	// Test case when all the information are correct
 	@Test
-	public void runJobTestPost() throws Exception {
-		String json = "{\n" + "\"id\":\"3\"\n" 
-					+ "\"jobName\":\"Job3emptyfilepath\"\n" 
-					+ "\"batchFilePath\":\"E:/Gen/gen.bat\"\n" 
-					+ "\"scheduleDate\":\"2018-07-11 11:10:06\"\n" 
-					+ "\"status\":\"0\"\n" 
-					+ "}";
-		mockMvc.perform(MockMvcRequestBuilders.post(IControllerConstants.JOB_SCHEDULER+IControllerConstants.RUN_JOB_SCHEDULER)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(json))
-				//.andExpect(status().is(400));
-				.andExpect(jsonPath("$.statuscode", Matchers.is(404)))
-				.andExpect(jsonPath("$.message", Matchers.is("FAILED TO RUN")))
+	public void runJobSuccessTestPost() throws Exception {
+		String json = "{\"id\" : \"5\"" + ", \"jobName\" : \"Anchal Job Scheduler3\" "
+				+ ", \"batchFilePath\" : \"E:/Gen/gen.bat\" " + ", \"scheduleDate\" : \"1499396851000\" "
+				+ ", \"status\" : \"0\" " + "}";
+		when(schedulerService.checkfilepath("E:/Gen/gen.bat")).thenReturn(true);
+		mockMvc.perform(
+				MockMvcRequestBuilders.post(IControllerConstants.JOB_SCHEDULER + IControllerConstants.RUN_JOB_SCHEDULER)
+						.contentType(MediaType.APPLICATION_JSON).content(json))
+				.andExpect(jsonPath("$.statuscode").value("200")).andExpect(jsonPath("$.message").value("SUCCESS"))
 				.andExpect(jsonPath("$.*", Matchers.hasSize(2)));
-	//	verify(jobSchedulerDetailService).getJobSchedulerById(new Long(1));
+		verify(schedulerService).checkfilepath("E:/Gen/gen.bat");
+		verify(schedulerService).runcmd("E:/Gen/gen.bat");
+	}
+
+	// Test case when filepath information is not correct
+	@Test
+	public void runJobTestWrongFilePathPost() throws Exception {
+		String json = "{\"id\" : \"5\"" + ", \"jobName\" : \"Anchal Job Scheduler3\" "
+				+ ", \"batchFilePath\" : \"E:/Gen/gen.txt\" " + ", \"scheduleDate\" : \"1499396851000\" "
+				+ ", \"status\" : \"0\" " + "}";
+		when(schedulerService.checkfilepath("E:/Gen/gen.txt")).thenReturn(false);
+		mockMvc.perform(
+				MockMvcRequestBuilders.post(IControllerConstants.JOB_SCHEDULER + IControllerConstants.RUN_JOB_SCHEDULER)
+						.contentType(MediaType.APPLICATION_JSON).content(json))
+				.andExpect(jsonPath("$.statuscode").value("404"))
+				.andExpect(jsonPath("$.message").value("FAILED TO RUN"))
+				.andExpect(jsonPath("$.*", Matchers.hasSize(2)));
+		verify(schedulerService).checkfilepath("E:/Gen/gen.txt");
 
 	}
 

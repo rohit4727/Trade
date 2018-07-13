@@ -27,7 +27,7 @@ public class ScheduledTasks {
 	@Autowired
 	SchedulerService schedulerService;
 
-	// @Scheduled(fixedDelay = IControllerConstants.SCHEDULE_TIMING)
+	@Scheduled(fixedDelay = IControllerConstants.SCHEDULE_TIMING)
 	public void scheduleJob() {
 
 		List<JobScheduler> joblisttorun = schedulerService.findbycurDate();
@@ -45,7 +45,7 @@ public class ScheduledTasks {
 					job.setStatus(IControllerConstants.FAIL);
 					schedulerService.savestatus(job);
 			} catch (Exception ex) {
-				logger.error("Failed to run job with id="+job.getId() +" and Exception is "+ ex.getMessage());
+				logger.info("Failed to run job with id="+job.getJobName() +" and Exception is "+ ex.getMessage());
 			}
 		}
 
