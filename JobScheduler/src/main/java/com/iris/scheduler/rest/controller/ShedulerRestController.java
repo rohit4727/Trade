@@ -45,7 +45,7 @@ public class ShedulerRestController {
 	@PostMapping(IControllerConstants.CREATE_JOB_SCHEDULER)
 	public ResponseBean createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
 		try {
-			jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
 
 		} catch (Exception ex) {
 
