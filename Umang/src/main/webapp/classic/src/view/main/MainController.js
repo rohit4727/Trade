@@ -1,22 +1,66 @@
 /**
+ * Author: Umang Goel
  * This class is the controller for the main view for the application. It is specified as
  * the "controller" of the Main view class.
  */
 Ext.define('ui.view.main.MainController', {
     extend: 'Ext.app.ViewController',
 
-    alias: 'controller.main',
-
-    onItemSelected: function (sender, record) {
-        Ext.Msg.confirm('Confirm', 'Are you sure?', 'onConfirm', this);
-    },
-
-    onConfirm: function (choice) {
-        if (choice === 'yes') {
-            //
-        }
-    }
+    alias: 'controller.main'
     
+	, listen: {
+        store: {
+            '#scheduleJobListStore': {
+                load: 'onScheduleJobListLoad'
+            }     
+        }
+    }    	
+
+	// Used to load chart data after schedule job list store has been loaded
+	, onScheduleJobListLoad:function(store, records){
+		if(!records){return;}
+		
+		var len = records.length
+			, scheduled = []
+			, failed = []
+			, success = [];
+		
+		for(var i=0, current;i<len;i++){
+			current = records[i]['data'];
+		
+			if(current.status==0){
+				scheduled.push(current);
+			}
+			else if(current.status==1){
+				success.push(current);
+			}
+			else{
+				failed.push(current);
+			}
+		}
+		
+		var data = [
+			{ type: 'Scheduled', count: scheduled.length },
+            { type: 'Run Success', count: success.length },
+            { type: 'Run Failed', count: failed.length }
+		];
+		
+		var chartStore = this.getViewModel().getStore('scheduleListChartStore');
+		chartStore.setData(data);
+		
+		// setting labels on chart panel
+		this.lookupReference('totalJobs').setValue(len);
+		this.lookupReference('failedJobs').setValue(failed.length);
+		this.lookupReference('scheduledJobs').setValue(scheduled.length);
+		this.lookupReference('successJobs').setValue(success.length);
+	}
+	
+	, onScheduleJobListRefreshButtonClick: function (btn) {
+        var grid = btn.up('grid');
+        this.loadScheduleJobList(grid);
+    } 
+	
+	//calls when user tried to schedule or run a new job
     , onJobListRunOrScheduleJobBtnClick:function(){
     	var view = this.getView()
     		, viewModel = this.getViewModel();
@@ -32,6 +76,7 @@ Ext.define('ui.view.main.MainController', {
         }).showBy(Ext.getBody());
     }
     
+    //run or schedule job window go button click, create or update record based on window mode property
     , onRunScheduleJobWindowGoButtonClick: function() {
     	 var viewModel = this.getViewModel()
 	         , jobItem = viewModel.get('jobItem')
@@ -52,10 +97,6 @@ Ext.define('ui.view.main.MainController', {
 	         scope: this
 	         , maskCmp: win	        
 	         , callback: function (records, operation, success) {
-	        	 //var data = Ext.decode(operation.response.responseText);
-	        	 //console.log(operation.response.responseText);
-	             //me.loadCategoryPostList();
-	        	 
 	        	 if (!success) {
 	        		 var error = operation.getError()
 	        		 	, resptext = Ext.decode(error.response.responseText);
@@ -72,6 +113,7 @@ Ext.define('ui.view.main.MainController', {
 	        			});	
 	        			 
 	        			 win.destroy();
+	        			 me.loadScheduleJobList();
 	        		 }
 	        		 else{	        			 
 	        			 viewModel.set('jobItem', Ext.create(ui.model.JobModel, {}));
@@ -81,11 +123,14 @@ Ext.define('ui.view.main.MainController', {
 	         }
 	     });
 	}
+    
+    //run or schedule job window close button click
     , onRunScheduleJobWindowCancelButtonClick: function (btn) {
         var win = btn.up('window');
         win.close();
     }
     
+    //update mode for schedule jobs
     , onScheduleJobListEditBtnClick:function(grid, ri){
     	var rec = grid.getStore().getAt(ri)
     		, viewModel = this.getViewModel();
@@ -101,11 +146,25 @@ Ext.define('ui.view.main.MainController', {
         	, mode: 'edit'
         }).showBy(Ext.getBody());
     }
+    
+    
+    , loadScheduleJobList: function (grid, options) {
+        var store = this.getViewModel().getStore('scheduleJobListStore');
+        
+        store.read(options);
+    }
+    
+    //used to display alert notifications to user in case of any error
     , showToast: function(s) {
     	Ext.MessageBox.alert('', [	        				 
 			 '<p><i class="fa fa-times fa-3x" aria-hidden="true" style="vertical-align: middle;margin-right: 5px;color:#bf6c6c;"></i>'
 			 , s
 			 , '</p>'
 		].join(''));    	
+    }
+    
+    // CHART METHOD to render the tooltip whenever mouse is hovered on donut
+    , onSeriesTooltipRender: function (tooltip, record, item) {
+        tooltip.setHtml(record.get('type') + ': ' + record.get('count'));
     }
 });
