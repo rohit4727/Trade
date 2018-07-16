@@ -10,4 +10,7 @@ public interface ErrorMsg {
 	String notFoundInPropFile = " not found in application.properties";
 	String totalColNotInt = "csvmapping.totalColumns is not integer value in application.properties";
 	String jobIdNotProvided = "Please provide jobId as argument";
+	String customStepListenerFileNotFoundException = "FileNotFoundException in CustomStepListener BeforeStep";
+	String customStepListenerIOException = "IOException in CustomStepListener BeforeStep";
+	String customChunkListenerError = "CustomChunkListener afterChunkError called";
 }

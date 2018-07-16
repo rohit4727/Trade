@@ -10,7 +10,11 @@
 		<step id="step1">
 			<tasklet task-executor="taskExecutor">
 				<chunk reader="itemReader" processor="itemProcessor" writer="itemWriter"
-					commit-interval="1" />
+					commit-interval="1000" />
+				<listeners>
+					<listener ref="customStepListener" />
+					<listener ref="customChunkListener" />
+				</listeners>
 			</tasklet>
 		</step>
 	</job>
@@ -26,4 +30,13 @@
 		class="org.springframework.batch.core.scope.StepScope">
 		<beans:property name="autoProxy" value="true" />
 	</beans:bean>
+	<beans:bean id="customStepListener" class="com.iris.batch.listener.CustomStepListener" 
+	scope="step">
+		<beans:property name="jobId" value="#{jobParameters[jobId]}" />
+	</beans:bean>
+	<beans:bean id="customChunkListener" class="com.iris.batch.listener.CustomChunkListener" 
+	scope="step">
+		<beans:property name="jobId" value="#{jobParameters[jobId]}" />
+	</beans:bean>
+
 </beans:beans>

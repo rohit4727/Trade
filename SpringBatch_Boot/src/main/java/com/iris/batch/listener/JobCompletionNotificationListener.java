@@ -2,6 +2,7 @@ package com.iris.batch.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 
 /**
@@ -37,4 +38,10 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 	// */
 	// }
 	// }
+	
+	@Override
+	public void afterJob(JobExecution jobExecution) {
+		System.out.println("Hiiiiiiiiiiiiiiiii");
+		log.info("hI TEST");
+	}
 }

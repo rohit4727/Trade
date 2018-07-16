@@ -47,6 +47,7 @@ public class Processor<T extends TradeBase> implements ItemProcessor<T, T> {
 		if (this.jobId != null && jobId > 0) {
 			trade.setJobId(jobId);
 		}
+
 		return trade;
 	}
 
