@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/")
-public class CompanyController {
+public class JobExecutionController {
 
 	@Autowired
 	JobLauncher jobLauncher;
@@ -24,9 +24,7 @@ public class CompanyController {
 	String home(@PathVariable("jobId") Long jobId) {
 
 		try {
-			JobParameters jobParameters = new JobParametersBuilder()
-					.addLong("jobId", jobId)
-					.toJobParameters();
+			JobParameters jobParameters = new JobParametersBuilder().addLong("jobId", jobId).toJobParameters();
 			JobExecution execution = (JobExecution) jobLauncher.run(job, jobParameters);
 			System.out.println("Exit Status : " + execution.getExitStatus());
 			System.out.println("Exit Status : " + execution.getAllFailureExceptions());

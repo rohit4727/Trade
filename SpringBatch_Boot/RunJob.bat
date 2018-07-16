@@ -1,0 +1,1 @@
+java RunJob http://localhost:8080/runjob/%*
