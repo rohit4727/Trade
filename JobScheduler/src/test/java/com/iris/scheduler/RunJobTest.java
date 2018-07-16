@@ -115,7 +115,8 @@ public class RunJobTest {
 		JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(1L);
 		
 		mockMvc.perform(MockMvcRequestBuilders.post(IControllerConstants.JOB_SCHEDULER + IControllerConstants.RUN_JOB_SCHEDULER)
-				.contentType(MediaType.APPLICATION_JSON_UTF8).content(asJsonString(jobScheduler)))
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(asJsonString(jobScheduler)))
 				.andExpect(jsonPath("$.statuscode").value(HttpStatus.OK.toString()));
 		
 		verify(schedulerService).checkfilepath("E:/Gen/gen.bat");
