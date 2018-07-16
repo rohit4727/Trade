@@ -6,24 +6,8 @@ Ext.define('ui.model.JobModel', {
         , { name: 'jobName' }
         , { name: 'batchFilePath' }        
         , { name: 'scheduleDate'}
-        , { name: 'status', type: 'int'}
-        , { name: 'date', convert: function (v, rec) {        	
-            if (v) {
-                v = Ext.isDate(v) ? v : new Date(v);
-                v = Ext.Date.format(v, 'Y-m-d');
-            }
-
-            return v;
-    	}}
-        , { name: 'time', convert: function (v, rec) {        	
-            if (v) {
-                v = Ext.isDate(v) ? v : new Date(v);
-                v = Ext.Date.format(v, 'H:i');
-            }
-
-            return v;
-    	}}        
-        , { name: 'runFrequency', defaultValue: 1, type: 'int', convert: function (v, rec) {
+        , { name: 'status', type: 'int'}         
+        , { name: 'runFrequency', mapping:'status', defaultValue: 1, type: 'int', convert: function (v, rec) {
             return v == '1' ? 1 : (v == true ? 1 : 0);
         	} 
         }
@@ -57,9 +41,7 @@ Ext.define('ui.model.JobModel', {
     	}
         , api: {
             create: '/scheduleOrRunJob'
-            , update: {
-            	url: '/schedule_job_update'
-            }
+            , update: '/updateJobScheduleDetails'
             , destroy: {
             	url: '/schedule_job_delete'
             }

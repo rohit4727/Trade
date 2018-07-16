@@ -105,7 +105,6 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 	    	    					value: '{jobItem.runFrequency}'	    					
 	    	    				}
 	            				, inputValue: 1
-	            				, checked: me.mode=='add'
 	        					, disabled: me.mode=='edit'
 	        					, reference: 'RunRadio'
 	    					},		        	
@@ -133,8 +132,9 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 	    	    		    	xtype:'datefield'
 	    	    		    	, minValue: new Date()
 	    	    				, fieldLabel: 'Date'
+    	    					, reference: 'scheduledDate'
 	        					, bind:{
-	        						value: '{jobItem.date}'
+	        						value: '{jobItem.displayDate}'
 	    							, disabled:'{RunRadio.checked}'
 	        					}
 	    	    				, style: 'margin-right:20px;'
@@ -143,9 +143,10 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 	    	    		    {
 	    	    		        xtype: 'timefield'
 	    	    		        , fieldLabel: 'Time'
+    	    		        	, reference: 'scheduledTime'
 	    	    		        , increment: 30
 	    	    		        , bind:{
-	        						value: '{jobItem.time}'
+	        						value: '{jobItem.displayTime}'
 	    							, disabled:'{RunRadio.checked}'
 	        					}
 	    	    		    	, allowBlank: false
