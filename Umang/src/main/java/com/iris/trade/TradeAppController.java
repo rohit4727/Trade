@@ -47,14 +47,15 @@ public class TradeAppController {
 	@Autowired
 	TradeAppPropertyBean tradeAppProperty;
 
-	@PostMapping(IControllerConstants.SCHEDULE_OR_RUN_JOB)
-	@ResponseBody
+	
 	/**
 	 * 
 	 * @param jobScheduler
 	 * This method will run / schedule Job 
 	 * @return JobShedulerResponse
 	*/
+	@PostMapping(IControllerConstants.SCHEDULE_OR_RUN_JOB)
+	@ResponseBody
 	public JobShedulerResponse sheduleJob(@Valid @RequestBody JobScheduler jobScheduler) {
 
 		JobShedulerResponse jobShedulerResponse = new JobShedulerResponse();
@@ -81,14 +82,15 @@ public class TradeAppController {
 		return jobShedulerResponse;
 	}
 	
-	@PostMapping(IControllerConstants.UPDATE_JOB_SCHEDULE_DETAILS)
-	@ResponseBody
+	
 	/**
 	 * 
 	 * @param jobScheduler
 	 * This method will update schedule Job Details
 	 * @return JobShedulerResponse
 	*/
+	@PostMapping(IControllerConstants.UPDATE_JOB_SCHEDULE_DETAILS)
+	@ResponseBody
 	public JobShedulerResponse updateScheduleJobDetails(@Valid @RequestBody JobScheduler jobScheduler) {
 
 		JobShedulerResponse jobShedulerResponse = new JobShedulerResponse();
@@ -111,12 +113,13 @@ public class TradeAppController {
 		return jobShedulerResponse;
 	}
 
-	@GetMapping(IControllerConstants.GET_ALL_JOB_SCHEDULE_DETAILS)
-	@ResponseBody
+	
 	/**
 	 * This method will get All schedule Job List
 	 * @return  List<JobScheduler>
 	 */
+	@GetMapping(IControllerConstants.GET_ALL_JOB_SCHEDULE_DETAILS)
+	@ResponseBody
 	public List<JobScheduler> getAllJobScheduleDetails() {
 
 		List<JobScheduler> jobSchedulerDetailList = new ArrayList<>();
