@@ -23,6 +23,11 @@ import com.iris.trade.bean.TradeAppPropertyBean;
 import com.iris.trade.constants.IControllerConstants;
 import com.iris.trade.response.bean.JobShedulerResponse;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 @Controller
 public class TradeAppController {
 
@@ -44,6 +49,12 @@ public class TradeAppController {
 
 	@PostMapping(IControllerConstants.SCHEDULE_OR_RUN_JOB)
 	@ResponseBody
+	/**
+	 * 
+	 * @param jobScheduler
+	 * This method will run / schedule Job List
+	 * @return JobShedulerResponse
+	*/
 	public JobShedulerResponse sheduleJob(@Valid @RequestBody JobScheduler jobScheduler) {
 
 		JobShedulerResponse jobShedulerResponse = new JobShedulerResponse();
@@ -72,6 +83,10 @@ public class TradeAppController {
 
 	@GetMapping(IControllerConstants.GET_ALL_JOB_SCHEDULE_DETAILS)
 	@ResponseBody
+	/**
+	 * This method will get All schedule Job List
+	 * @return  List<JobScheduler>
+	 */
 	public List<JobScheduler> getAllJobScheduleDetails() {
 
 		List<JobScheduler> jobSchedulerDetailList = new ArrayList<>();

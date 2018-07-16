@@ -1,5 +1,10 @@
 package com.iris.trade.constants;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 public interface IControllerConstants {
 	
 	public static final String SCHEDULE_OR_RUN_JOB = "scheduleOrRunJob";

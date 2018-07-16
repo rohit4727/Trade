@@ -1,5 +1,10 @@
 package com.iris.trade.response.bean;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 public class JobShedulerResponse {
 
 	private String statusCode;

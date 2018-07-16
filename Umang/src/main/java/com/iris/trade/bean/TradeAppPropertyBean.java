@@ -4,6 +4,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 @PropertySource(ignoreResourceNotFound = true, value = "classpath:trade_app.properties")
 @Component
 public class TradeAppPropertyBean {

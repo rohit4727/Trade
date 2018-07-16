@@ -1,5 +1,10 @@
 package com.iris.trade.bean;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 public class ResponseBean {
 
 

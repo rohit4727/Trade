@@ -2,6 +2,11 @@ package com.iris.trade.bean;
 
 import java.util.Date;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 public class JobScheduler {
 	
 	private Long id;
