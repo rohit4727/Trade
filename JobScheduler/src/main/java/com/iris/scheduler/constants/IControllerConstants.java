@@ -1,5 +1,10 @@
 package com.iris.scheduler.constants;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 public interface IControllerConstants {
 	
 	public static final String JOB_SCHEDULER = "/jobScheduler";

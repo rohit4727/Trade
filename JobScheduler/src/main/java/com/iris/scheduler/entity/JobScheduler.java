@@ -8,6 +8,11 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 @Entity
 @Table(name = "schedule_job_details")
 public class JobScheduler {

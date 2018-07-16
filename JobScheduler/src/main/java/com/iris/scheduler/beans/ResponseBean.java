@@ -1,5 +1,10 @@
 package com.iris.scheduler.beans;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 public class ResponseBean {
 
 	private String statuscode;

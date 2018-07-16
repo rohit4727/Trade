@@ -10,6 +10,10 @@ import org.springframework.stereotype.Repository;
 
 import com.iris.scheduler.entity.JobScheduler;
 
+/**
+ * @author anchal.handa
+ *
+ */
 @Repository
 public interface CronRepository extends CrudRepository<JobScheduler, Long>{
 	

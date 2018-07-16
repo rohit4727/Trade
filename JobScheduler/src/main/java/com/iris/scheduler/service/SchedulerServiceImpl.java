@@ -14,6 +14,10 @@ import com.iris.scheduler.entity.JobScheduler;
 import com.iris.scheduler.repository.CronRepository;
 import com.iris.scheduler.repository.JobSchedulerRepository;
 
+/**
+ * @author anchal.handa
+ *
+ */
 @Service
 public class SchedulerServiceImpl implements SchedulerService {
 

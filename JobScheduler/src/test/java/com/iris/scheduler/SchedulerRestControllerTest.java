@@ -33,6 +33,11 @@ import com.iris.scheduler.constants.IControllerConstants;
 import com.iris.scheduler.entity.JobScheduler;
 import com.iris.scheduler.service.JobSchedulerDetailService;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc

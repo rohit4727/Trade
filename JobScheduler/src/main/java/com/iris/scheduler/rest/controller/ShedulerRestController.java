@@ -25,6 +25,11 @@ import com.iris.scheduler.entity.JobScheduler;
 import com.iris.scheduler.service.JobSchedulerDetailService;
 import com.iris.scheduler.service.SchedulerService;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 @RestController
 @RequestMapping(IControllerConstants.JOB_SCHEDULER)
 public class ShedulerRestController {
@@ -41,6 +46,11 @@ public class ShedulerRestController {
 		return jobSchedulerDetailService.getAllJobScheduleDetails();
 	}
 
+	/**
+	 * This controller will create job schedule details and return success for fail response
+	 * @param jobScheduler
+	 * @return ResponseBean
+	 */
 	@PostMapping(IControllerConstants.CREATE_JOB_SCHEDULER)
 	public ResponseBean createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
 		try {
@@ -56,14 +66,23 @@ public class ShedulerRestController {
 		}
 	}
 
-	// Get a Single JobScheduler
+	/**
+	 * This controller will Get a Single JobScheduler
+	 * @param jobId
+	 * @return JobScheduler
+	 */
 	@GetMapping(IControllerConstants.GET_JOB_SCHEDULER_BY_ID + IControllerConstants.ID_PARAM)
 	public JobScheduler getJobSchedulerById(@PathVariable(value = IControllerConstants.ID) Long jobId) {
 		return jobSchedulerDetailService.getJobSchedulerById(jobId);
 
 	}
 
-	// Update a JobScheduler
+	/**
+	 * This controller will Update a JobScheduler
+	 * @param jobId
+	 * @param jobSchedulerDetails
+	 * @return
+	 */
 	@PutMapping(IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL + IControllerConstants.ID_PARAM)
 	public JobScheduler updateJobSchedulerDetail(@PathVariable(value = IControllerConstants.ID) Long jobId,
 			@Valid @RequestBody JobScheduler jobSchedulerDetails) {
@@ -78,7 +97,11 @@ public class ShedulerRestController {
 		return updatedJobScheduler;
 	}
 
-	// Delete a JobScheduler
+	/**
+	 * This controller will Delete a JobScheduler
+	 * @param jobId
+	 * @return ResponseEntity<?> 
+	 */
 	@DeleteMapping(IControllerConstants.DELETE_JOB_SCHEDULER + IControllerConstants.ID_PARAM)
 	public ResponseEntity<?> deleteJobScheduler(@PathVariable(value = IControllerConstants.ID) Long jobId) {
 		JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(jobId);
@@ -89,6 +112,11 @@ public class ShedulerRestController {
 
 	}
 
+	/**
+	 * This controller will run job for the given job scheduler details
+	 * @param jobScheduler
+	 * @return  ResponseBean
+	 */
 	@PostMapping(IControllerConstants.RUN_JOB_SCHEDULER)
 	@ResponseBody
 	public ResponseBean runJob(@Valid @RequestBody JobScheduler jobScheduler) {
