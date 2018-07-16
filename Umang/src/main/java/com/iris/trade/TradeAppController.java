@@ -52,7 +52,7 @@ public class TradeAppController {
 	/**
 	 * 
 	 * @param jobScheduler
-	 * This method will run / schedule Job List
+	 * This method will run / schedule Job 
 	 * @return JobShedulerResponse
 	*/
 	public JobShedulerResponse sheduleJob(@Valid @RequestBody JobScheduler jobScheduler) {
@@ -74,6 +74,36 @@ public class TradeAppController {
 				jobShedulerResponse.setStatusCode(responseBean.getStatuscode());
 				jobShedulerResponse.setMessage(responseBean.getMessage());
 			}
+		} catch (Exception ex) {
+
+		}
+
+		return jobShedulerResponse;
+	}
+	
+	@PostMapping(IControllerConstants.UPDATE_JOB_SCHEDULE_DETAILS)
+	@ResponseBody
+	/**
+	 * 
+	 * @param jobScheduler
+	 * This method will update schedule Job Details
+	 * @return JobShedulerResponse
+	*/
+	public JobShedulerResponse updateScheduleJobDetails(@Valid @RequestBody JobScheduler jobScheduler) {
+
+		JobShedulerResponse jobShedulerResponse = new JobShedulerResponse();
+
+		jobShedulerResponse.setStatusCode(HttpStatus.NOT_MODIFIED.toString());
+		jobShedulerResponse.setMessage(IControllerConstants.SCHEDULE_JOB_FAILURE);
+
+		try {
+
+			ResponseBean responseBean = restTemplate.postForObject(
+					tradeAppProperty.updateJobSchedulerDetail + "/" + jobScheduler.getId(), jobScheduler,
+					ResponseBean.class);
+			jobShedulerResponse.setStatusCode(responseBean.getStatuscode());
+			jobShedulerResponse.setMessage(responseBean.getMessage());
+
 		} catch (Exception ex) {
 
 		}

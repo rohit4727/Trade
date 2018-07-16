@@ -21,5 +21,8 @@ public class TradeAppPropertyBean {
     
     @Value("${getAllJobScheduleDetails}")
 	public String getAllJobScheduleDetails;
+    
+    @Value("${updateJobSchedulerDetail}")
+   	public String updateJobSchedulerDetail;
 
 }
