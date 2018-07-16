@@ -1,30 +1,21 @@
 
 package com.iris.scheduler;
 
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.text.ParseException;
 import java.util.Date;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.web.mappings.reactive.RequestMappingConditionsDescription.MediaTypeExpressionDescription;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,10 +24,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iris.scheduler.beans.ResponseBean;
@@ -45,8 +34,6 @@ import com.iris.scheduler.entity.JobScheduler;
 import com.iris.scheduler.rest.controller.ShedulerRestController;
 import com.iris.scheduler.service.JobSchedulerDetailService;
 import com.iris.scheduler.service.SchedulerService;
-
-import ch.qos.logback.core.boolex.Matcher;
 
 /**
  * @author anchal.handa
@@ -125,11 +112,10 @@ public class RunJobTest {
 	public void runJobSuccessTestPost1() throws Exception {
 		
 		//when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(0).getBatchFilePath())).thenReturn(true);
-		JobScheduler jobScheduler = new JobScheduler("Pushpendra Test Run","Path",new Date(),"1");
-		mockMvc.perform(
-				MockMvcRequestBuilders.post(IControllerConstants.JOB_SCHEDULER + IControllerConstants.RUN_JOB_SCHEDULER)
-				.contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(asJsonString(jobScheduler)))
+		JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(1L);
+		
+		mockMvc.perform(MockMvcRequestBuilders.post(IControllerConstants.JOB_SCHEDULER + IControllerConstants.RUN_JOB_SCHEDULER)
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(asJsonString(jobScheduler)))
 				.andExpect(jsonPath("$.statuscode").value(HttpStatus.OK.toString()));
 		
 		verify(schedulerService).checkfilepath("E:/Gen/gen.bat");

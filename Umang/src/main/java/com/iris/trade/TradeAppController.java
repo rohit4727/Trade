@@ -101,7 +101,7 @@ public class TradeAppController {
 		try {
 
 			ResponseBean responseBean = restTemplate.postForObject(
-					tradeAppProperty.updateJobSchedulerDetail + "/" + jobScheduler.getId(), jobScheduler,
+					tradeAppProperty.updateJobSchedulerDetail + "/" + jobScheduler.getId().toString(), jobScheduler,
 					ResponseBean.class);
 			jobShedulerResponse.setStatusCode(responseBean.getStatuscode());
 			jobShedulerResponse.setMessage(responseBean.getMessage());
