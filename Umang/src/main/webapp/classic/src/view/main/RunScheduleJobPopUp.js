@@ -131,7 +131,6 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 	    	    		, items: [
 	    	    			{
 	    	    		    	xtype:'datefield'
-	    	    	    		, name: 'ScheduleDate'
 	    	    		    	, minValue: new Date()
 	    	    				, fieldLabel: 'Date'
 	        					, bind:{
@@ -143,7 +142,6 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 	    	    		    },
 	    	    		    {
 	    	    		        xtype: 'timefield'
-	    	    		        , name: 'ScheduleTime'
 	    	    		        , fieldLabel: 'Time'
 	    	    		        , increment: 30
 	    	    		        , bind:{

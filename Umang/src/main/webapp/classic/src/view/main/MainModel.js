@@ -1,4 +1,5 @@
 /**
+ * Author: Umang Goel
  * This class is the view model for the Main view of the application.
  */
 Ext.define('ui.view.main.MainModel', {
@@ -15,19 +16,23 @@ Ext.define('ui.view.main.MainModel', {
 
         this.callParent(arguments);
     }
-    , initStores: function () {       
+    , initStores: function () {
         return {            
-            scheduleJobList: {
+            scheduleJobListStore: {
                 model: 'ui.model.JobModel'
-                , autoLoad: false
-                , proxy: {
+                , autoLoad: true
+                , storeId: 'scheduleJobListStore'                
+            	, proxy: {
                     type: 'ajax'
                     , api: {
-                        read: {
-                            url: '/scheduled_job_list'
-                        }
+                        read: '/getAllJobScheduleDetails'
                     }
-                }
+                }                
+            },
+            scheduleListChartStore:{
+                storeId: 'scheduleListChartStore' 
+            	, fields: ['type', 'count' ]
+            	, data:[]	            
             }
         }
     }
