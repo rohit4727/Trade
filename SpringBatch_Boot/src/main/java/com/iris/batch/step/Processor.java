@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.iris.batch.model.TradeBase;
 import com.iris.mvc.model.Trade;
-import com.iris.mvc.service.TradeService;
+import com.iris.mvc.service.impl.TradeServiceImpl;
 
 /**
  * The Class FxMarketEventProcessor.
@@ -23,7 +23,7 @@ public class Processor<T extends TradeBase> implements ItemProcessor<T, T> {
 	private static final Logger log = LoggerFactory.getLogger(Processor.class);
 
 	@Autowired
-	TradeService tradeService;
+	TradeServiceImpl tradeService;
 
 	private Long jobId;
 
