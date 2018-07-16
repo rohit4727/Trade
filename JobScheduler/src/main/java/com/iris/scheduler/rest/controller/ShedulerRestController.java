@@ -137,7 +137,8 @@ public class ShedulerRestController {
 		if (jobScheduler != null) {
 			try {
 				jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
-				Long id = jobScheduler.getId();
+				System.out.println("<><><<><><><>><><><><><><><><>><><>><><>Run Job Id : " + jobScheduler.getId()); 
+				System.out.println("<><><<><><><>><><><><><><><><>><><>><><>Run Job Name : " + jobScheduler.getJobName()); 
 				flag = schedularService.checkfilepath(jobScheduler.getBatchFilePath());
 				if (flag) {
 					schedularService.runcmd(jobScheduler.getBatchFilePath());
