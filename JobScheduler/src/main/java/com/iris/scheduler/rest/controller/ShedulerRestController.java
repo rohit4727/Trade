@@ -84,7 +84,7 @@ public class ShedulerRestController {
 	 * @return
 	 */
 	@PutMapping(IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL + IControllerConstants.ID_PARAM)
-	public JobScheduler updateJobSchedulerDetail(@PathVariable(value = IControllerConstants.ID) Long jobId,
+	public ResponseBean updateJobSchedulerDetail(@PathVariable(value = IControllerConstants.ID) Long jobId,
 			@Valid @RequestBody JobScheduler jobSchedulerDetails) {
 
 		JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(jobId);
@@ -93,8 +93,20 @@ public class ShedulerRestController {
 		jobScheduler.setBatchFilePath(jobSchedulerDetails.getBatchFilePath());
 		jobScheduler.setScheduleDate(jobSchedulerDetails.getScheduleDate());
 
-		JobScheduler updatedJobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobSchedulerDetails);
-		return updatedJobScheduler;
+		JobScheduler updatedJobScheduler = null;
+		try {
+			updatedJobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+
+		} catch (Exception ex) {
+			logger.info("updateJobSchedulerDetail : update schedule job faied for jobId: " + jobId, ex);
+		}
+		
+		if (updatedJobScheduler != null && updatedJobScheduler.getId() != null) {
+			return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
+		} else {
+			return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
+		}
+		
 	}
 
 	/**

@@ -74,61 +74,77 @@ public class SchedulerRestControllerTest {
 				.contentType(MediaType.APPLICATION_JSON_UTF8).content(asJsonString(jobScheduler)))
 				.andExpect(jsonPath("$.statuscode").value(HttpStatus.NOT_FOUND.toString()));
 	}
-	
-	
+
 	@Test
 	public void verifyGetAllJobScheduleJobList() throws Exception {
-		
-		List<JobScheduler>  allScheduledJobDetailList = jobSchedulerDetailService.getAllJobScheduleDetails();
+
+		List<JobScheduler> allScheduledJobDetailList = jobSchedulerDetailService.getAllJobScheduleDetails();
 
 		assertNotNull(allScheduledJobDetailList);
-		
+
 		mockMvc.perform(get(IControllerConstants.JOB_SCHEDULER + IControllerConstants.GET_ALL_JOB_SCHEDULE_DETAILS))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(jsonPath("$",hasSize(allScheduledJobDetailList.size()) ))
-				.andExpect(jsonPath("$[0].id", is(1)))
-				.andExpect(jsonPath("$[0].jobName").value("Creat Job Test 1"));
+				.andExpect(jsonPath("$", hasSize(allScheduledJobDetailList.size())))
+				.andExpect(jsonPath("$[0].id", is(1))).andExpect(jsonPath("$[0].jobName").value("Creat Job Test 1"));
 	}
-	
+
 	@Test
 	public void verifygetJobSchedulerById() throws Exception {
-		
+
 		mockMvc.perform(get(IControllerConstants.JOB_SCHEDULER + IControllerConstants.GET_JOB_SCHEDULER_BY_ID + "/1"))
-				.andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(jsonPath("$.id").value("1"))
-				.andExpect(jsonPath("$.jobName").value("Creat Job Test 1"));
+				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(jsonPath("$.id").value("1")).andExpect(jsonPath("$.jobName").value("Creat Job Test 1"));
 	}
-	
+
 	@Test
 	public void verifygetJobSchedulerByIdFailed() throws Exception {
-		
+
 		mockMvc.perform(get(IControllerConstants.JOB_SCHEDULER + IControllerConstants.GET_JOB_SCHEDULER_BY_ID + "/111"))
-		.andExpect(status().isNotFound());
+				.andExpect(status().isNotFound());
 	}
-	
+
 	@Test
 	public void verifyUpdateJobSchedulerDetail() throws Exception {
-		
-		JobScheduler jobScheduler = new JobScheduler("Creat Job Test for Update 1", "Batch File Path 1", new Date(), "0");
+
+		JobScheduler jobScheduler = new JobScheduler("Creat Job Test for Update 1", "Batch File Path 1", new Date(),
+				"0");
 		jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
-		
+
 		assertNotNull(jobScheduler);
 		assertNotNull(jobScheduler.getId());
-				
+
 		jobScheduler.setJobName("Updated Job Name Test");
-		
-		mockMvc.perform(put(IControllerConstants.JOB_SCHEDULER + IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL + "/" +jobScheduler.getId())
-				.contentType(MediaType.APPLICATION_JSON_UTF8).content(asJsonString(jobScheduler)))
-				.andExpect(jsonPath("$.jobName").value("Updated Job Name Test"));
+
+		mockMvc.perform(put(IControllerConstants.JOB_SCHEDULER + IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL + "/"
+				+ jobScheduler.getId()).contentType(MediaType.APPLICATION_JSON_UTF8)
+						.content(asJsonString(jobScheduler)))
+				.andExpect(jsonPath("$.statuscode").value(HttpStatus.OK.toString()));
 	}
-	
+
+	@Test
+	public void verifyUpdateJobSchedulerDetailFailed() throws Exception {
+
+		JobScheduler jobScheduler = new JobScheduler("Create Job Test for Update Failed 1", "Batch File Path Failed 1",
+				new Date(), "0");
+		jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+
+		assertNotNull(jobScheduler);
+		assertNotNull(jobScheduler.getId());
+
+		jobScheduler.setJobName("Creat Job Test 1");
+
+		mockMvc.perform(put(IControllerConstants.JOB_SCHEDULER + IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL + "/"
+				+ jobScheduler.getId()).contentType(MediaType.APPLICATION_JSON_UTF8)
+						.content(asJsonString(jobScheduler)))
+				.andExpect(jsonPath("$.statuscode").value(HttpStatus.NOT_FOUND.toString()));
+	}
+
 	@Test
 	public void verifyDeleteToDo() throws Exception {
 		JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(2L);
 		assertNotNull(jobScheduler);
-		mockMvc.perform(delete(IControllerConstants.JOB_SCHEDULER + IControllerConstants.DELETE_JOB_SCHEDULER + "/" +jobScheduler.getId()).accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isOk());
+		mockMvc.perform(delete(IControllerConstants.JOB_SCHEDULER + IControllerConstants.DELETE_JOB_SCHEDULER + "/"
+				+ jobScheduler.getId()).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 	}
 
 	public static String asJsonString(final Object obj) {
