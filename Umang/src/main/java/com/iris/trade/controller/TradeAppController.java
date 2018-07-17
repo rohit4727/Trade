@@ -1,4 +1,4 @@
-package com.iris.trade;
+package com.iris.trade.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +32,7 @@ import com.iris.trade.util.TradeAppPropertyUtil;
  *
  */
 @Controller
+@RequestMapping(IControllerConstants.TRADE_APP)
 public class TradeAppController {
 
 	@Autowired
