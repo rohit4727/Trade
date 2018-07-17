@@ -5,6 +5,8 @@ package com.iris.scheduler.beans;
  * @author pushpendra.singh
  *
  */
+/**
+ * @author anchal.handa*/
 public class ResponseBean {
 
 	private String statuscode;
@@ -20,8 +22,6 @@ public class ResponseBean {
 		this.statuscode = statuscode;
 		this.message = message;
 	}
-
-
 
 	public String getStatuscode() {
 		return statuscode;
