@@ -23,7 +23,7 @@ public class Processor<T extends TradeBase> implements ItemProcessor<T, T> {
 	private static final Logger log = LoggerFactory.getLogger(Processor.class);
 
 	@Autowired
-	TradeServiceImpl tradeService;
+	private TradeServiceImpl tradeService;
 
 	private Long jobId;
 

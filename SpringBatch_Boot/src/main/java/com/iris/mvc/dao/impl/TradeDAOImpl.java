@@ -14,7 +14,7 @@ import com.iris.mvc.repository.TradeRepository;
 public class TradeDAOImpl implements TradeDAO {
 
 	@Autowired
-	TradeRepository tradeRepository;
+	private TradeRepository tradeRepository;
 
 	@Override
 	public Trade findTrade(String security, Date tradeDate, Time tradeTime) {

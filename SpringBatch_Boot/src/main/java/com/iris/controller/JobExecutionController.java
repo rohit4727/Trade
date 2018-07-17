@@ -1,44 +1,36 @@
 package com.iris.controller;
 
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.launch.JobLauncher;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iris.mvc.service.SpringBatchService;
+
 @RestController
 @RequestMapping("/")
 public class JobExecutionController {
 
-	@Autowired
-	JobLauncher jobLauncher;
+	private static final Logger log = LoggerFactory.getLogger(JobExecutionController.class);
+	private static final String JOB_SUCCESS = "Spring batch job has been run successfully with jobId=";
 
 	@Autowired
-	Job job;
+	private SpringBatchService batchService;
 
 	@RequestMapping("runjob/{jobId}")
-	String home(@PathVariable("jobId") Long jobId) {
+	public Map<String, Object> runjob(@PathVariable("jobId") Long jobId) {
 
-		try {
-			JobParameters jobParameters = new JobParametersBuilder().addLong("jobId", jobId).toJobParameters();
-			JobExecution execution = (JobExecution) jobLauncher.run(job, jobParameters);
-			System.out.println("Exit Status : " + execution.getExitStatus());
-			System.out.println("Exit Status : " + execution.getAllFailureExceptions());
+		boolean status = batchService.runJob(jobId);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		System.out.println("Done");
-		return "Done";
-	}
-
-	@RequestMapping("hi")
-	String hi() {
-		return "Hi World!";
+		log.debug(JOB_SUCCESS + jobId);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("status", status);
+		return result;
 	}
 }
