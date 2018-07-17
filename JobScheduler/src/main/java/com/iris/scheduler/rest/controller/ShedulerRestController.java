@@ -47,7 +47,9 @@ public class ShedulerRestController {
 	}
 
 	/**
-	 * This controller will create job schedule details and return success for fail response
+	 * This controller will create job schedule details and return success for fail
+	 * response
+	 * 
 	 * @param jobScheduler
 	 * @return ResponseBean
 	 */
@@ -57,7 +59,8 @@ public class ShedulerRestController {
 			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
 
 		} catch (Exception ex) {
-			logger.info("createJobScheduler : create / schedule job faied for JobName: " + jobScheduler.getJobName(), ex);
+			logger.info("createJobScheduler : create / schedule job faied for JobName: " + jobScheduler.getJobName(),
+					ex);
 		}
 		if (jobScheduler != null && jobScheduler.getId() != null) {
 			return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
@@ -68,6 +71,7 @@ public class ShedulerRestController {
 
 	/**
 	 * This controller will Get a Single JobScheduler
+	 * 
 	 * @param jobId
 	 * @return JobScheduler
 	 */
@@ -79,6 +83,7 @@ public class ShedulerRestController {
 
 	/**
 	 * This controller will Update a JobScheduler
+	 * 
 	 * @param jobId
 	 * @param jobSchedulerDetails
 	 * @return
@@ -88,19 +93,18 @@ public class ShedulerRestController {
 			@RequestBody JobScheduler jobSchedulerDetails) {
 
 		JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(jobId);
-		
-		if(jobSchedulerDetails.getJobName() != null) {
+
+		if (jobSchedulerDetails.getJobName() != null) {
 			jobScheduler.setJobName(jobSchedulerDetails.getJobName());
 		}
-		
-		if(jobSchedulerDetails.getBatchFilePath() != null) {
+
+		if (jobSchedulerDetails.getBatchFilePath() != null) {
 			jobScheduler.setBatchFilePath(jobSchedulerDetails.getBatchFilePath());
 		}
-		
-		if(jobSchedulerDetails.getScheduleDate() != null) {
+
+		if (jobSchedulerDetails.getScheduleDate() != null) {
 			jobScheduler.setScheduleDate(jobSchedulerDetails.getScheduleDate());
 		}
-		
 
 		JobScheduler updatedJobScheduler = null;
 		try {
@@ -109,19 +113,20 @@ public class ShedulerRestController {
 		} catch (Exception ex) {
 			logger.info("updateJobSchedulerDetail : update schedule job faied for jobId: " + jobId, ex);
 		}
-		
+
 		if (updatedJobScheduler != null && updatedJobScheduler.getId() != null) {
 			return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
 		} else {
 			return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
 		}
-		
+
 	}
 
 	/**
 	 * This controller will Delete a JobScheduler
+	 * 
 	 * @param jobId
-	 * @return ResponseEntity<?> 
+	 * @return ResponseEntity<?>
 	 */
 	@DeleteMapping(IControllerConstants.DELETE_JOB_SCHEDULER + IControllerConstants.ID_PARAM)
 	public ResponseEntity<?> deleteJobScheduler(@PathVariable(value = IControllerConstants.ID) Long jobId) {
@@ -134,21 +139,26 @@ public class ShedulerRestController {
 	}
 
 	/**
-	 * This controller will run job for the given job scheduler details
+	 * @author anchal.handa
+	/**
+	 * This controller will run job and insert the details in database for future
+	 * reference, Return SUCCESS response in case of successfully runs of jobs and
+	 * FAILED TO RUN in case of FAILURE due to any reason
+	 * 
 	 * @param jobScheduler
-	 * @return  ResponseBean
+	 * @return ResponseBean
 	 */
 	@PostMapping(IControllerConstants.RUN_JOB_SCHEDULER)
 	@ResponseBody
 	public ResponseBean runJob(@Valid @RequestBody JobScheduler jobScheduler) {
-		
+
 		boolean flag = false;
 		if (jobScheduler != null) {
 			try {
 				jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
 				flag = schedularService.checkfilepath(jobScheduler.getBatchFilePath());
 				if (flag) {
-					schedularService.runcmd(jobScheduler.getBatchFilePath());
+					schedularService.runcmd(jobScheduler.getBatchFilePath(), jobScheduler.getId());
 					return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
 				} else {
 					jobScheduler.setStatus(IControllerConstants.FAIL);
@@ -157,7 +167,7 @@ public class ShedulerRestController {
 				}
 			} catch (Exception ex) {
 				logger.info("CreateJobScheduler : Create Job Failed for Run Job Having Name : ",
-						jobScheduler.getJobName());
+						jobScheduler.getJobName()+" and Exception is"+ex.getMessage());
 			}
 
 		}
