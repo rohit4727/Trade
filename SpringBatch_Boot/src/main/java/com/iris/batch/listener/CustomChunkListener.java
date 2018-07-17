@@ -8,8 +8,8 @@ import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.iris.batch.util.ETLConstants;
 import com.iris.batch.util.ErrorMsg;
+import com.iris.batch.util.LogMsg;
 
 /*
  * Chunk listener class for the lifecycle of a chunk
@@ -61,7 +61,7 @@ public class CustomChunkListener implements ChunkListener {
 		Object[] params = { writeCount, getJobId() };
 		jdbcTemplate.update(UPDATE_QUERY, params);
 
-		log.info(ETLConstants.customChunkListenerAfterChunkSuccess + writeCount);
+		log.info(LogMsg.customChunkListenerAfterChunkSuccess + writeCount);
 	}
 
 	@Override

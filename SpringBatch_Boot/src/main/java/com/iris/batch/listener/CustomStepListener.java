@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.iris.batch.util.ETLConstants;
 import com.iris.batch.util.ErrorMsg;
+import com.iris.batch.util.LogMsg;
 import com.iris.batch.util.PropertiesUtil;
 
 /*
@@ -73,7 +74,7 @@ public class CustomStepListener implements StepExecutionListener {
 
 		}
 
-		log.info(ETLConstants.customStepListenerAfterStepSuccess + stepExecution.getStatus() + ","
+		log.info(LogMsg.customStepListenerAfterStepSuccess + stepExecution.getStatus() + ","
 				+ stepExecution.getWriteCount());
 
 		return null;
@@ -101,7 +102,7 @@ public class CustomStepListener implements StepExecutionListener {
 			Object[] params = { getJobId(), totalLineCount, ETLConstants.RUNNING };
 			jdbcTemplate.update(INSERT_QUERY, params);
 
-			log.info(ETLConstants.customStepListenerBeforeStepSuccess + totalLineCount);
+			log.info(LogMsg.customStepListenerBeforeStepSuccess + totalLineCount);
 
 		} catch (FileNotFoundException e) {
 			log.error(ErrorMsg.customStepListenerFileNotFoundException, e);

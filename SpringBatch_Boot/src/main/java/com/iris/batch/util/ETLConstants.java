@@ -14,7 +14,5 @@ public interface ETLConstants {
 	int RUNNING = 0;
 	int COMPLETED = 1;
 	int FAILED = 2;
-	String customStepListenerBeforeStepSuccess = "CustomStepListener beforeStep ran succeefully : ";
-	String customStepListenerAfterStepSuccess = "CustomStepListener afterStep ran succeefully : ";
-	String customChunkListenerAfterChunkSuccess = "CustomChunkListener afterChunk ran succeefully : ";
+
 }
