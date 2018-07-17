@@ -83,15 +83,24 @@ public class ShedulerRestController {
 	 * @param jobSchedulerDetails
 	 * @return
 	 */
-	@PutMapping(IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL + IControllerConstants.ID_PARAM)
+	@PostMapping(IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL + IControllerConstants.ID_PARAM)
 	public ResponseBean updateJobSchedulerDetail(@PathVariable(value = IControllerConstants.ID) Long jobId,
-			@Valid @RequestBody JobScheduler jobSchedulerDetails) {
+			@RequestBody JobScheduler jobSchedulerDetails) {
 
 		JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(jobId);
-
-		jobScheduler.setJobName(jobSchedulerDetails.getJobName());
-		jobScheduler.setBatchFilePath(jobSchedulerDetails.getBatchFilePath());
-		jobScheduler.setScheduleDate(jobSchedulerDetails.getScheduleDate());
+		
+		if(jobSchedulerDetails.getJobName() != null) {
+			jobScheduler.setJobName(jobSchedulerDetails.getJobName());
+		}
+		
+		if(jobSchedulerDetails.getBatchFilePath() != null) {
+			jobScheduler.setBatchFilePath(jobSchedulerDetails.getBatchFilePath());
+		}
+		
+		if(jobSchedulerDetails.getScheduleDate() != null) {
+			jobScheduler.setScheduleDate(jobSchedulerDetails.getScheduleDate());
+		}
+		
 
 		JobScheduler updatedJobScheduler = null;
 		try {
@@ -137,8 +146,6 @@ public class ShedulerRestController {
 		if (jobScheduler != null) {
 			try {
 				jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
-				System.out.println("<><><<><><><>><><><><><><><><>><><>><><>Run Job Id : " + jobScheduler.getId()); 
-				System.out.println("<><><<><><><>><><><><><><><><>><><>><><>Run Job Name : " + jobScheduler.getJobName()); 
 				flag = schedularService.checkfilepath(jobScheduler.getBatchFilePath());
 				if (flag) {
 					schedularService.runcmd(jobScheduler.getBatchFilePath());

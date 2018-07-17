@@ -8,4 +8,11 @@ public interface ETLConstants {
 	String tradeClassName = "Trade";
 	String concurrencyLimit = "concurrency_limit";
 	String chunkSize = "chunk_size";
+	int LINES_TO_SKIP = 1;
+	
+	// Job Status
+	int RUNNING = 0;
+	int COMPLETED = 1;
+	int FAILED = 2;
+
 }
