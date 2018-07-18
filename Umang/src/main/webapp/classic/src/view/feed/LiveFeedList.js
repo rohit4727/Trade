@@ -15,7 +15,15 @@ Ext.define('ui.view.feed.LiveFeedList', {
             xtype: 'toolbar'
             , dock: 'top'
             , items: [
-                
+                {
+                	xtype:'textfield'
+            		, labelAlign: 'left'
+        			, fieldlabel: 'Select Security'
+    				, reference: 'livefeedfiltertextfield' 
+					, bind:{
+						value: '{liveFeedListFilter.securityName}'
+					}
+                }
             ]
         }
     ]
@@ -42,4 +50,7 @@ Ext.define('ui.view.feed.LiveFeedList', {
         	} 
         }
     ]
+	, listeners: {
+	    afterrender: 'onLiveFeedListAfterRender'
+	}
 });

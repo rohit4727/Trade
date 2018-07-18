@@ -2,11 +2,14 @@
  * Author: Umang Goel
  * This class is the view model for the Main view of the application.
  */
-Ext.define('ui.view.feed.LiveFeedModel', {
+Ext.define('ui.view.feed.LiveFeedViewModel', {
     extend: 'Ext.app.ViewModel'
     , alias: 'viewmodel.livefeed'
 	, links: {
-        
+        liveFeedListFilter: {
+            type: 'ui.model.LiveFeedFilterModel'
+             , create: true
+        }
     }
     , constructor: function (config) {
         config.stores = this.initStores();
@@ -15,7 +18,7 @@ Ext.define('ui.view.feed.LiveFeedModel', {
     }
     , initStores: function () {
         return {            
-            /*liveFeedListStore: {
+            liveFeedListStore: {
                 model: 'ui.model.LiveFeedModel'
                 , autoLoad: false
                 , storeId: 'liveFeedListStore'                
@@ -25,7 +28,7 @@ Ext.define('ui.view.feed.LiveFeedModel', {
                         read: '/liveFeedlist'
                     }
                 }                
-            }*/
+            }
         }
     }
     });

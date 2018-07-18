@@ -9,7 +9,7 @@ Ext.define('ui.view.feed.LiveFeed', {
     
     requires: [        
         'ui.view.feed.LiveFeedController',
-        'ui.view.feed.LiveFeedModel',
+        'ui.view.feed.LiveFeedViewModel',
         'ui.view.feed.LiveFeedList'
     ],
 
@@ -18,5 +18,7 @@ Ext.define('ui.view.feed.LiveFeed', {
 
     items: [{
     	xtype:'livefeedlist'
+		, reference: 'livefeedlist'
+        , itemId: 'livefeedlist'
     }]
 });
