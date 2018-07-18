@@ -42,7 +42,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
 			logger.error(IControllerConstants.CHECKFILEPATHERROR, path , e);
 		}
-		logger.info("Path of Script Does Not Exists {}",path);
+		logger.info(IControllerConstants.PATHNOTEXIST,path);
 		return false;
 
 	}
