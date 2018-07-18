@@ -19,6 +19,13 @@ public interface JobSchedulerDetailService {
 	public JobScheduler createOrUpdateJobScheduler(JobScheduler jobScheduler);
 	
 	/**
+	 * This will update job schedule details
+	 * @param jobScheduler
+	 * @return JobScheduler
+	 */
+	public JobScheduler updateJobScheduler(JobScheduler jobScheduler, JobScheduler jobSchedulerDetails);
+	
+	/**
 	 * This method will get schedule job details by Id
 	 * @param jobId
 	 * @return JobScheduler
