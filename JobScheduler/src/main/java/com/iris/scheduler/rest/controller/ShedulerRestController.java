@@ -154,6 +154,7 @@ public class ShedulerRestController {
 	public ResponseBean runJob(@Valid @RequestBody JobScheduler jobScheduler) {
 		
 		logger.info("**************Run the Job************");
+		
 		boolean flag = false;
 		if (jobScheduler != null) {
 			try {
