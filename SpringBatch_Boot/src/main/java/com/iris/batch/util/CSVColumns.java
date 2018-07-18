@@ -8,6 +8,12 @@ import org.slf4j.LoggerFactory;
 
 import com.iris.batch.step.Reader;
 
+/**
+ * Utility class to provide csv file column names
+ * It reads column names for application.properties file
+ *
+ * @author Saurabh Gupta
+ */
 public class CSVColumns {
 	private static final Logger log = LoggerFactory.getLogger(Reader.class);
 
@@ -15,10 +21,10 @@ public class CSVColumns {
 	public final static String[] colNames;
 
 	static {
-		String cols = PropertiesUtil.get(ETLConstants.totalColumn);
+		String cols = PropertiesUtil.get(ETLConstants.TOTAL_COLUMN);
 		if (cols == null || cols.isEmpty()) {
-			log.error(ErrorMsg.totalColNotFound);
-			throw new RuntimeException(ErrorMsg.totalColNotFound);
+			log.error(ErrorMsg.TOTAL_CAL_NOT_FOUND);
+			throw new RuntimeException(ErrorMsg.TOTAL_CAL_NOT_FOUND);
 		}
 
 		try {
@@ -28,9 +34,9 @@ public class CSVColumns {
 			colNames = new String[columns];
 
 			for (int i = 0; i < columns; i++) {
-				columnNames[i] = PropertiesUtil.get(ETLConstants.column + (i + 1));
+				columnNames[i] = PropertiesUtil.get(ETLConstants.COLUMN + (i + 1));
 				if (columnNames[i] == null || columnNames[i].isEmpty()) {
-					log.error(ETLConstants.column + i + ErrorMsg.notFoundInPropFile);
+					log.error(ETLConstants.COLUMN + i + ErrorMsg.NOT_FOUND_IN_PROP_FILE);
 					throw new RuntimeException();
 				}
 
@@ -41,8 +47,8 @@ public class CSVColumns {
 				colNames[i] = colNameAndTypes[0];
 			}
 		} catch (NumberFormatException e) {
-			log.error(ErrorMsg.totalColNotInt);
-			throw new RuntimeException(ErrorMsg.totalColNotInt);
+			log.error(ErrorMsg.TOTAL_COL_NOT_INT);
+			throw new RuntimeException(ErrorMsg.TOTAL_COL_NOT_INT);
 		} catch (ClassNotFoundException e) {
 			log.error("Error", e);
 			throw new RuntimeException(e);

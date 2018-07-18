@@ -18,9 +18,9 @@ import com.iris.batch.util.ErrorMsg;
 import com.iris.batch.util.PropertiesUtil;
 
 /**
- * The Class FxMarketEventReader.
+ * Class for reading csv file for spring batch processing
  *
- * @author Satyveer
+ * @author Saurabh Gupta
  */
 public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 	private static final Logger log = LoggerFactory.getLogger(Reader.class);
@@ -38,7 +38,7 @@ public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 		try {
 
 			final BeanGenerator beanGenerator = new BeanGenerator();
-			final String className = ETLConstants.tradeClassName;
+			final String className = ETLConstants.TRADE_CLASS_NAME;
 
 			/* use our own hard coded class name instead of a real naming policy */
 			beanGenerator.setNamingPolicy(new NamingPolicy() {
@@ -68,7 +68,7 @@ public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 				}
 			});
 		} catch (NumberFormatException e) {
-			log.error(ErrorMsg.totalColNotInt);
+			log.error(ErrorMsg.TOTAL_COL_NOT_INT);
 		}
 	}
 }

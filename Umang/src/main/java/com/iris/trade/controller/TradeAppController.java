@@ -1,7 +1,9 @@
-package com.iris.trade;
+package com.iris.trade.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +22,9 @@ import org.springframework.web.client.RestTemplate;
 
 import com.iris.trade.bean.JobScheduler;
 import com.iris.trade.bean.ResponseBean;
-import com.iris.trade.bean.TradeAppPropertyBean;
 import com.iris.trade.constants.IControllerConstants;
 import com.iris.trade.response.bean.JobShedulerResponse;
+import com.iris.trade.util.TradeAppPropertyUtil;
 
 /**
  * 
@@ -29,6 +32,7 @@ import com.iris.trade.response.bean.JobShedulerResponse;
  *
  */
 @Controller
+@RequestMapping(IControllerConstants.TRADE_APP)
 public class TradeAppController {
 
 	@Autowired
@@ -45,15 +49,14 @@ public class TradeAppController {
 	}
 
 	@Autowired
-	TradeAppPropertyBean tradeAppProperty;
+	TradeAppPropertyUtil tradeAppProperty;
 
-	
 	/**
 	 * 
 	 * @param jobScheduler
-	 * This method will run / schedule Job 
+	 *            This method will run / schedule Job
 	 * @return JobShedulerResponse
-	*/
+	 */
 	@PostMapping(IControllerConstants.SCHEDULE_OR_RUN_JOB)
 	@ResponseBody
 	public JobShedulerResponse sheduleJob(@Valid @RequestBody JobScheduler jobScheduler) {
@@ -65,12 +68,12 @@ public class TradeAppController {
 
 		try {
 			if (jobScheduler.getRunFrequency().equals("0")) {
-				ResponseBean responseBean = restTemplate.postForObject(tradeAppProperty.scheduleJobRestAPI,
+				ResponseBean responseBean = restTemplate.postForObject(tradeAppProperty.getScheduleJobRestAPI(),
 						jobScheduler, ResponseBean.class);
 				jobShedulerResponse.setStatusCode(responseBean.getStatuscode());
 				jobShedulerResponse.setMessage(responseBean.getMessage());
 			} else {
-				ResponseBean responseBean = restTemplate.postForObject(tradeAppProperty.runJobRestAPI, jobScheduler,
+				ResponseBean responseBean = restTemplate.postForObject(tradeAppProperty.getRunJobRestAPI(), jobScheduler,
 						ResponseBean.class);
 				jobShedulerResponse.setStatusCode(responseBean.getStatuscode());
 				jobShedulerResponse.setMessage(responseBean.getMessage());
@@ -81,14 +84,13 @@ public class TradeAppController {
 
 		return jobShedulerResponse;
 	}
-	
-	
+
 	/**
 	 * 
 	 * @param jobScheduler
-	 * This method will update schedule Job Details
+	 *            This method will update schedule Job Details
 	 * @return JobShedulerResponse
-	*/
+	 */
 	@PostMapping(IControllerConstants.UPDATE_JOB_SCHEDULE_DETAILS)
 	@ResponseBody
 	public JobShedulerResponse updateScheduleJobDetails(@Valid @RequestBody JobScheduler jobScheduler) {
@@ -101,7 +103,7 @@ public class TradeAppController {
 		try {
 
 			ResponseBean responseBean = restTemplate.postForObject(
-					tradeAppProperty.updateJobSchedulerDetail + "/" + jobScheduler.getId(), jobScheduler,
+					tradeAppProperty.getUpdateJobSchedulerDetail() + "/" + jobScheduler.getId(), jobScheduler,
 					ResponseBean.class);
 			jobShedulerResponse.setStatusCode(responseBean.getStatuscode());
 			jobShedulerResponse.setMessage(responseBean.getMessage());
@@ -113,11 +115,45 @@ public class TradeAppController {
 		return jobShedulerResponse;
 	}
 
-	
+	/**
+	 * This method will delete job schedule details
+	 * 
+	 * @param jobId
+	 * @return JobShedulerResponse
+	 */
+	@PostMapping(IControllerConstants.DELETE_JOB_SCHEDULE_DETAIL)
+	@ResponseBody
+	public JobShedulerResponse deleteScheduleJobDetail(@PathVariable(value = IControllerConstants.ID) Long jobId) {
+
+		JobShedulerResponse jobShedulerResponse = new JobShedulerResponse();
+
+		jobShedulerResponse.setStatusCode(HttpStatus.NOT_MODIFIED.toString());
+		jobShedulerResponse.setMessage(IControllerConstants.DELETE_JOB_FAILED);
+
+		try {
+
+			String uri = tradeAppProperty.getDeleteJobScheduler();
+		    Map<String, Object> uriVars = new HashMap<String, Object>();
+		    uriVars.put(IControllerConstants.ID, jobId);
+		   
+		    restTemplate.delete(uri, uriVars);
+
+			jobShedulerResponse.setStatusCode(HttpStatus.OK.toString());
+			jobShedulerResponse.setMessage(IControllerConstants.DELETE_SUCCESS);
+
+		} catch (Exception ex) {
+
+		}
+
+		return jobShedulerResponse;
+	}
+
 	/**
 	 * This method will get All schedule Job List
-	 * @return  List<JobScheduler>
+	 * 
+	 * @return List<JobScheduler>
 	 */
+	@SuppressWarnings("unchecked")
 	@GetMapping(IControllerConstants.GET_ALL_JOB_SCHEDULE_DETAILS)
 	@ResponseBody
 	public List<JobScheduler> getAllJobScheduleDetails() {
@@ -126,7 +162,7 @@ public class TradeAppController {
 
 		try {
 
-			jobSchedulerDetailList = restTemplate.getForObject(tradeAppProperty.getAllJobScheduleDetails, List.class);
+			jobSchedulerDetailList = restTemplate.getForObject(tradeAppProperty.getAllJobScheduleDetails(), List.class);
 
 		} catch (Exception ex) {
 

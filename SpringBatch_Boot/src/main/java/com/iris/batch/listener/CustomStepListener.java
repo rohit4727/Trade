@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.iris.batch.util.ETLConstants;
 import com.iris.batch.util.ErrorMsg;
+import com.iris.batch.util.LogMsg;
 import com.iris.batch.util.PropertiesUtil;
 
 /*
@@ -61,19 +62,19 @@ public class CustomStepListener implements StepExecutionListener {
 
 		if (stepExecution.getStatus() == BatchStatus.COMPLETED) {
 
-			Object[] params = { stepExecution.getWriteCount(), ETLConstants.COMPLETED, getJobId() };
+			Object[] params = { stepExecution.getWriteCount(), ETLConstants.JOB_COMPLETED, getJobId() };
 
 			jdbcTemplate.update(UPDATE_QUERY, params);
 
 		} else if (stepExecution.getStatus() == BatchStatus.FAILED) {
 
-			Object[] params = { stepExecution.getWriteCount(), ETLConstants.FAILED, getJobId() };
+			Object[] params = { stepExecution.getWriteCount(), ETLConstants.JOB_FAILED, getJobId() };
 
 			jdbcTemplate.update(UPDATE_QUERY, params);
 
 		}
 
-		log.info(ETLConstants.customStepListenerAfterStepSuccess + stepExecution.getStatus() + ","
+		log.info(LogMsg.CUSTOMER_STEP_LISTNER_AFTER_STEP_SUCCESS + stepExecution.getStatus() + ","
 				+ stepExecution.getWriteCount());
 
 		return null;
@@ -98,17 +99,17 @@ public class CustomStepListener implements StepExecutionListener {
 
 			totalLineCount = reader.getLineNumber() - ETLConstants.LINES_TO_SKIP;
 
-			Object[] params = { getJobId(), totalLineCount, ETLConstants.RUNNING };
+			Object[] params = { getJobId(), totalLineCount, ETLConstants.JOB_RUNNING };
 			jdbcTemplate.update(INSERT_QUERY, params);
 
-			log.info(ETLConstants.customStepListenerBeforeStepSuccess + totalLineCount);
+			log.info(LogMsg.CUSTOMER_STEP_LISTNER_BEFORE_STEP_SUCCESS + totalLineCount);
 
 		} catch (FileNotFoundException e) {
-			log.error(ErrorMsg.customStepListenerFileNotFoundException, e);
+			log.error(ErrorMsg.CUSTOM_STEP_LISTNER_FILE_NO_FOUND, e);
 		}
 
 		catch (IOException e) {
-			log.error(ErrorMsg.customStepListenerIOException, e);
+			log.error(ErrorMsg.CUSTOM_STEP_LISTNER_IO_EXCEPTION, e);
 		}
 
 	}
