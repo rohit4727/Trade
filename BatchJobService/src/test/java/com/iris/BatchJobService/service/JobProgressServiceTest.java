@@ -4,21 +4,19 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.iris.batchJobService.dao.IJobProgressDao;
 import com.iris.batchJobService.entity.JobProgressData;
+import com.iris.batchJobService.repository.JobProgressRepository;
 import com.iris.batchJobService.service.JobProgressService;
-
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertThat;
+import com.iris.batchJobService.util.JobProgressConstants;
 
 @RunWith(SpringRunner.class)
 public class JobProgressServiceTest {
@@ -48,19 +46,19 @@ public class JobProgressServiceTest {
 		mockList.add(jobProgressData);
 		expectedList.add(jobProgressData);
 
-		IJobProgressDao jobProgressDao = mock(IJobProgressDao.class);
-		when(jobProgressDao.getJobsByStatus(Mockito.anyInt())).thenReturn(mockList);
-		JobProgressService jobProgressService = new JobProgressService();
-		jobProgressService.setJobProgressDAO(jobProgressDao);
-		List<JobProgressData> result = jobProgressService.getCompletedJobs();
+		JobProgressRepository jobProgressRepository = mock(JobProgressRepository.class);
+		when(jobProgressRepository
+				.findByStatusIn(Arrays.asList(JobProgressConstants.JOB_COMPLETED, JobProgressConstants.JOB_FAILED)))
+						.thenReturn(mockList);
 		
-		expectedList.add(expectedList.get(0));
-		expectedList.add(expectedList.get(1));
+		JobProgressService jobProgressService = new JobProgressService();
+		jobProgressService.setJobProgressRepository(jobProgressRepository);
+		List<JobProgressData> result = jobProgressService.getCompletedJobs();
 
 		Assert.assertEquals(expectedList, result);
 
 	}
-	
+
 	@Test
 	public void testGetRunningJobs() throws Exception {
 
@@ -83,10 +81,12 @@ public class JobProgressServiceTest {
 		mockList.add(jobProgressData);
 		expectedList.add(jobProgressData);
 
-		IJobProgressDao jobProgressDao = mock(IJobProgressDao.class);
-		when(jobProgressDao.getJobsByStatus(Mockito.anyInt())).thenReturn(mockList);
+		JobProgressRepository jobProgressRepository = mock(JobProgressRepository.class);
+		when(jobProgressRepository.findByStatusIn(Arrays.asList(JobProgressConstants.JOB_RUNNING)))
+				.thenReturn(mockList);
+		
 		JobProgressService jobProgressService = new JobProgressService();
-		jobProgressService.setJobProgressDAO(jobProgressDao);
+		jobProgressService.setJobProgressRepository(jobProgressRepository);
 		List<JobProgressData> result = jobProgressService.getRunningJobs();
 
 		Assert.assertEquals(expectedList, result);
