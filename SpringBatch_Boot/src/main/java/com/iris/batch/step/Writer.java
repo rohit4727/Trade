@@ -12,9 +12,9 @@ import com.iris.batch.util.ErrorMsg;
 import com.iris.batch.util.PropertiesUtil;
 
 /**
- * The Class StockVolumeAggregator.
+ * Class for writing spring batch processed data
  * 
- * @author Satyveer
+ * @author Saurabh
  */
 public class Writer<T extends TradeBase> extends JdbcBatchItemWriter<T> {
 	private static final Logger log = LoggerFactory.getLogger(Writer.class);
@@ -22,7 +22,7 @@ public class Writer<T extends TradeBase> extends JdbcBatchItemWriter<T> {
 	public Writer(DataSource dataSource) {
 		String insertionQuery = PropertiesUtil.get("insertion.query");
 		if (insertionQuery == null || insertionQuery.isEmpty()) {
-			log.error(ErrorMsg.insertionQueryNotFound);
+			log.error(ErrorMsg.INSERTION_QUERY_NOT_FOUND);
 			throw new RuntimeException();
 		}
 		this.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());

@@ -5,6 +5,11 @@ import java.sql.Time;
 
 import com.iris.mvc.model.Trade;
 
+/**
+ * Service Layer: TradeService
+ *
+ * @author Saurabh Gupta
+ */
 public interface TradeService {
 	public Trade findTrade(String security, Date tradeDate, Time tradeTime);
 }

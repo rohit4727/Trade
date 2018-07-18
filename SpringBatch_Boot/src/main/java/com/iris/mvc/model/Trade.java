@@ -8,8 +8,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.iris.batch.util.ETLConstants;
+
+/**
+ * Entity Class: Trade
+ *
+ * @author Saurabh Gupta
+ */
 @Entity
-@Table(name = "trade_live_feed_copy")
+@Table(name = ETLConstants.TRADE_TABLE)
 public class Trade {
 
 	@Id

@@ -10,6 +10,11 @@ import com.iris.mvc.dao.TradeDAO;
 import com.iris.mvc.model.Trade;
 import com.iris.mvc.repository.TradeRepository;
 
+/**
+ * DAO Layer Implementation: TradeDAOImpl
+ *
+ * @author Saurabh Gupta
+ */
 @Repository
 public class TradeDAOImpl implements TradeDAO {
 

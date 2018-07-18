@@ -14,9 +14,9 @@ import com.iris.mvc.model.Trade;
 import com.iris.mvc.service.impl.TradeServiceImpl;
 
 /**
- * The Class FxMarketEventProcessor.
+ * Class for calculating deviation of trade price(Spring batch processing)
  * 
- * @author Satyveer
+ * @author Saurabh Gupta
  */
 public class Processor<T extends TradeBase> implements ItemProcessor<T, T> {
 

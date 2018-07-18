@@ -74,7 +74,7 @@ public class CustomStepListener implements StepExecutionListener {
 
 		}
 
-		log.info(LogMsg.customStepListenerAfterStepSuccess + stepExecution.getStatus() + ","
+		log.info(LogMsg.CUSTOMER_STEP_LISTNER_AFTER_STEP_SUCCESS + stepExecution.getStatus() + ","
 				+ stepExecution.getWriteCount());
 
 		return null;
@@ -102,14 +102,14 @@ public class CustomStepListener implements StepExecutionListener {
 			Object[] params = { getJobId(), totalLineCount, ETLConstants.JOB_RUNNING };
 			jdbcTemplate.update(INSERT_QUERY, params);
 
-			log.info(LogMsg.customStepListenerBeforeStepSuccess + totalLineCount);
+			log.info(LogMsg.CUSTOMER_STEP_LISTNER_BEFORE_STEP_SUCCESS + totalLineCount);
 
 		} catch (FileNotFoundException e) {
-			log.error(ErrorMsg.customStepListenerFileNotFoundException, e);
+			log.error(ErrorMsg.CUSTOM_STEP_LISTNER_FILE_NO_FOUND, e);
 		}
 
 		catch (IOException e) {
-			log.error(ErrorMsg.customStepListenerIOException, e);
+			log.error(ErrorMsg.CUSTOM_STEP_LISTNER_IO_EXCEPTION, e);
 		}
 
 	}
