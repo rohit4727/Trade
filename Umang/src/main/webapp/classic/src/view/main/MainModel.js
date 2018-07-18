@@ -25,7 +25,7 @@ Ext.define('ui.view.main.MainModel', {
             	, proxy: {
                     type: 'ajax'
                     , api: {
-                        read: '/getAllJobScheduleDetails'
+                        read: '/TradeApp/getAllJobScheduleDetails'
                     }
                 }                
             },

@@ -1,15 +1,14 @@
 Ext.define('ui.model.LiveFeedModel', {
 	extend: 'ui.model.Base'
-    , idProperty: 'id'
+    , idProperty: 'tradeId'
     , fields: [
-        { name: 'id' }
-        , { name: 'securityName' }
+        { name: 'tradeId' }
+        , { name: 'security' }
         , { name: 'instrumentType' }  
         , { name: 'currency'} 
         , { name: 'broker' }
         , { name: 'tradePrice' }  
-        , { name: 'deviation'} 
-        , { name: 'displayDate', defaultValue: new Date(), convert: function (v, rec) {
+        , { name: 'tradeDate', defaultValue: new Date(), convert: function (v, rec) {
         		v = rec.get('scheduleDate');
 	            if (v) {
 	                v = Ext.isDate(v) ? v : new Date(v);
@@ -20,7 +19,7 @@ Ext.define('ui.model.LiveFeedModel', {
         	} 
         }
         , {
-            name: 'displayTime', defaultValue: new Date(), convert: function (v, rec) {	
+            name: 'tradeTime', defaultValue: new Date(), convert: function (v, rec) {	
                 v = new Date(rec.get('scheduleDate'));                
                 v = new Date(v.getTime() + (v.getTimezoneOffset() * 60000));
                                          	

@@ -186,7 +186,7 @@ public class TradeAppController {
 
 		try {
 			
-			liveFeedDataList = restTemplate.getForObject(tradeAppProperty.getLiveFeedBaseUri() + IControllerConstants.SLASH + security, List.class);
+			liveFeedDataList = restTemplate.getForObject(tradeAppProperty.getLiveFeedData() + IControllerConstants.SLASH + security, List.class);
 
 		} catch (Exception ex) {
 

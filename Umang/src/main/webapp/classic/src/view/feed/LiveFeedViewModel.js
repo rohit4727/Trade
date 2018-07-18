@@ -29,7 +29,7 @@ Ext.define('ui.view.feed.LiveFeedViewModel', {
             	, proxy: {
                     type: 'ajax'
                     , api: {
-                        read: '/liveFeedlist'
+                        read: '/TradeApp/getLiveFeedData'
                     }
                 }                
             }

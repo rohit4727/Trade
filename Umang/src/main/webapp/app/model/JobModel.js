@@ -40,10 +40,10 @@ Ext.define('ui.model.JobModel', {
             type: 'json'
     	}
         , api: {
-            create: '/scheduleOrRunJob'
-            , update: '/updateJobScheduleDetails'
+            create: '/TradeApp/scheduleOrRunJob'
+            , update: '/TradeApp/updateJobScheduleDetails'
             , destroy: {
-            	url: '/schedule_job_delete'
+            	url: '/TradeApp/schedule_job_delete'
             }
         }
     }

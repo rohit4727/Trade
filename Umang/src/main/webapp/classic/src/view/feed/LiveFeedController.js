@@ -18,12 +18,13 @@ Ext.define('ui.view.feed.LiveFeedController', {
 
 	, onLiveFeedListAfterRender: function (grid) {  
 		var me = this;
-		Ext.TaskManager.start({
+		/*Ext.TaskManager.start({
 		  run: function() { 
 			  me.loadLiveFeedList(grid);
 		  },
 		  interval: 1000
-		});
+		});*/
+		me.loadLiveFeedList(grid);
 	}
 	, onLiveFeedListBeforeLoad: function (store) {
 	    var sorter = store.getSorters().getRange()[0]
