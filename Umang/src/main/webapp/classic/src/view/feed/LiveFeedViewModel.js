@@ -6,8 +6,12 @@ Ext.define('ui.view.feed.LiveFeedViewModel', {
     extend: 'Ext.app.ViewModel'
     , alias: 'viewmodel.livefeed'
 	, links: {
-        liveFeedListFilter: {
+		liveFeedListFilter: {
             type: 'ui.model.LiveFeedFilterModel'
+             , create: true
+        },
+        liveFeedListModel: {
+            type: 'ui.model.LiveFeedModel'
              , create: true
         }
     }

@@ -4,7 +4,7 @@ Ext.define('ui.model.LiveFeedFilterModel', {
     , fields: [
     	// paging and sorting params
     	{ name: 'id' }
-    	, { name: 'securityName'}
+    	, { name: 'securityName', defaultValue: 'all'}
         , { name: 'sort' }
         , { name: 'dir' }
         , { name: 'total' }

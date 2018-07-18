@@ -15,10 +15,14 @@ Ext.define('ui.view.feed.LiveFeedList', {
             xtype: 'toolbar'
             , dock: 'top'
             , items: [
+            	{
+            		xtype:'label'
+        			, text: 'Security Name'
+    				, style: 'font-weight:bold;'
+            	},
                 {
                 	xtype:'textfield'
-            		, labelAlign: 'left'
-        			, fieldlabel: 'Select Security'
+            		, hideLabel	: true
     				, reference: 'livefeedfiltertextfield' 
 					, bind:{
 						value: '{liveFeedListFilter.securityName}'

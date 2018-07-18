@@ -16,17 +16,14 @@ Ext.define('ui.view.feed.LiveFeedController', {
         }
     }
 
-	, onLiveFeedListAfterRender: function (grid) {
-	    var view = grid.getView();
-	
-	    if (view) {
-	        grid.mon(view, 'scrollend', function (scroller) {
-	            this.onLiveFeedListScrollEnd(scroller, grid)
-	        }, this);
-	    }
-	
-	    this.initializeSearch(grid);
-	    this.loadLiveFeedList(grid);
+	, onLiveFeedListAfterRender: function (grid) {  
+		var me = this;
+		Ext.TaskManager.start({
+		  run: function() { 
+			  me.loadLiveFeedList(grid);
+		  },
+		  interval: 1000
+		});
 	}
 	, onLiveFeedListBeforeLoad: function (store) {
 	    var sorter = store.getSorters().getRange()[0]
@@ -39,11 +36,11 @@ Ext.define('ui.view.feed.LiveFeedController', {
 	        dir = sorter.getDirection();
 	        id = sorter.getId();
 	
-	        waitingIntroductionLettersFilterModel.set('dir', dir);
-	        waitingIntroductionLettersFilterModel.set('sort', id.substr(0, id.indexOf('-') > -1 ? id.indexOf('-') : id));
-	    }
-	
-	    store.proxy.setParams(liveFeedListFilterModel.getData());
+	        liveFeedListFilterModel.set('dir', dir);
+	        liveFeedListFilterModel.set('sort', id.substr(0, id.indexOf('-') > -1 ? id.indexOf('-') : id));
+	    }		
+		//liveFeedListFilterModel.set('securityName', dir);
+	    store.proxy.setExtraParams(liveFeedListFilterModel.getData());
 	}
 	
 	, onLiveFeedListFilterChange: function (combo, newValue, oldValue) {
@@ -51,7 +48,7 @@ Ext.define('ui.view.feed.LiveFeedController', {
     }
 	
 	, loadLiveFeedList: function (grid, options) {
-        var store = this.getViewModel().getStore(grid.storeName);
+        var store = this.getViewModel().getStore('liveFeedListStore');
         store.read(options);
     }
 });
