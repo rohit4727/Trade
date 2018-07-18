@@ -61,13 +61,13 @@ public class CustomChunkListener implements ChunkListener {
 		Object[] params = { writeCount, getJobId() };
 		jdbcTemplate.update(UPDATE_QUERY, params);
 
-		log.info(LogMsg.customChunkListenerAfterChunkSuccess + writeCount);
+		log.info(LogMsg.CUSTOMER_CHUNK_LISTNER_AFTER_CHUNK_SUCCESS + writeCount);
 	}
 
 	@Override
 	public void afterChunkError(ChunkContext context) {
 		
-		log.error(ErrorMsg.customChunkListenerError);
+		log.error(ErrorMsg.CUSTOM_CHUNK_LISTNER_ERROR);
 		
 	}
 

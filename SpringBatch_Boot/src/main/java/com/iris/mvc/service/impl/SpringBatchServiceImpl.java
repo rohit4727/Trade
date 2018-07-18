@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.iris.mvc.service.SpringBatchService;
 
+/**
+ * Service Layer Implementaion: SpringBatchServiceImpl
+ *
+ * @author Saurabh Gupta
+ */
 @Service
 public class SpringBatchServiceImpl implements SpringBatchService {
 
@@ -27,8 +32,8 @@ public class SpringBatchServiceImpl implements SpringBatchService {
 		try {
 			JobParameters jobParameters = new JobParametersBuilder().addLong("jobId", jobId).toJobParameters();
 			JobExecution execution = (JobExecution) jobLauncher.run(job, jobParameters);
-			log.debug("Exit Status : " + execution.getExitStatus());
-			log.debug("Exit Status : " + execution.getAllFailureExceptions());
+//			log.debug("Exit Status : " + execution.getExitStatus());
+//			log.debug("Exit Status : " + execution.getAllFailureExceptions());
 			return true;
 		} catch (Exception e) {
 			log.error(e.getMessage());

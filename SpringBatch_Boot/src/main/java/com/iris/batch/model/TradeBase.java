@@ -3,7 +3,7 @@ package com.iris.batch.model;
 /**
  * The Class FxMarketEvent.
  * 
- * @author Satyveer
+ * @author Saurabh
  */
 public abstract class TradeBase {
 

@@ -12,6 +12,11 @@ import com.iris.mvc.dao.TradeDAO;
 import com.iris.mvc.model.Trade;
 import com.iris.mvc.service.TradeService;
 
+/**
+ * Service Layer Implementaion: TradeServiceImpl
+ *
+ * @author Saurabh Gupta
+ */
 @Service
 public class TradeServiceImpl implements TradeService {
 

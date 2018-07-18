@@ -10,14 +10,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iris.batch.util.LogMsg;
 import com.iris.mvc.service.SpringBatchService;
 
+/**
+ * JobExecutionController class
+ *
+ * @author Saurabh Gupta
+ */
 @RestController
 @RequestMapping("/")
 public class JobExecutionController {
 
 	private static final Logger log = LoggerFactory.getLogger(JobExecutionController.class);
-	private static final String JOB_SUCCESS = "Spring batch job has been run successfully with jobId=";
 
 	@Autowired
 	private SpringBatchService batchService;
@@ -27,8 +32,8 @@ public class JobExecutionController {
 
 		boolean status = batchService.runJob(jobId);
 
-		log.debug(JOB_SUCCESS + jobId);
-		
+		log.debug(LogMsg.TEST_JOB_SUCCESS + jobId);
+
 		Map<String, Object> result = new HashMap<>();
 		result.put("status", status);
 		return result;

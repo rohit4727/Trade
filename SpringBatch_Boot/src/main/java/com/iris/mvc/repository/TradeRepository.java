@@ -8,6 +8,11 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.iris.mvc.model.Trade;
 
+/**
+ * Repository Class: TradeRepository
+ *
+ * @author Saurabh Gupta
+ */
 public interface TradeRepository extends CrudRepository<Trade, Serializable> {
 
 	public Trade findBySecurityAndTradeDateAndTradeTime(String security, Date tradeDate, Time tradeTime);
