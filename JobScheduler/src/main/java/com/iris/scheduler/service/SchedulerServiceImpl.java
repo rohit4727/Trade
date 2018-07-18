@@ -2,14 +2,13 @@ package com.iris.scheduler.service;
 
 import java.io.File;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iris.scheduler.ScheduledTasks;
 import com.iris.scheduler.constants.IControllerConstants;
+import com.iris.scheduler.dao.JobSchedularDAO;
 import com.iris.scheduler.entity.JobScheduler;
 import com.iris.scheduler.repository.CronRepository;
 import com.iris.scheduler.repository.JobSchedulerRepository;
@@ -18,69 +17,89 @@ import com.iris.scheduler.repository.JobSchedulerRepository;
  * @author anchal.handa
  *
  */
+
 @Service
 public class SchedulerServiceImpl implements SchedulerService {
 
-	
 	private static final Logger logger = LoggerFactory.getLogger(SchedulerServiceImpl.class);
-	
-	
-	@Autowired
-	CronRepository cronRepository;
-	@Autowired
-	JobSchedulerRepository jobSchedulerRepository;
-	SchedulerService schedularService;
 
-	
+	@Autowired
+	private JobSchedularDAO jobSchedularDAO;
+	@Autowired
+	private JobSchedulerRepository jobSchedulerRepository;
 
-	@Override
+
+	 @Override
 	public boolean checkfilepath(String path) {
-		
+		 
 		try {
 			File f = new File(path);
 			if (f.exists() && !f.isDirectory()) {
+				logger.info(IControllerConstants.CHECKFILEPATHINFO,path);
 				return true;
 			}
+		} catch (Exception e) {
+
+			logger.error(IControllerConstants.CHECKFILEPATHERROR, path , e);
 		}
-		catch(Exception e) {
-		
-			logger.error("Failed To Run Job With Path="+path +" and Exception is "+ e.getMessage());
-		}
+		logger.info("Path of Script Does Not Exists {}",path);
 		return false;
 
 	}
 
+	
 	@Override
-	public void runcmd(String batchfilepath) {
+	public void runcmd(String batchfilepath, Long id) {
 
 		try {
 
-			String cronrun = IControllerConstants.CRON_RUN + batchfilepath;
+			String cronrun = IControllerConstants.CRON_RUN + batchfilepath + " " + id;
 			Runtime.getRuntime().exec(cronrun);
-
+			logger.info(IControllerConstants.RUNCMDINFO,cronrun);
 		} catch (Exception e) {
-			logger.error("Failed To Run Job With Batchfilepath="+batchfilepath+" and Exception is "+ e.getMessage());
+			logger.error(
+					IControllerConstants.RUNCMDERROR, batchfilepath,e);
 		}
 
 	}
 
+	
 	@Override
 	public void savestatus(JobScheduler job) {
-
-		jobSchedulerRepository.save(job);
+		try {
+			logger.info(IControllerConstants.SAVESTATUSINFO);
+			jobSchedulerRepository.save(job);
+		} catch (Exception e) {
+			logger.error(IControllerConstants.SAVESTATUSERROR , e);
+		}
 
 	}
 
+	
 	@Override
 	public JobScheduler findbyjobId(Long id) {
-
-		return cronRepository.findbyjobId(id);
+		
+		try {
+			JobScheduler Job=jobSchedularDAO.findbyjobId(id);
+			logger.info(IControllerConstants.FINDJOBIDINFO,id);
+			return Job;
+		} catch (Exception e) {
+			logger.error(IControllerConstants.FINDJOBIDERROR , id , e);
+		}
+		return null;
 	}
 
+	
 	@Override
 	public List<JobScheduler> findbycurDate() {
-
-		return cronRepository.findbycurDate();
+		try {
+			List<JobScheduler> listJob= jobSchedularDAO.findbycurDate();
+			logger.info(IControllerConstants.FINDJOBBYCURDATEINFO,listJob.size());
+			return listJob;
+		} catch (Exception e) {
+			logger.error(IControllerConstants.FINDJOBBYCURDATEERROR , e);
+		}
+		return null;
 	}
 
 }
