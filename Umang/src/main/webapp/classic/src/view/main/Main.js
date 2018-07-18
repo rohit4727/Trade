@@ -13,7 +13,9 @@ Ext.define('ui.view.main.Main', {
         'ui.view.main.MainController',
         'ui.view.main.MainModel',
         'ui.view.main.JobList',
-        'ui.view.main.ScheduleJobSummaryPanel'
+        'ui.view.main.ScheduleJobSummaryPanel',
+        
+        'ui.view.feed.LiveFeed'
     ],
 
     controller: 'main',
@@ -72,23 +74,31 @@ Ext.define('ui.view.main.Main', {
         }
     },
 
-    items: [{
-        title: 'Run/Schedule Jobs',
-        iconCls: 'fa-home',
-        items: [
-        	{
-        		xtype:'schedulejobsummarypanel'
-        	},
-        	{
-	            xtype: 'joblist'
-	        	, height: Ext.getBody().getHeight()-20
-        	}
-    	]
-    }, {
-        title: 'Trade',
-        iconCls: 'fa-user',
-        bind: {
-            html: '{loremIpsum}'
-        }
-    }]
+    items: [
+    	{
+	        title: 'Run/Schedule Jobs',
+	        iconCls: 'fa-home',
+	        items: [
+	        	{
+	        		xtype:'schedulejobsummarypanel'
+	        	},
+	        	{
+		            xtype: 'joblist'
+		        	, height: Ext.getBody().getHeight()-20
+	        	}
+	    	]
+	    },
+	    {
+	    	xtype:'live-feed',
+    		title: 'Live Feed',
+    		iconCls: 'fa-line-chart'
+	    },
+	    {
+	        title: 'Completed Jobs',
+	        iconCls: 'fa-th-list',
+	        bind: {
+	            html: 'loremIpsum'
+	        }
+	    }
+    ]
 });
