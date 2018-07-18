@@ -1,4 +1,4 @@
-package com.iris.scheduler;
+package com.iris.scheduler.runner;
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -15,8 +15,8 @@ import com.iris.scheduler.service.SchedulerService;
  *
  */
 /*
- * Scheduler will run after one second and check if there is any job which is
- * pending to run
+ * This method will run after one second (check and runs if there is any job
+ * which is pending to run)
  * 
  */
 @Component
@@ -25,15 +25,18 @@ public class ScheduledTasks {
 	private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
 	@Autowired
-	SchedulerService schedulerService;
+	private SchedulerService schedulerService;
 
 	@Scheduled(fixedDelay = IControllerConstants.SCHEDULE_TIMING)
-	public void scheduleJob() {
+	private void scheduleJob() {
 
 		List<JobScheduler> joblisttorun = schedulerService.findbycurDate();
+	
+		try {
+			boolean flag =false;
 		for (JobScheduler job : joblisttorun) {
 			try {
-				boolean flag = false;
+				flag = false;
 				flag = schedulerService.checkfilepath(job.getBatchFilePath());
 
 				if (flag) {
@@ -42,12 +45,15 @@ public class ScheduledTasks {
 
 				} else
 					job.setStatus(IControllerConstants.FAIL);
-				schedulerService.savestatus(job);
+					schedulerService.savestatus(job);
 			} catch (Exception ex) {
-				logger.info("Failed to run job with name=" + job.getJobName() + " and Exception is " + ex.getMessage());
+				logger.error(IControllerConstants.SCHEDULEDJOBERROR , job.getJobName() ,  ex);
 			}
 		}
-
+		}
+		catch(Exception e) {
+			logger.error(IControllerConstants.GETSCHEDULEDJOBERROR , e);
+		}
 	}
 
 }

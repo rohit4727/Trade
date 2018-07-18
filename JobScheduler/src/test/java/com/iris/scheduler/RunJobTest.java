@@ -67,38 +67,49 @@ public class RunJobTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(schedulerRestController).build();
 	}
 
-
 	@Test
-	public void runJobSuccessTestPost() throws Exception {
-		
-		jobScheduler=new JobScheduler("Anchal", "E:/Gen/gen.bat", new Date(), "1");
-	
-		assertNotNull(jobScheduler);
+	public void runJobSuccess() throws Exception {
+
+		JobScheduler jobScheduler = new JobScheduler(SchedularTestUtil.getJobSchedular(4).getJobName(), SchedularTestUtil.getJobSchedular(4).getBatchFilePath(), new Date(), "1");
+		mockMvc.perform(
+				MockMvcRequestBuilders.post(IControllerConstants.JOB_SCHEDULER + IControllerConstants.RUN_JOB_SCHEDULER)
+						.contentType(MediaType.APPLICATION_JSON_UTF8).content(asJsonString(jobScheduler)))
+				.andExpect(jsonPath("$.statuscode").value(HttpStatus.OK.toString()));
+
 	}
-	
+
+	public void runJobFailure() throws Exception {
+
+		JobScheduler jobScheduler = new JobScheduler(SchedularTestUtil.getJobSchedular(1).getJobName(), SchedularTestUtil.getJobSchedular(1).getBatchFilePath(), new Date(), "1");
+
+		mockMvc.perform(
+				MockMvcRequestBuilders.post(IControllerConstants.JOB_SCHEDULER + IControllerConstants.RUN_JOB_SCHEDULER)
+						.contentType(MediaType.APPLICATION_JSON_UTF8).content(asJsonString(jobScheduler)))
+				.andExpect(jsonPath("$.statuscode").value(HttpStatus.NOT_FOUND.toString()));
+
+	}
+
 	@Test()
 	public void testFilePath() throws ParseException {
 
 		// missing file path
 		when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(0).getBatchFilePath())).thenReturn(false);
-		assertFalse("Handle Missing File Path in database",
-				schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(0).getBatchFilePath()));
+		assertFalse(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(0).getBatchFilePath()));
 		verify(schedulerService).checkfilepath(SchedularTestUtil.getJobSchedular(0).getBatchFilePath());
 
 		// wrong file path
 		when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(1).getBatchFilePath())).thenReturn(false);
-		assertFalse("Handle Wrong File Path in database",
-				schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(1).getBatchFilePath()));
+		assertFalse(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(1).getBatchFilePath()));
 		verify(schedulerService).checkfilepath(SchedularTestUtil.getJobSchedular(1).getBatchFilePath());
 
 		// correct file path
 		when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath())).thenReturn(true);
-		assertTrue("Handle Correct File Path in database",
-				schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath()));
+		assertTrue(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath()));
 		verify(schedulerService).checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath());
 	}
 
 	@Test(expected = NullPointerException.class)
+
 	public void testFilePathWhenNull() throws ParseException {
 
 		when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath()))
@@ -108,23 +119,7 @@ public class RunJobTest {
 		verify(schedulerService).checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath());
 	}
 
-	@Test
-	public void runJobSuccessTestPost1() throws Exception {
-		
-		//when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(0).getBatchFilePath())).thenReturn(true);
-		JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(1L);
-		
-		mockMvc.perform(MockMvcRequestBuilders.post(IControllerConstants.JOB_SCHEDULER + IControllerConstants.RUN_JOB_SCHEDULER)
-				.contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(asJsonString(jobScheduler)))
-				.andExpect(jsonPath("$.statuscode").value(HttpStatus.OK.toString()));
-		
-		verify(schedulerService).checkfilepath("E:/Gen/gen.bat");
-	
-	}
-
-	
-	public static String asJsonString(final Object obj) {
+	private static String asJsonString(final Object obj) {
 		try {
 			return new ObjectMapper().writeValueAsString(obj);
 		} catch (Exception e) {

@@ -1,14 +1,20 @@
 package com.iris.scheduler.beans;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author pushpendra.singh
  *
  */
-/**
- * @author anchal.handa*/
-public class ResponseBean {
 
+public class ResponseBean implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8545793343942647102L;
+	
 	private String statuscode;
 	private String message;
 

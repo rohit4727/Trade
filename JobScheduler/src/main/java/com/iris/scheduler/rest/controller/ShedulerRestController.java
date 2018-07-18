@@ -53,6 +53,7 @@ public class ShedulerRestController {
 	 * @param jobScheduler
 	 * @return ResponseBean
 	 */
+	
 	@PostMapping(IControllerConstants.CREATE_JOB_SCHEDULER)
 	public ResponseBean createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
 		try {
@@ -151,7 +152,8 @@ public class ShedulerRestController {
 	@PostMapping(IControllerConstants.RUN_JOB_SCHEDULER)
 	@ResponseBody
 	public ResponseBean runJob(@Valid @RequestBody JobScheduler jobScheduler) {
-
+		
+		logger.info("**************Run the Job************");
 		boolean flag = false;
 		if (jobScheduler != null) {
 			try {
@@ -159,15 +161,17 @@ public class ShedulerRestController {
 				flag = schedularService.checkfilepath(jobScheduler.getBatchFilePath());
 				if (flag) {
 					schedularService.runcmd(jobScheduler.getBatchFilePath(), jobScheduler.getId());
+					logger.info(IControllerConstants.RUNJOBOKLOGGER,jobScheduler.getId());
 					return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
 				} else {
 					jobScheduler.setStatus(IControllerConstants.FAIL);
 					jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+					logger.info(IControllerConstants.RUNJOBFAILLOGGER,jobScheduler.getId());
 					return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
 				}
 			} catch (Exception ex) {
-				logger.info("CreateJobScheduler : Create Job Failed for Run Job Having Name : ",
-						jobScheduler.getJobName()+" and Exception is"+ex.getMessage());
+				logger.error(IControllerConstants.CREATEJOBSCHEDULARERROR,
+						jobScheduler.getJobName(),ex);
 			}
 
 		}

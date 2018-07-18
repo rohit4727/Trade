@@ -1,6 +1,7 @@
 package com.iris.scheduler.entity;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -15,8 +16,11 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "schedule_job_details")
-public class JobScheduler {
+public class JobScheduler implements Serializable{
 	
+	
+	private static final long serialVersionUID = -6334117912831273874L;
+
 	@Id
 	@GeneratedValue(
 	    strategy= GenerationType.AUTO, 

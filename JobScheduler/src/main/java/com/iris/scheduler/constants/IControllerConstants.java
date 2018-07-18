@@ -3,10 +3,10 @@ package com.iris.scheduler.constants;
 /**
  * 
  * @author pushpendra.singh
- *
+ * @author anchal.handa
  */
 public interface IControllerConstants {
-	
+
 	public static final String JOB_SCHEDULER = "/jobScheduler";
 	public static final String GET_ALL_JOB_SCHEDULE_DETAILS = "/getAllJobScheduleDetails";
 	public static final String CREATE_JOB_SCHEDULER = "/createJobScheduler";
@@ -26,7 +26,21 @@ public interface IControllerConstants {
 	public static final String CRON_RUN = "cmd /c start ";
 	public static final String DONE = "1";
 	public static final String FAIL = "2";
-	
-	
 
+	// Loggers
+	public static final String CHECKFILEPATHERROR = "Failed To Run Job With Path and Exception {}";
+	public static final String CHECKFILEPATHINFO = "Path of Script Does Not Exists {}";
+	public static final String RUNCMDERROR = "Failed To Run Cmd With Batchfilepath {}";
+	public static final String RUNCMDINFO = "Batch file runs successfully {}";
+	public static final String SAVESTATUSERROR = "Unable To Save The Status and Exception is";
+	public static final String SAVESTATUSINFO = "Saved the Status Of Job";
+	public static final String FINDJOBIDERROR = "Unable To Get The Job By Id and Exception is {}";
+	public static final String FINDJOBIDINFO = "Find Job By ID {}";
+	public static final String FINDJOBBYCURDATEERROR = "Unable To Get The Jobs By Currentdate and Exception {} ";
+	public static final String FINDJOBBYCURDATEINFO =	"Find Jobs BY Its Timing {}";
+	public static final String GETSCHEDULEDJOBERROR = "Failed To Get Scheduled Jobs and Exception is";
+	public static final String SCHEDULEDJOBERROR = "Failed To Run scheduleJob With Name and Exception {}";
+	public static final String CREATEJOBSCHEDULARERROR = "CreateJobScheduler : Create Job Failed for Run Job Having Name and Exception is {}";
+	public static final String RUNJOBFAILLOGGER = "FAILED To Run The Job with ID {}";
+	public static final String RUNJOBOKLOGGER = "RUNCMD with ID {}";
 }
