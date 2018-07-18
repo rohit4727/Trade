@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.iris.batchJobService.entity.JobProgressData;
 
 /*
- * DAO interface 
+ * Repository interface 
  * 
  * @author Rohit Elayathu
  */
