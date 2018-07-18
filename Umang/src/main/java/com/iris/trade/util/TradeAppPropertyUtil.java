@@ -30,6 +30,12 @@ public class TradeAppPropertyUtil {
 	
 	@Value("${deleteJobScheduler}")
 	private String deleteJobScheduler;
+	
+	@Value("${liveFeedBaseUri}")
+	private String liveFeedBaseUri;
+	
+	@Value("${getLiveFeedData}")
+	private String getLiveFeedData;
 
 	public String getScheduleJobApiBaseUrl() {
 		return scheduleJobApiBaseUrl;
@@ -54,6 +60,13 @@ public class TradeAppPropertyUtil {
 	public String getDeleteJobScheduler() {
 		return scheduleJobApiBaseUrl + deleteJobScheduler;
 	}
-	
+
+	public String getLiveFeedBaseUri() {
+		return liveFeedBaseUri;
+	}
+
+	public String getGetLiveFeedData() {
+		return liveFeedBaseUri + getLiveFeedData;
+	}
 	
 }

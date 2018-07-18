@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.iris.trade.bean.JobScheduler;
 import com.iris.trade.bean.ResponseBean;
+import com.iris.trade.bean.Trade;
 import com.iris.trade.constants.IControllerConstants;
 import com.iris.trade.response.bean.JobShedulerResponse;
 import com.iris.trade.util.TradeAppPropertyUtil;
@@ -103,7 +104,7 @@ public class TradeAppController {
 		try {
 
 			ResponseBean responseBean = restTemplate.postForObject(
-					tradeAppProperty.getUpdateJobSchedulerDetail() + "/" + jobScheduler.getId(), jobScheduler,
+					tradeAppProperty.getUpdateJobSchedulerDetail() + IControllerConstants.SLASH + jobScheduler.getId(), jobScheduler,
 					ResponseBean.class);
 			jobShedulerResponse.setStatusCode(responseBean.getStatuscode());
 			jobShedulerResponse.setMessage(responseBean.getMessage());
@@ -169,6 +170,29 @@ public class TradeAppController {
 		}
 
 		return jobSchedulerDetailList;
+	}
+	
+	/**
+	 * This method will get All schedule Job List
+	 * 
+	 * @return List<JobScheduler>
+	 */
+	@SuppressWarnings("unchecked")
+	@GetMapping(IControllerConstants.GET_LIVE_FEED_DATA)
+	@ResponseBody
+	public List<Trade> getLiveFeedData(@PathVariable(value = IControllerConstants.SECURITY) String security) {
+
+		List<Trade> liveFeedDataList = new ArrayList<>();
+
+		try {
+			
+			liveFeedDataList = restTemplate.getForObject(tradeAppProperty.getLiveFeedBaseUri() + IControllerConstants.SLASH + security, List.class);
+
+		} catch (Exception ex) {
+
+		}
+
+		return liveFeedDataList;
 	}
 
 }
