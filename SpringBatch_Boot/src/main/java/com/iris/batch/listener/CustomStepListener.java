@@ -62,13 +62,13 @@ public class CustomStepListener implements StepExecutionListener {
 
 		if (stepExecution.getStatus() == BatchStatus.COMPLETED) {
 
-			Object[] params = { stepExecution.getWriteCount(), ETLConstants.COMPLETED, getJobId() };
+			Object[] params = { stepExecution.getWriteCount(), ETLConstants.JOB_COMPLETED, getJobId() };
 
 			jdbcTemplate.update(UPDATE_QUERY, params);
 
 		} else if (stepExecution.getStatus() == BatchStatus.FAILED) {
 
-			Object[] params = { stepExecution.getWriteCount(), ETLConstants.FAILED, getJobId() };
+			Object[] params = { stepExecution.getWriteCount(), ETLConstants.JOB_FAILED, getJobId() };
 
 			jdbcTemplate.update(UPDATE_QUERY, params);
 
@@ -99,7 +99,7 @@ public class CustomStepListener implements StepExecutionListener {
 
 			totalLineCount = reader.getLineNumber() - ETLConstants.LINES_TO_SKIP;
 
-			Object[] params = { getJobId(), totalLineCount, ETLConstants.RUNNING };
+			Object[] params = { getJobId(), totalLineCount, ETLConstants.JOB_RUNNING };
 			jdbcTemplate.update(INSERT_QUERY, params);
 
 			log.info(LogMsg.customStepListenerBeforeStepSuccess + totalLineCount);

@@ -26,19 +26,19 @@ public class JobProgressService implements IJobProgressService {
 
 	@Override
 	public List<JobProgressData> getCompletedJobs() {
-		List<JobProgressData> list = getJobProgressDAO().getJobsByStatus(JobProgressConstants.COMPLETED);
-		list.addAll(getJobProgressDAO().getJobsByStatus(JobProgressConstants.FAILED));
+		List<JobProgressData> list = getJobProgressDAO().getJobsByStatus(JobProgressConstants.JOB_COMPLETED);
+		list.addAll(getJobProgressDAO().getJobsByStatus(JobProgressConstants.JOB_FAILED));
 
-		logger.info("--Inside getCompletedJobs : list size : " + list.size() + "--");
+		logger.info("Inside getCompletedJobs : list size : " + list.size());
 
 		return list;
 	}
 
 	@Override
 	public List<JobProgressData> getRunningJobs() {
-		List<JobProgressData> list = getJobProgressDAO().getJobsByStatus(JobProgressConstants.RUNNING);
+		List<JobProgressData> list = getJobProgressDAO().getJobsByStatus(JobProgressConstants.JOB_RUNNING);
 
-		logger.info("--Inside getRunningJobs : list size : " + list.size() + "--");
+		logger.info("Inside getRunningJobs : list size : " + list.size());
 
 		return list;
 	}

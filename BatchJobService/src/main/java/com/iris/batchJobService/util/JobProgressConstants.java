@@ -8,8 +8,8 @@ package com.iris.batchJobService.util;
 public interface JobProgressConstants {
 
 	// Job Status
-	int RUNNING = 0;
-	int COMPLETED = 1;
-	int FAILED = 2;
+	int JOB_RUNNING = 0;
+	int JOB_COMPLETED = 1;
+	int JOB_FAILED = 2;
 
 }
