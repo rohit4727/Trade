@@ -28,7 +28,7 @@ public class ScheduledTasks {
 	private SchedulerService schedulerService;
 
 	@Scheduled(fixedDelay = IControllerConstants.SCHEDULE_TIMING)
-	private void scheduleJob() {
+	public void scheduleJob() {
 
 		List<JobScheduler> joblisttorun = schedulerService.findbycurDate();
 	

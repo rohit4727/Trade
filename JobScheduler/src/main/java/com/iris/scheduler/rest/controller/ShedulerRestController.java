@@ -52,14 +52,14 @@ public class ShedulerRestController {
 	 * @param jobScheduler
 	 * @return ResponseBean
 	 */
-	
+
 	@PostMapping(IControllerConstants.CREATE_JOB_SCHEDULER)
 	public ResponseBean createJobScheduler(@Valid @RequestBody JobScheduler jobScheduler) {
 		try {
 			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
 
 		} catch (Exception ex) {
-			logger.info(IControllerConstants.CREATE_SCHEDULER_EXCEP_LOG_MSG + jobScheduler.getJobName(),
+			logger.info(IControllerConstants.CREATE_SCHEDULER_EXCEP_LOG_MSG , jobScheduler.getJobName(),
 					ex);
 		}
 		if (jobScheduler != null && jobScheduler.getId() != null) {
@@ -99,7 +99,7 @@ public class ShedulerRestController {
 			updatedJobScheduler = jobSchedulerDetailService.updateJobScheduler(jobScheduler, jobSchedulerDetails);
 
 		} catch (Exception ex) {
-			logger.info(IControllerConstants.UPDATE_JOB_SCHEDULER_DETAILS_EXCEP_LOG_MSG + jobId, ex);
+			logger.info(IControllerConstants.UPDATE_JOB_SCHEDULER_DETAILS_EXCEP_LOG_MSG , jobId, ex);
 		}
 
 		if (updatedJobScheduler != null && updatedJobScheduler.getId() != null) {
@@ -127,11 +127,10 @@ public class ShedulerRestController {
 	}
 
 	/**
-	 * @author anchal.handa
-	/**
-	 * This controller will run job and insert the details in database for future
-	 * reference, Return SUCCESS response in case of successfully runs of jobs and
-	 * FAILED TO RUN in case of FAILURE due to any reason
+	 * @author anchal.handa /** This controller will run job and insert the details
+	 *         in database for future reference, Return SUCCESS response in case of
+	 *         successfully runs of jobs and FAILED TO RUN in case of FAILURE due to
+	 *         any reason
 	 * 
 	 * @param jobScheduler
 	 * @return ResponseBean
@@ -139,29 +138,26 @@ public class ShedulerRestController {
 	@PostMapping(IControllerConstants.RUN_JOB_SCHEDULER)
 	@ResponseBody
 	public ResponseBean runJob(@Valid @RequestBody JobScheduler jobScheduler) {
-		
-		logger.info("**************Run the Job************");
-		
-		boolean flag = false;
-		if (jobScheduler != null) {
-			try {
-				jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
-				flag = schedularService.checkfilepath(jobScheduler.getBatchFilePath());
-				if (flag) {
-					schedularService.runcmd(jobScheduler.getBatchFilePath(), jobScheduler.getId());
-					logger.info(IControllerConstants.RUNJOBOKLOGGER,jobScheduler.getId());
-					return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
-				} else {
-					jobScheduler.setStatus(IControllerConstants.FAIL);
-					jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
-					logger.info(IControllerConstants.RUNJOBFAILLOGGER,jobScheduler.getId());
-					return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
-				}
-			} catch (Exception ex) {
-				logger.error(IControllerConstants.CREATEJOBSCHEDULARERROR,
-						jobScheduler.getJobName(),ex);
-			}
 
+		logger.info("**************Run the Job************");
+
+		boolean flag = false;
+
+		try {
+			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+			flag = schedularService.checkfilepath(jobScheduler.getBatchFilePath());
+			if (flag) {
+				schedularService.runcmd(jobScheduler.getBatchFilePath(), jobScheduler.getId());
+				logger.info(IControllerConstants.RUNJOBOKLOGGER, jobScheduler.getId());
+				return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
+			} else {
+				jobScheduler.setStatus(IControllerConstants.FAIL);
+				jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+				logger.info(IControllerConstants.RUNJOBFAILLOGGER, jobScheduler.getId());
+				return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
+			}
+		} catch (Exception ex) {
+			logger.error(IControllerConstants.CREATEJOBSCHEDULARERROR, jobScheduler.getJobName(), ex);
 		}
 
 		return new ResponseBean(HttpStatus.NOT_FOUND.toString(), IControllerConstants.FAILED);
