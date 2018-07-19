@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.iris.trade.bean.JobProgressData;
 import com.iris.trade.bean.JobScheduler;
 import com.iris.trade.bean.ResponseBean;
 import com.iris.trade.bean.Trade;
@@ -202,6 +203,31 @@ public class TradeAppController {
 		}
 
 		return liveFeedDataList;
+	}
+	
+	
+	/**
+	 * This method will get All schedule Job progress List
+	 * 
+	 * @return List<Trade>
+	 */
+	@SuppressWarnings("unchecked")
+	@GetMapping(IControllerConstants.GET_ALL_SCHEDULE_JOB_PROG_LIST)
+	@ResponseBody
+	public List<JobProgressData> getScheduleJobProgressList() {
+
+		List<JobProgressData> sheduleJobsProgressList = new ArrayList<>();
+
+		try {
+			
+			sheduleJobsProgressList = restTemplate.getForObject(tradeAppProperty.getAllScheduleJobProgressList(), List.class);
+
+		} catch (Exception ex) {
+			logger.info(IControllerConstants.GET_LIVE_FEED_DATA_EXCEPTION_MSG ,
+					ex);
+		}
+
+		return sheduleJobsProgressList;
 	}
 
 }

@@ -13,6 +13,7 @@ public interface IControllerConstants {
 	public static final String UPDATE_JOB_SCHEDULE_DETAILS = "/updateJobScheduleDetails";
 	public static final String DELETE_JOB_SCHEDULE_DETAIL = "/deleteJobScheduleDetail";
 	public static final String GET_LIVE_FEED_DATA = "/getLiveFeedData/{security}";
+	public static final String GET_ALL_SCHEDULE_JOB_PROG_LIST = "/getScheduleJobProgressList";
 
 	public static final String ID = "id";
 	public static final String SECURITY = "security";
