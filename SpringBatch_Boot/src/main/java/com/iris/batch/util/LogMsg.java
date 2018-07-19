@@ -11,4 +11,5 @@ public interface LogMsg {
 	String CUSTOMER_CHUNK_LISTNER_AFTER_CHUNK_SUCCESS = "CustomChunkListener afterChunk ran succeefully : ";
 	String TEST_JOB_SUCCESS = "Spring batch job has been run successfully with jobId=";
 	String UNABLE_TO_READ_PROPERTY_FILE = "Unable to read property file";
+	String EXIT_STATUS = "Exit Status : ";
 }

@@ -1,8 +1,7 @@
 package com.iris.batch.util;
 
 /**
- * Application constants
- * These constants are used in through out the application
+ * Application constants These constants are used in through out the application
  *
  * @author Saurabh Gupta
  */

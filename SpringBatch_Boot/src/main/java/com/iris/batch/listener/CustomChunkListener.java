@@ -66,9 +66,9 @@ public class CustomChunkListener implements ChunkListener {
 
 	@Override
 	public void afterChunkError(ChunkContext context) {
-		
+
 		log.error(ErrorMsg.CUSTOM_CHUNK_LISTNER_ERROR);
-		
+
 	}
 
 }

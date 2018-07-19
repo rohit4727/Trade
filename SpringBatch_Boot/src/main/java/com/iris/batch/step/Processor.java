@@ -1,16 +1,11 @@
 package com.iris.batch.step;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.iris.batch.model.TradeBase;
-import com.iris.mvc.model.Trade;
 import com.iris.mvc.service.impl.TradeServiceImpl;
 
 /**
@@ -36,13 +31,9 @@ public class Processor<T extends TradeBase> implements ItemProcessor<T, T> {
 	public TradeBase process(final TradeBase trade) throws Exception {
 		log.info("processed trade with id " + trade.getTradeId());
 
-		Trade BestPriceTrade = tradeService.findTrade(trade.getSecurity(),
-				new Date((new SimpleDateFormat("dd-MM-yyyy").parse(trade.getTradeDate()).getTime())),
-				Time.valueOf(trade.getTradeTime()));
+		double bestPrice = tradeService.findBestPrice(trade.getSecurity(), trade.getTradeDate(), trade.getTradeTime());
 
-		if (BestPriceTrade != null) {
-			trade.setDeviation(trade.getTradePrice() - BestPriceTrade.getTradePrice());
-		}
+		trade.setDeviation(trade.getTradePrice() - bestPrice);
 
 		if (this.jobId != null && jobId > 0) {
 			trade.setJobId(jobId);
