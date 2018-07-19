@@ -115,7 +115,7 @@ public class SchedulerRestControllerTest {
 
 		jobScheduler.setJobName("Updated Job Name Test");
 
-		mockMvc.perform(put(IControllerConstants.JOB_SCHEDULER + IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL + "/"
+		mockMvc.perform(post(IControllerConstants.JOB_SCHEDULER + IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL + "/"
 				+ jobScheduler.getId()).contentType(MediaType.APPLICATION_JSON_UTF8)
 						.content(asJsonString(jobScheduler)))
 				.andExpect(jsonPath("$.statuscode").value(HttpStatus.OK.toString()));
@@ -133,7 +133,7 @@ public class SchedulerRestControllerTest {
 
 		jobScheduler.setJobName("Creat Job Test 1");
 
-		mockMvc.perform(put(IControllerConstants.JOB_SCHEDULER + IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL + "/"
+		mockMvc.perform(post(IControllerConstants.JOB_SCHEDULER + IControllerConstants.UPDATE_JOB_SCHEDULER_DETAIL + "/"
 				+ jobScheduler.getId()).contentType(MediaType.APPLICATION_JSON_UTF8)
 						.content(asJsonString(jobScheduler)))
 				.andExpect(jsonPath("$.statuscode").value(HttpStatus.NOT_FOUND.toString()));

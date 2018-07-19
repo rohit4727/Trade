@@ -11,7 +11,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	SchedulerRestControllerTest.class, 
-	RunJobTest.class
+	RunJobTest.class,
+	ScheduledJobTest.class
 })
 public class ScheduleJobApiTestSuite {
 

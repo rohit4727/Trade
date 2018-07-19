@@ -1,30 +1,14 @@
-package com.iris.scheduler.beans;
+package com.iris.batchJobService.beans;
 
-import java.io.Serializable;
+public class ResponseBean {
 
-/**
- * 
- * @author pushpendra.singh
- *
- */
-
-public class ResponseBean implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8545793343942647102L;
-	
 	private String statuscode;
 	private String message;
-
+	
 	public ResponseBean() {
-		super();
-
 	}
 
 	public ResponseBean(String statuscode, String message) {
-		super();
 		this.statuscode = statuscode;
 		this.message = message;
 	}

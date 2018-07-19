@@ -1,5 +1,6 @@
 package com.iris.batchJobService.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -20,14 +21,14 @@ import com.iris.batchJobService.util.JobProgressConstants;
 public class JobProgressService implements IJobProgressService {
 
 	@Autowired
-	private IJobProgressDao jobProgressDAO;
+	private IJobProgressDao jobProgressDao;
 
 	private static final Logger logger = LoggerFactory.getLogger(JobProgressService.class);
 
 	@Override
 	public List<JobProgressData> getCompletedJobs() {
-		List<JobProgressData> list = getJobProgressDAO().getJobsByStatus(JobProgressConstants.JOB_COMPLETED);
-		list.addAll(getJobProgressDAO().getJobsByStatus(JobProgressConstants.JOB_FAILED));
+		List<JobProgressData> list = getJobProgressDao().getJobProgressByStatus(
+				Arrays.asList(JobProgressConstants.JOB_COMPLETED, JobProgressConstants.JOB_FAILED));
 
 		logger.info("Inside getCompletedJobs : list size : " + list.size());
 
@@ -36,19 +37,26 @@ public class JobProgressService implements IJobProgressService {
 
 	@Override
 	public List<JobProgressData> getRunningJobs() {
-		List<JobProgressData> list = getJobProgressDAO().getJobsByStatus(JobProgressConstants.JOB_RUNNING);
+		List<JobProgressData> list = getJobProgressDao()
+				.getJobProgressByStatus(Arrays.asList(JobProgressConstants.JOB_RUNNING));
 
 		logger.info("Inside getRunningJobs : list size : " + list.size());
 
 		return list;
 	}
 
-	public IJobProgressDao getJobProgressDAO() {
-		return jobProgressDAO;
+	@Override
+	public JobProgressData saveJobProgress(JobProgressData jobProgressData) {
+		JobProgressData jobProgressDataSave = jobProgressDao.saveJobProgress(jobProgressData);
+		return jobProgressDataSave;
 	}
 
-	public void setJobProgressDAO(IJobProgressDao jobProgressDAO) {
-		this.jobProgressDAO = jobProgressDAO;
+	public IJobProgressDao getJobProgressDao() {
+		return jobProgressDao;
+	}
+
+	public void setJobProgressDao(IJobProgressDao jobProgressDao) {
+		this.jobProgressDao = jobProgressDao;
 	}
 
 }

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -20,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.iris.trade.bean.JobProgressData;
 import com.iris.trade.bean.JobScheduler;
 import com.iris.trade.bean.ResponseBean;
+import com.iris.trade.bean.Trade;
 import com.iris.trade.constants.IControllerConstants;
 import com.iris.trade.response.bean.JobShedulerResponse;
 import com.iris.trade.util.TradeAppPropertyUtil;
@@ -35,8 +39,10 @@ import com.iris.trade.util.TradeAppPropertyUtil;
 @RequestMapping(IControllerConstants.TRADE_APP)
 public class TradeAppController {
 
+	private static final Logger logger = LoggerFactory.getLogger(TradeAppController.class);
+	
 	@Autowired
-	RestTemplate restTemplate;
+	private RestTemplate restTemplate;
 
 	@RequestMapping("/")
 	public String Trades(Model model) {
@@ -67,7 +73,7 @@ public class TradeAppController {
 		jobShedulerResponse.setMessage(IControllerConstants.SCHEDULE_JOB_FAILURE);
 
 		try {
-			if (jobScheduler.getRunFrequency().equals("0")) {
+			if (jobScheduler.getRunFrequency().equals(IControllerConstants.SCHEDULE_JOB)) {
 				ResponseBean responseBean = restTemplate.postForObject(tradeAppProperty.getScheduleJobRestAPI(),
 						jobScheduler, ResponseBean.class);
 				jobShedulerResponse.setStatusCode(responseBean.getStatuscode());
@@ -79,7 +85,8 @@ public class TradeAppController {
 				jobShedulerResponse.setMessage(responseBean.getMessage());
 			}
 		} catch (Exception ex) {
-
+			logger.info(IControllerConstants.SCHEDULE_JOB_EXCEPTION_MSG , jobScheduler.getJobName(),
+					ex);
 		}
 
 		return jobShedulerResponse;
@@ -103,13 +110,14 @@ public class TradeAppController {
 		try {
 
 			ResponseBean responseBean = restTemplate.postForObject(
-					tradeAppProperty.getUpdateJobSchedulerDetail() + "/" + jobScheduler.getId(), jobScheduler,
+					tradeAppProperty.getUpdateJobSchedulerDetail() + IControllerConstants.SLASH + jobScheduler.getId(), jobScheduler,
 					ResponseBean.class);
 			jobShedulerResponse.setStatusCode(responseBean.getStatuscode());
 			jobShedulerResponse.setMessage(responseBean.getMessage());
 
 		} catch (Exception ex) {
-
+			logger.info(IControllerConstants.UPDATE_JOB_EXCEPTION_MSG , jobScheduler.getJobName(),
+					ex);
 		}
 
 		return jobShedulerResponse;
@@ -142,7 +150,8 @@ public class TradeAppController {
 			jobShedulerResponse.setMessage(IControllerConstants.DELETE_SUCCESS);
 
 		} catch (Exception ex) {
-
+			logger.info(IControllerConstants.DELETE_JOB_EXCEPTION_MSG , jobId,
+					ex);
 		}
 
 		return jobShedulerResponse;
@@ -165,10 +174,60 @@ public class TradeAppController {
 			jobSchedulerDetailList = restTemplate.getForObject(tradeAppProperty.getAllJobScheduleDetails(), List.class);
 
 		} catch (Exception ex) {
-
+			logger.info(IControllerConstants.GET_ALL_JOB_DETAILS_EXCEPTION_MSG ,
+					ex);
 		}
 
 		return jobSchedulerDetailList;
+	}
+	
+	/**
+	 * This method will get All schedule Job List
+	 * 
+	 * @return List<Trade>
+	 */
+	@SuppressWarnings("unchecked")
+	@GetMapping(IControllerConstants.GET_LIVE_FEED_DATA)
+	@ResponseBody
+	public List<Trade> getLiveFeedData(@PathVariable(value = IControllerConstants.SECURITY) String security) {
+
+		List<Trade> liveFeedDataList = new ArrayList<>();
+
+		try {
+			
+			liveFeedDataList = restTemplate.getForObject(tradeAppProperty.getLiveFeedData() + IControllerConstants.SLASH + security, List.class);
+
+		} catch (Exception ex) {
+			logger.info(IControllerConstants.GET_LIVE_FEED_DATA_EXCEPTION_MSG , security ,
+					ex);
+		}
+
+		return liveFeedDataList;
+	}
+	
+	
+	/**
+	 * This method will get All schedule Job progress List
+	 * 
+	 * @return List<Trade>
+	 */
+	@SuppressWarnings("unchecked")
+	@GetMapping(IControllerConstants.GET_ALL_SCHEDULE_JOB_PROG_LIST)
+	@ResponseBody
+	public List<JobProgressData> getScheduleJobProgressList() {
+
+		List<JobProgressData> sheduleJobsProgressList = new ArrayList<>();
+
+		try {
+			
+			sheduleJobsProgressList = restTemplate.getForObject(tradeAppProperty.getAllScheduleJobProgressList(), List.class);
+
+		} catch (Exception ex) {
+			logger.info(IControllerConstants.GET_LIVE_FEED_DATA_EXCEPTION_MSG ,
+					ex);
+		}
+
+		return sheduleJobsProgressList;
 	}
 
 }
