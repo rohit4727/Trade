@@ -6,10 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.client.RestTemplate;
 
+import com.iris.batch.util.ETLConstants;
 import com.iris.batch.util.ErrorMsg;
 import com.iris.batch.util.LogMsg;
+import com.iris.batch.util.PropertiesUtil;
+import com.iris.mvc.model.JobProgressData;
 
 /*
  * Chunk listener class for the lifecycle of a chunk
@@ -19,8 +22,6 @@ import com.iris.batch.util.LogMsg;
 public class CustomChunkListener implements ChunkListener {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomChunkListener.class);
-
-	private final String UPDATE_QUERY = "update JOB_PROGRESS_DATA set writer_line_count = ? where job_id = ?";
 
 	private DataSource dataSource;
 
@@ -54,21 +55,25 @@ public class CustomChunkListener implements ChunkListener {
 	@Override
 	public void afterChunk(ChunkContext context) {
 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSource());
-
+		String uri = PropertiesUtil.get("job_progress_service_url");
 		int writeCount = context.getStepContext().getStepExecution().getWriteCount();
 
-		Object[] params = { writeCount, getJobId() };
-		jdbcTemplate.update(UPDATE_QUERY, params);
+		JobProgressData jobProgressData = new JobProgressData();
+		jobProgressData.setJobId(getJobId());
+		jobProgressData.setWriterLineCount(writeCount);
+		jobProgressData.setStatus(ETLConstants.JOB_RUNNING);
 
-		log.info(LogMsg.CUSTOMER_CHUNK_LISTNER_AFTER_CHUNK_SUCCESS + writeCount);
+		RestTemplate restTemplate = new RestTemplate();
+		String result = restTemplate.postForObject(uri, jobProgressData, String.class);
+
+		log.info(LogMsg.CUSTOMER_CHUNK_LISTNER_AFTER_CHUNK_SUCCESS + result);
 	}
 
 	@Override
 	public void afterChunkError(ChunkContext context) {
-		
+
 		log.error(ErrorMsg.CUSTOM_CHUNK_LISTNER_ERROR);
-		
+
 	}
 
 }

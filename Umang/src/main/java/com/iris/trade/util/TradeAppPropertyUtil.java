@@ -36,6 +36,12 @@ public class TradeAppPropertyUtil {
 	
 	@Value("${getLiveFeedData}")
 	private String liveFeedData;
+	
+	@Value("${batchJobServiceBaseApi}")
+	private String batchJobServiceBaseApi;
+	
+	@Value("${getAllScheduleJobProgressList}")
+	private String allScheduleJobProgressList;
 
 	public String getScheduleJobApiBaseUrl() {
 		return scheduleJobApiBaseUrl;
@@ -69,5 +75,14 @@ public class TradeAppPropertyUtil {
 		return liveFeedBaseUri + liveFeedData;
 	}
 
+	public String getBatchJobServiceBaseApi() {
+		return batchJobServiceBaseApi;
+	}
+
+	public String getAllScheduleJobProgressList() {
+		return batchJobServiceBaseApi + allScheduleJobProgressList;
+	}
+
+	
 
 }

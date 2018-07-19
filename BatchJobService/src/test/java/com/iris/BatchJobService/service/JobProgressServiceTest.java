@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.iris.batchJobService.dao.IJobProgressDao;
 import com.iris.batchJobService.entity.JobProgressData;
 import com.iris.batchJobService.repository.JobProgressRepository;
 import com.iris.batchJobService.service.JobProgressService;
@@ -30,7 +31,7 @@ public class JobProgressServiceTest {
 		List<JobProgressData> mockList = new ArrayList<JobProgressData>();
 		List<JobProgressData> expectedList = new ArrayList<JobProgressData>();
 
-		jobProgressData.setJobId(1);
+		jobProgressData.setJobId(new Long(1));
 		jobProgressData.setStatus(1);
 		jobProgressData.setTotalLineCount(1000);
 		jobProgressData.setWriterLineCount(11000);
@@ -38,7 +39,7 @@ public class JobProgressServiceTest {
 		mockList.add(jobProgressData);
 		expectedList.add(jobProgressData);
 
-		jobProgressData.setJobId(2);
+		jobProgressData.setJobId(new Long(2));
 		jobProgressData.setStatus(2);
 		jobProgressData.setTotalLineCount(1000);
 		jobProgressData.setWriterLineCount(100);
@@ -46,13 +47,13 @@ public class JobProgressServiceTest {
 		mockList.add(jobProgressData);
 		expectedList.add(jobProgressData);
 
-		JobProgressRepository jobProgressRepository = mock(JobProgressRepository.class);
-		when(jobProgressRepository
-				.findByStatusIn(Arrays.asList(JobProgressConstants.JOB_COMPLETED, JobProgressConstants.JOB_FAILED)))
+		IJobProgressDao jobProgressDao = mock(IJobProgressDao.class);
+		when(jobProgressDao.getJobProgressByStatus(
+				Arrays.asList(JobProgressConstants.JOB_COMPLETED, JobProgressConstants.JOB_FAILED)))
 						.thenReturn(mockList);
-		
+
 		JobProgressService jobProgressService = new JobProgressService();
-		jobProgressService.setJobProgressRepository(jobProgressRepository);
+		jobProgressService.setJobProgressDao(jobProgressDao);
 		List<JobProgressData> result = jobProgressService.getCompletedJobs();
 
 		Assert.assertEquals(expectedList, result);
@@ -65,7 +66,7 @@ public class JobProgressServiceTest {
 		List<JobProgressData> mockList = new ArrayList<JobProgressData>();
 		List<JobProgressData> expectedList = new ArrayList<JobProgressData>();
 
-		jobProgressData.setJobId(1);
+		jobProgressData.setJobId(new Long(1));
 		jobProgressData.setStatus(1);
 		jobProgressData.setTotalLineCount(1000);
 		jobProgressData.setWriterLineCount(1000);
@@ -73,7 +74,7 @@ public class JobProgressServiceTest {
 		mockList.add(jobProgressData);
 		expectedList.add(jobProgressData);
 
-		jobProgressData.setJobId(2);
+		jobProgressData.setJobId(new Long(2));
 		jobProgressData.setStatus(2);
 		jobProgressData.setTotalLineCount(1000);
 		jobProgressData.setWriterLineCount(100);
@@ -81,12 +82,12 @@ public class JobProgressServiceTest {
 		mockList.add(jobProgressData);
 		expectedList.add(jobProgressData);
 
-		JobProgressRepository jobProgressRepository = mock(JobProgressRepository.class);
-		when(jobProgressRepository.findByStatusIn(Arrays.asList(JobProgressConstants.JOB_RUNNING)))
+		IJobProgressDao jobProgressDao = mock(IJobProgressDao.class);
+		when(jobProgressDao.getJobProgressByStatus(Arrays.asList(JobProgressConstants.JOB_RUNNING)))
 				.thenReturn(mockList);
-		
+
 		JobProgressService jobProgressService = new JobProgressService();
-		jobProgressService.setJobProgressRepository(jobProgressRepository);
+		jobProgressService.setJobProgressDao(jobProgressDao);
 		List<JobProgressData> result = jobProgressService.getRunningJobs();
 
 		Assert.assertEquals(expectedList, result);

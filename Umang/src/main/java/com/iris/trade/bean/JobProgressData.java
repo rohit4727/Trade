@@ -1,30 +1,18 @@
-package com.iris.batchJobService.entity;
+package com.iris.trade.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-/*
- * Entity class for table  JOB_PROGRESS_DATA
+/**
  * 
- * @author Rohit Elayathu
+ * @author pushpendra.singh
+ *
  */
-@Entity
-@Table(name = "JOB_PROGRESS_DATA")
 public class JobProgressData {
 
-	@Id
-	@Column(name = "job_id")
 	private Long jobId;
 
-	@Column(name = "total_line_count")
 	private Integer totalLineCount;
 
-	@Column(name = "writer_line_count")
 	private Integer writerLineCount;
 
-	@Column(name = "status")
 	private Integer status;
 
 	public Long getJobId() {
@@ -33,6 +21,10 @@ public class JobProgressData {
 
 	public void setJobId(Long jobId) {
 		this.jobId = jobId;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public Integer getTotalLineCount() {
@@ -51,11 +43,11 @@ public class JobProgressData {
 		this.writerLineCount = writerLineCount;
 	}
 
-	public Integer getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
