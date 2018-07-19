@@ -7,7 +7,7 @@ package com.iris.trade.bean;
  */
 public class JobProgressData {
 
-	private int jobId;
+	private Long jobId;
 
 	private Integer totalLineCount;
 
@@ -15,12 +15,16 @@ public class JobProgressData {
 
 	private Integer status;
 
-	public int getJobId() {
+	public Long getJobId() {
 		return jobId;
 	}
 
-	public void setJobId(int jobId) {
+	public void setJobId(Long jobId) {
 		this.jobId = jobId;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public Integer getTotalLineCount() {
