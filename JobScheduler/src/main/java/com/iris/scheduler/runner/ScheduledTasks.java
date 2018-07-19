@@ -28,10 +28,9 @@ public class ScheduledTasks {
 	private SchedulerService schedulerService;
 
 	@Scheduled(fixedDelay = IControllerConstants.SCHEDULE_TIMING)
-	public void scheduleJob() {
+	public boolean scheduleJob() {
 
 		List<JobScheduler> joblisttorun = schedulerService.findbycurDate();
-	
 		try {
 			boolean flag =false;
 		for (JobScheduler job : joblisttorun) {
@@ -54,6 +53,8 @@ public class ScheduledTasks {
 		catch(Exception e) {
 			logger.error(IControllerConstants.GETSCHEDULEDJOBERROR , e);
 		}
+		return true;
+		
 	}
 
 }

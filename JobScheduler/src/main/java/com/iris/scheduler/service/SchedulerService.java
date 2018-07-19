@@ -17,9 +17,9 @@ public interface SchedulerService {
 	 * Runs the batch file of different tasks/scripts with job id and job script
 	 * path
 	 */
+	
 	public void runcmd(String filepath, Long id);
-	/*
-	 * To Save the status of Job in Database
+	/* To Save the status of Job in Database
 	 * 1 - Run successfully 
 	 * 2 - Failure
 	 * 0 - To be process as per scheduler time
