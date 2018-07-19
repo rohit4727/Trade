@@ -14,5 +14,7 @@ public interface IJobProgressService {
 	List<JobProgressData> getCompletedJobs();
 
 	List<JobProgressData> getRunningJobs();
+	
+	JobProgressData saveJobProgress(JobProgressData jobProgressData);
 
 }

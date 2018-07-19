@@ -16,7 +16,7 @@ public class JobProgressData {
 
 	@Id
 	@Column(name = "job_id")
-	private int jobId;
+	private Long jobId;
 
 	@Column(name = "total_line_count")
 	private Integer totalLineCount;
@@ -27,11 +27,11 @@ public class JobProgressData {
 	@Column(name = "status")
 	private Integer status;
 
-	public int getJobId() {
+	public Long getJobId() {
 		return jobId;
 	}
 
-	public void setJobId(int jobId) {
+	public void setJobId(Long jobId) {
 		this.jobId = jobId;
 	}
 
@@ -51,11 +51,11 @@ public class JobProgressData {
 		this.writerLineCount = writerLineCount;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
