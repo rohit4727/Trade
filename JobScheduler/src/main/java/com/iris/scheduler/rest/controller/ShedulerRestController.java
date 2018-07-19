@@ -99,7 +99,7 @@ public class ShedulerRestController {
 			updatedJobScheduler = jobSchedulerDetailService.updateJobScheduler(jobScheduler, jobSchedulerDetails);
 
 		} catch (Exception ex) {
-			logger.info(IControllerConstants.UPDATE_JOB_SCHEDULER_DETAILS_EXCEP_LOG_MSG + jobId, ex);
+			logger.info(IControllerConstants.UPDATE_JOB_SCHEDULER_DETAILS_EXCEP_LOG_MSG , jobId, ex);
 		}
 
 		if (updatedJobScheduler != null && updatedJobScheduler.getId() != null) {
