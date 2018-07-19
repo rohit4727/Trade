@@ -6,28 +6,12 @@ Ext.define('ui.model.JobModel', {
         , { name: 'jobName' }
         , { name: 'batchFilePath' }        
         , { name: 'scheduleDate'}
-        , { name: 'status', type: 'int'}
-        , { name: 'date', convert: function (v, rec) {        	
-            if (v) {
-                v = Ext.isDate(v) ? v : new Date(v);
-                v = Ext.Date.format(v, 'Y-m-d');
-            }
-
-            return v;
-    	}}
-        , { name: 'time', convert: function (v, rec) {        	
-            if (v) {
-                v = Ext.isDate(v) ? v : new Date(v);
-                v = Ext.Date.format(v, 'H:i');
-            }
-
-            return v;
-    	}}        
-        , { name: 'runFrequency', defaultValue: 1, type: 'int', convert: function (v, rec) {
+        , { name: 'status', type: 'int'}         
+        , { name: 'runFrequency', mapping:'status', defaultValue: 1, type: 'int', convert: function (v, rec) {
             return v == '1' ? 1 : (v == true ? 1 : 0);
         	} 
         }
-        , { name: 'displayDate', convert: function (v, rec) {
+        , { name: 'displayDate', defaultValue: new Date(), convert: function (v, rec) {
         		v = rec.get('scheduleDate');
 	            if (v) {
 	                v = Ext.isDate(v) ? v : new Date(v);
@@ -38,7 +22,7 @@ Ext.define('ui.model.JobModel', {
         	} 
         }
         , {
-            name: 'displayTime', convert: function (v, rec) {	
+            name: 'displayTime', defaultValue: new Date(), convert: function (v, rec) {	
                 v = new Date(rec.get('scheduleDate'));                
                 v = new Date(v.getTime() + (v.getTimezoneOffset() * 60000));
                                          	
@@ -56,12 +40,10 @@ Ext.define('ui.model.JobModel', {
             type: 'json'
     	}
         , api: {
-            create: '/scheduleOrRunJob'
-            , update: {
-            	url: '/schedule_job_update'
-            }
+            create: '/TradeApp/scheduleOrRunJob'
+            , update: '/TradeApp/updateJobScheduleDetails'
             , destroy: {
-            	url: '/schedule_job_delete'
+            	url: '/TradeApp/schedule_job_delete'
             }
         }
     }

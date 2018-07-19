@@ -43,5 +43,6 @@ public interface IControllerConstants {
 	public static final String CREATEJOBSCHEDULARERROR = "CreateJobScheduler : Create Job Failed for Run Job Having Name and Exception is {}";
 	public static final String RUNJOBFAILLOGGER = "FAILED To Run The Job with ID {}";
 	public static final String RUNJOBOKLOGGER = "RUNCMD with ID {}";
-	public static final String PATHNOTEXIST = "Path of Script Does Not Exists {}";
+	public static final String CREATE_SCHEDULER_EXCEP_LOG_MSG = "createJobScheduler : create / schedule job faied for JobName: ";
+	public static final String UPDATE_JOB_SCHEDULER_DETAILS_EXCEP_LOG_MSG = "updateJobSchedulerDetail : update schedule job faied for jobId: ";
 }

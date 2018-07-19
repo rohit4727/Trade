@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TradeAppPropertyUtil {
 
-	@Value("${scheduleJobRestAPI}")
+	@Value("${scheduleJobApiBaseUrl}")
 	private String scheduleJobApiBaseUrl;
 	
 	@Value("${scheduleJobRestAPI}")
@@ -35,7 +35,7 @@ public class TradeAppPropertyUtil {
 	private String liveFeedBaseUri;
 	
 	@Value("${getLiveFeedData}")
-	private String getLiveFeedData;
+	private String liveFeedData;
 
 	public String getScheduleJobApiBaseUrl() {
 		return scheduleJobApiBaseUrl;
@@ -65,8 +65,9 @@ public class TradeAppPropertyUtil {
 		return liveFeedBaseUri;
 	}
 
-	public String getGetLiveFeedData() {
-		return liveFeedBaseUri + getLiveFeedData;
+	public String getLiveFeedData() {
+		return liveFeedBaseUri + liveFeedData;
 	}
-	
+
+
 }

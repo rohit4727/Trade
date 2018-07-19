@@ -41,6 +41,28 @@ public class JobSchedulerDetailServiceImpl implements JobSchedulerDetailService 
 		
 		return jobSchedulerRepository.save(jobScheduler);
 	}
+	
+	/**
+	 * This will update job schedule details
+	 * @param jobScheduler
+	 * @return JobScheduler
+	 */
+	@Override
+	public JobScheduler updateJobScheduler(JobScheduler jobScheduler, JobScheduler jobSchedulerDetails) {
+		
+		if (jobSchedulerDetails.getJobName() != null) {
+			jobScheduler.setJobName(jobSchedulerDetails.getJobName());
+		}
+
+		if (jobSchedulerDetails.getBatchFilePath() != null) {
+			jobScheduler.setBatchFilePath(jobSchedulerDetails.getBatchFilePath());
+		}
+
+		if (jobSchedulerDetails.getScheduleDate() != null) {
+			jobScheduler.setScheduleDate(jobSchedulerDetails.getScheduleDate());
+		}
+		return jobSchedulerRepository.save(jobScheduler);
+	}
 
 	/**
 	 * This method will get schedule job details by Id

@@ -40,9 +40,8 @@ Ext.define('ui.view.main.JobList', {
         		else if(v==2){return "Run Failed";}
         		else {return "Unknown";}
         	} 
-        }
-        
-        /*{
+        },        
+        {
             xtype:'actioncolumn'
             , width:60
             , items: [
@@ -50,21 +49,19 @@ Ext.define('ui.view.main.JobList', {
 	                iconCls: 'x-fa fa-pencil'
 	                , tooltip: 'Edit'
                 	, handler: 'onScheduleJobListEditBtnClick'
-//	                , handler: function(grid, rowIndex, colIndex) {
-//	                    var rec = grid.getStore().getAt(rowIndex);
-//	                    alert("Edit " + rec.get('firstname'))
-//	                }
+            		, isDisabled: function(view, rowIndex, colIndex, item, record) {
+            			return record.get('status')!=0;
+                    }
 	            },
 	            {
 	            	iconCls: 'x-fa fa-times'
 	                , tooltip: 'Delete'
                 	, style:'float:right'
-	                , handler: function(grid, rowIndex, colIndex) {
-//	                    var rec = grid.getStore().getAt(rowIndex);
-//	                    alert("Terminate " + rec.get('firstname'));
-	                }
+            		, isDisabled: function(view, rowIndex, colIndex, item, record) {
+            			return record.get('status')!=0;
+                    }
 	            }
             ]
-        }*/
+        }
     ]
 });

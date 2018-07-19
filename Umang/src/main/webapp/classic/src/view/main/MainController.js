@@ -89,7 +89,11 @@ Ext.define('ui.view.main.MainController', {
     		 jobItem.set('status', 1);
     	 }
     	 else{
-    		 jobItem.set('scheduleDate', new Date(jobItem.get('date') + ' ' + jobItem.get('time')));	
+    		 var view = this.getView()
+	             , dateField = view.lookupReference('scheduledDate')
+	             , timeField = view.lookupReference('scheduledTime');
+    		 
+    		 jobItem.set('scheduleDate', new Date(Ext.util.Format.date(dateField.getValue(), 'Y-m-d') + ' ' + Ext.util.Format.date(timeField.getValue(), 'H:i')));	
     		 jobItem.set('status', 0);
     	 }
     	 
@@ -115,8 +119,10 @@ Ext.define('ui.view.main.MainController', {
 	        			 win.destroy();
 	        			 me.loadScheduleJobList();
 	        		 }
-	        		 else{	        			 
-	        			 viewModel.set('jobItem', Ext.create(ui.model.JobModel, {}));
+	        		 else{	   
+	        			 if(win.mode == 'add'){
+	        				 viewModel.set('jobItem', Ext.create(ui.model.JobModel, {}));
+	        			 }
 	        			 me.showToast(response.message);	        			 
 	        		 }	        		 
 	        	 }	             
@@ -133,7 +139,7 @@ Ext.define('ui.view.main.MainController', {
     //update mode for schedule jobs
     , onScheduleJobListEditBtnClick:function(grid, ri){
     	var rec = grid.getStore().getAt(ri)
-    		, viewModel = this.getViewModel();
+    		, viewModel = this.getViewModel()  
     	
     	viewModel.set('jobItem', rec);
     	

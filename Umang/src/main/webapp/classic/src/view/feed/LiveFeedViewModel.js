@@ -2,12 +2,16 @@
  * Author: Umang Goel
  * This class is the view model for the Main view of the application.
  */
-Ext.define('ui.view.main.MainModel', {
+Ext.define('ui.view.feed.LiveFeedViewModel', {
     extend: 'Ext.app.ViewModel'
-    , alias: 'viewmodel.main'
+    , alias: 'viewmodel.livefeed'
 	, links: {
-        jobItem: {
-            type: 'ui.model.JobModel'
+		liveFeedListFilter: {
+            type: 'ui.model.LiveFeedFilterModel'
+             , create: true
+        },
+        liveFeedListModel: {
+            type: 'ui.model.LiveFeedModel'
              , create: true
         }
     }
@@ -18,21 +22,16 @@ Ext.define('ui.view.main.MainModel', {
     }
     , initStores: function () {
         return {            
-            scheduleJobListStore: {
-                model: 'ui.model.JobModel'
-                , autoLoad: true
-                , storeId: 'scheduleJobListStore'                
+            liveFeedListStore: {
+                model: 'ui.model.LiveFeedModel'
+                , autoLoad: false
+                , storeId: 'liveFeedListStore'                
             	, proxy: {
                     type: 'ajax'
                     , api: {
-                        read: '/TradeApp/getAllJobScheduleDetails'
+                        read: '/TradeApp/getLiveFeedData'
                     }
                 }                
-            },
-            scheduleListChartStore:{
-                storeId: 'scheduleListChartStore' 
-            	, fields: ['type', 'count' ]
-            	, data:[]	            
             }
         }
     }

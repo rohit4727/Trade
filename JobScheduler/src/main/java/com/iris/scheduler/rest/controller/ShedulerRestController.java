@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,9 +36,9 @@ public class ShedulerRestController {
 	private static final Logger logger = LoggerFactory.getLogger(ShedulerRestController.class);
 
 	@Autowired
-	SchedulerService schedularService;
+	private SchedulerService schedularService;
 	@Autowired
-	JobSchedulerDetailService jobSchedulerDetailService;
+	private JobSchedulerDetailService jobSchedulerDetailService;
 
 	@GetMapping(IControllerConstants.GET_ALL_JOB_SCHEDULE_DETAILS)
 	public List<JobScheduler> getAllJobScheduleDetails() {
@@ -60,7 +59,7 @@ public class ShedulerRestController {
 			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
 
 		} catch (Exception ex) {
-			logger.info("createJobScheduler : create / schedule job faied for JobName: " + jobScheduler.getJobName(),
+			logger.info(IControllerConstants.CREATE_SCHEDULER_EXCEP_LOG_MSG + jobScheduler.getJobName(),
 					ex);
 		}
 		if (jobScheduler != null && jobScheduler.getId() != null) {
@@ -93,26 +92,14 @@ public class ShedulerRestController {
 	public ResponseBean updateJobSchedulerDetail(@PathVariable(value = IControllerConstants.ID) Long jobId,
 			@RequestBody JobScheduler jobSchedulerDetails) {
 
-		JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(jobId);
-
-		if (jobSchedulerDetails.getJobName() != null) {
-			jobScheduler.setJobName(jobSchedulerDetails.getJobName());
-		}
-
-		if (jobSchedulerDetails.getBatchFilePath() != null) {
-			jobScheduler.setBatchFilePath(jobSchedulerDetails.getBatchFilePath());
-		}
-
-		if (jobSchedulerDetails.getScheduleDate() != null) {
-			jobScheduler.setScheduleDate(jobSchedulerDetails.getScheduleDate());
-		}
-
 		JobScheduler updatedJobScheduler = null;
 		try {
-			updatedJobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
+			
+			JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(jobId);
+			updatedJobScheduler = jobSchedulerDetailService.updateJobScheduler(jobScheduler, jobSchedulerDetails);
 
 		} catch (Exception ex) {
-			logger.info("updateJobSchedulerDetail : update schedule job faied for jobId: " + jobId, ex);
+			logger.info(IControllerConstants.UPDATE_JOB_SCHEDULER_DETAILS_EXCEP_LOG_MSG + jobId, ex);
 		}
 
 		if (updatedJobScheduler != null && updatedJobScheduler.getId() != null) {
