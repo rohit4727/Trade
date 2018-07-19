@@ -45,4 +45,5 @@ public interface IControllerConstants {
 	public static final String RUNJOBOKLOGGER = "RUNCMD with ID {}";
 	public static final String CREATE_SCHEDULER_EXCEP_LOG_MSG = "createJobScheduler : create / schedule job faied for JobName: ";
 	public static final String UPDATE_JOB_SCHEDULER_DETAILS_EXCEP_LOG_MSG = "updateJobSchedulerDetail : update schedule job faied for jobId: ";
+	public static final String PATHNOTEXIST="BATCH FILE PATH DOES NOT EXISTS";
 }
