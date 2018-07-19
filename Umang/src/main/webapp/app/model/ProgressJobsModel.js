@@ -1,4 +1,4 @@
-Ext.define('ui.model.LiveFeedModel', {
+Ext.define('ui.model.ProgressJobsModel', {
 	extend: 'ui.model.Base'
     , idProperty: 'tradeId'
     , fields: [
@@ -8,7 +8,8 @@ Ext.define('ui.model.LiveFeedModel', {
         , { name: 'currency'} 
         , { name: 'broker' }
         , { name: 'tradePrice' }  
-        , { name: 'tradeDate', convert: function (v, rec) {
+        , { name: 'tradeDate', defaultValue: new Date(), convert: function (v, rec) {
+        		v = rec.get('scheduleDate');
 	            if (v) {
 	                v = Ext.isDate(v) ? v : new Date(v);
 	                v = Ext.Date.format(v, 'Y-m-d');
@@ -18,8 +19,8 @@ Ext.define('ui.model.LiveFeedModel', {
         	} 
         }
         , {
-            name: 'tradeTime', convert: function (v, rec) {
-                v = new Date(v);                
+            name: 'tradeTime', defaultValue: new Date(), convert: function (v, rec) {	
+                v = new Date(rec.get('scheduleDate'));                
                 v = new Date(v.getTime() + (v.getTimezoneOffset() * 60000));
                                          	
                 if (v) {                	

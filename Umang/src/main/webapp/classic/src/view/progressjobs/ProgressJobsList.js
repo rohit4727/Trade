@@ -15,14 +15,9 @@ Ext.define('ui.view.progressjobs.ProgressJobsList', {
             , dock: 'top'
             , items: [
             	{
-            		xtype:'label'
-        			, text: 'Job Name'
-    				, style: 'font-weight:bold;'
-            	},
-                {
-                	xtype:'textfield'
-            		, hideLabel	: true
-    				, reference: 'progressjobsfiltertextfield' 					
+                    xtype: 'button'
+                    , iconCls: 'x-fa fa-refresh'
+                    , handler: 'onProgressJobsListRefreshButtonClick'
                 }
             ]
         }
@@ -43,7 +38,7 @@ Ext.define('ui.view.progressjobs.ProgressJobsList', {
         { text: 'Status', dataIndex: 'status', flex: 0.5, renderer:function(v, md){
         		if(Ext.isEmpty(v)){return ''};
         		
-        		if(v==0){return "Run Scheduled";}
+        		if(v==0){return "In Progress";}
         		else if(v==1){return "Run Success";}
         		else if(v==2){return "Run Failed";}
         		else {return "Unknown";}

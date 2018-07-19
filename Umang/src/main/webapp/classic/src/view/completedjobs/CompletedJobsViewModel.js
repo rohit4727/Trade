@@ -5,11 +5,7 @@
 Ext.define('ui.view.completedjobs.CompletedJobsViewModel', {
     extend: 'Ext.app.ViewModel'
     , alias: 'viewmodel.completedjobs'
-	, links: {
-		completedJobsListFilter: {
-            type: 'ui.model.CompletedJobsFilterModel'
-             , create: true
-        },
+	, links: {		
         completedJobsListModel: {
             type: 'ui.model.CompletedJobsModel'
              , create: true

@@ -18,14 +18,14 @@ Ext.define('ui.view.progressjobs.ProgressJobsViewModel', {
     }
     , initStores: function () {
         return {            
-            progressJobsListStore: {
+        	progressJobsListStore: {
                 model: 'ui.model.ProgressJobsModel'
-                , autoLoad: false
+                , autoLoad: true
                 , storeId: 'progressJobsListStore'                
             	, proxy: {
                     type: 'ajax'
                     , api: {
-                        read: '/TradeApp/getProgressJobsData'
+                        read: '/TradeApp/getScheduleJobProgressList'
                     }
                 }                
             }

@@ -95,13 +95,8 @@ Ext.define('ui.view.main.Main', {
 	    },
 	    {
 	        title: 'Progress Jobs',
-	        iconCls: 'fa-th-list',
-	        items: [
-	        	{
-		            xtype: 'progressjobslist'
-		        	, height: Ext.getBody().getHeight()-20
-	        	}
-	    	]
+	        xtype: 'progressjobs',
+	        iconCls: 'fa-th-list'
 	    }
     ]
 });
