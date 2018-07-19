@@ -1,10 +1,10 @@
-Ext.define('ui.model.LiveFeedFilterModel', {
+Ext.define('ui.model.CompletedJobsFilterModel', {
 	extend: 'ui.model.Base'
     , idProperty: 'id'
     , fields: [
     	// paging and sorting params
     	{ name: 'id' }
-    	, { name: 'security', defaultValue: 'IRIS'}
+    	, { name: 'security', defaultValue: 'all'}
         , { name: 'sort' }
         , { name: 'dir' }
         , { name: 'total' }

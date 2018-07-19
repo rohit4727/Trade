@@ -3,9 +3,9 @@
  * This view is for Schedule job list.
  */
 
-Ext.define('ui.view.feed.LiveFeedList', {
+Ext.define('ui.view.completedjobs.CompletedJobsList', {
     extend: 'Ext.grid.Panel',
-    xtype: 'livefeedlist',
+    xtype: 'completedjobslist',
     
 
     title: 'Live Feed'
@@ -23,9 +23,9 @@ Ext.define('ui.view.feed.LiveFeedList', {
                 {
                 	xtype:'textfield'
             		, hideLabel	: true
-    				, reference: 'livefeedfiltertextfield' 
+    				, reference: 'completedjobsfiltertextfield' 
 					, bind:{
-						value: '{liveFeedListFilter.securityName}'
+						value: '{completedJobsListFilter.securityName}'
 					}
                 }
             ]
@@ -33,11 +33,11 @@ Ext.define('ui.view.feed.LiveFeedList', {
     ]
 
 
-	, reference: 'livefeedlist'
-    , itemId: 'livefeedlist'
-	, bind:{
-		store:'{liveFeedListStore}'
-	}
+	, reference: 'completedjobslist'
+    , itemId: 'completedjobslist'
+	/*, bind:{
+		store:'{completedJobsListStore}'
+	}*/
 
     , columns: [
         { text: 'Security Name',  dataIndex: 'security', flex: 0.75 },
@@ -56,6 +56,6 @@ Ext.define('ui.view.feed.LiveFeedList', {
         { text: 'Currency', dataIndex: 'currency' }
     ]
 	, listeners: {
-	    afterrender: 'onLiveFeedListAfterRender'
+	    afterrender: 'onCompletedJobsListAfterRender'
 	}
 });

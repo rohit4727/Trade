@@ -94,11 +94,14 @@ Ext.define('ui.view.main.Main', {
     		iconCls: 'fa-line-chart'
 	    },
 	    {
-	        title: 'Completed Jobs',
+	        title: 'Progress Jobs',
 	        iconCls: 'fa-th-list',
-	        bind: {
-	            html: 'loremIpsum'
-	        }
+	        items: [
+	        	{
+		            xtype: 'progressjobslist'
+		        	, height: Ext.getBody().getHeight()-20
+	        	}
+	    	]
 	    }
     ]
 });

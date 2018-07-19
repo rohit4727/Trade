@@ -40,8 +40,8 @@ Ext.define('ui.view.feed.LiveFeedController', {
 	        liveFeedListFilterModel.set('dir', dir);
 	        liveFeedListFilterModel.set('sort', id.substr(0, id.indexOf('-') > -1 ? id.indexOf('-') : id));
 	    }		
-		//liveFeedListFilterModel.set('securityName', dir);
-	    store.proxy.setExtraParams(liveFeedListFilterModel.getData());
+	    //store.proxy.setExtraParams(liveFeedListFilterModel.getData());
+	    store.proxy.api.read = "/TradeApp/getLiveFeedData/" + liveFeedListFilterModel.get('security');
 	}
 	
 	, onLiveFeedListFilterChange: function (combo, newValue, oldValue) {
