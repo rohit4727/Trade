@@ -42,6 +42,9 @@ public class TradeAppPropertyUtil {
 	
 	@Value("${getAllScheduleJobProgressList}")
 	private String allScheduleJobProgressList;
+	
+	@Value("${getAllExecutedJobList}")
+	private String allExecutedJobList;
 
 	public String getScheduleJobApiBaseUrl() {
 		return scheduleJobApiBaseUrl;
@@ -83,6 +86,8 @@ public class TradeAppPropertyUtil {
 		return batchJobServiceBaseApi + allScheduleJobProgressList;
 	}
 
-	
+	public String getAllExecutedJobList() {
+		return batchJobServiceBaseApi + allExecutedJobList;
+	}
 
 }
