@@ -14,15 +14,11 @@ Ext.define('ui.view.feed.LiveFeedList', {
     	{
             xtype: 'toolbar'
             , dock: 'top'
-            , items: [
-            	{
-            		xtype:'label'
-        			, text: 'Security Name'
-    				, style: 'font-weight:bold;'
-            	},
+            , items: [            	
             	{
             		xtype:'combobox'
-            	    ,fieldLabel: 'Choose State'
+            	    ,fieldLabel: 'Select Security to Filter'
+        	    	, labelStyle: 'font-weight:bold;'
         	    	, reference: 'livefeedsecurityfilter' 
             	    , store: []
             	    , bind:{
@@ -31,19 +27,7 @@ Ext.define('ui.view.feed.LiveFeedList', {
             		, listeners:{
             			change: 'onLiveFeedSecurityChange'
             		}
-            	}/*,
-                {
-                	xtype:'textfield'
-            		, hideLabel	: true
-    				, reference: 'livefeedfiltertextfield' 
-					, enableKeyEvents: true
-					, bind:{
-						value: '{liveFeedListFilter.security}'
-					}
-            		, listeners:{
-            			keyup: 'onLiveFeedSecurityNameKeyUp'
-            		}
-                }*/
+            	}
             ]
         }
     ]

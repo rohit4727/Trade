@@ -8,7 +8,7 @@ Ext.define('ui.view.completedjobs.CompletedJobsList', {
     xtype: 'completedjobslist',
     
 
-    title: 'Live Feed'
+    title: 'Completed Jobs'
 
     , dockedItems: [                
     	{
@@ -16,17 +16,9 @@ Ext.define('ui.view.completedjobs.CompletedJobsList', {
             , dock: 'top'
             , items: [
             	{
-            		xtype:'label'
-        			, text: 'Security Name'
-    				, style: 'font-weight:bold;'
-            	},
-                {
-                	xtype:'textfield'
-            		, hideLabel	: true
-    				, reference: 'completedjobsfiltertextfield' 
-					, bind:{
-						value: '{completedJobsListFilter.securityName}'
-					}
+                    xtype: 'button'
+                    , iconCls: 'x-fa fa-refresh'
+                    //, handler: 'onCompletedJobsListRefreshButtonClick'
                 }
             ]
         }
@@ -35,25 +27,24 @@ Ext.define('ui.view.completedjobs.CompletedJobsList', {
 
 	, reference: 'completedjobslist'
     , itemId: 'completedjobslist'
-	/*, bind:{
+	, bind:{
 		store:'{completedJobsListStore}'
-	}*/
+	}
 
     , columns: [
-        { text: 'Security Name',  dataIndex: 'security', flex: 0.75 },
-        { text: 'Instrument Type',  dataIndex: 'instrumentType', flex: 0.75 },
-        { text: 'Date', dataIndex: 'tradeDate', type: 'date' },
-        { text: 'Time', dataIndex: 'tradeTime', type: 'time' },
-        { text: 'Broker', dataIndex: 'broker' },
-        { text: 'Trade Price', dataIndex: 'tradePrice' },
-        /*{ text: 'Change', dataIndex: 'status', flex: 0.2, renderer:function(v, md){        	
-        	
-    		md.style = 'background-color: #ff6262;color:#FFF;';  //green = #458445
-        	
-        	return '<span class="fa fa-arrow-down" style="color:#FFF;"></span> 3.5'
+    	{ text: 'Job Name',  dataIndex: 'jobName', flex: 0.75 },
+        { text: 'Path',  dataIndex: 'batchFilePath', flex: 0.75 },
+        { text: 'Date', dataIndex: 'displayDate', type: 'date' },
+        { text: 'Time', dataIndex: 'displayTime', type: 'time' },
+        { text: 'Status', dataIndex: 'status', flex: 0.5, renderer:function(v, md){
+        		if(Ext.isEmpty(v)){return ''};
+        		
+        		if(v==0){return "In Progress";}
+        		else if(v==1){return "Run Success";}
+        		else if(v==2){return "Run Failed";}
+        		else {return "Unknown";}
         	} 
-        },*/
-        { text: 'Currency', dataIndex: 'currency' }
+        }
     ]
 	, listeners: {
 	    afterrender: 'onCompletedJobsListAfterRender'

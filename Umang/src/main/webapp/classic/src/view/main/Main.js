@@ -97,6 +97,11 @@ Ext.define('ui.view.main.Main', {
 	        title: 'Progress Jobs',
 	        xtype: 'progressjobs',
 	        iconCls: 'fa-th-list'
+	    },
+	    {
+	        title: 'Completed Jobs',
+	        xtype: 'completedjobs',
+	        iconCls: 'fa-th-list'
 	    }
     ]
 });

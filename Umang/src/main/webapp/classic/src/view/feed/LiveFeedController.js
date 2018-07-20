@@ -17,19 +17,25 @@ Ext.define('ui.view.feed.LiveFeedController', {
         }
     }
 
+	//used to fill security filter in toolbar
 	, onLiveFeedListLoad:function(store, records){
 		if(!records || this.firstTimeLoad==true){return;}
 		
 		this.firstTimeLoad =true;
 		
 		var len = records.length
-			, security = ['All'];
+			, securityArray = ['All'];
 		
-		for(var i=0, current;i<len;i++){
-			security.push(records[i]['data']['security']);
+
+		for (var i = 0, securityName; i < len; i++) {
+			securityName = records[i]['data']['security'];
+
+			if (securityArray.indexOf(securityName != -1)) {
+				securityArray.push(records[i]['data']['security']);
+			}
 		}
 		
-		this.lookupReference('livefeedsecurityfilter').store.loadData(security.map(function(item){ return [item]; }));
+		this.lookupReference('livefeedsecurityfilter').store.loadData(securityArray.map(function(item){ return [item]; }));
 	}
 	
 	, onLiveFeedListAfterRender: function (grid) {  
