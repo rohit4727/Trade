@@ -15,10 +15,10 @@ public class JobProgressDao implements IJobProgressDao {
 
 	@Autowired
 	private JobDetailRepository jobDetailRepository;
-	
+
 	@Autowired
 	private JobProgressRepository jobProgressRepository;
-	
+
 	public JobProgressRepository getJobProgressRepository() {
 		return jobProgressRepository;
 	}
@@ -26,7 +26,7 @@ public class JobProgressDao implements IJobProgressDao {
 	public void setJobProgressRepository(JobProgressRepository jobProgressRepository) {
 		this.jobProgressRepository = jobProgressRepository;
 	}
-	
+
 	public JobDetailRepository getJobDetailRepository() {
 		return jobDetailRepository;
 	}
@@ -56,7 +56,7 @@ public class JobProgressDao implements IJobProgressDao {
 			if (jobProgressData.getWriterLineCount() != null) {
 				jobProgressDataDb.setWriterLineCount(jobProgressData.getWriterLineCount());
 			}
-			
+
 			if (jobProgressData.getStatus() != null) {
 				jobProgressDataDb.setStatus(jobProgressData.getStatus());
 			}
@@ -66,7 +66,7 @@ public class JobProgressDao implements IJobProgressDao {
 		}
 
 		JobProgressData JobProgressDataSaved = getJobProgressRepository().save(jobProgressDataDb);
-		
+
 		return JobProgressDataSaved;
 	}
 
