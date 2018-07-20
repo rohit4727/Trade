@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import com.iris.batch.step.Reader;
 
 /**
- * Utility class to provide csv file column names
- * It reads column names for application.properties file
+ * Utility class to provide csv file column names It reads column names for
+ * application.properties file
  *
  * @author Saurabh Gupta
  */

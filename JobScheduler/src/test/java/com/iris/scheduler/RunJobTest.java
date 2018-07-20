@@ -1,9 +1,15 @@
 
 package com.iris.scheduler;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -19,6 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -65,13 +72,12 @@ public class RunJobTest {
 
 	@Mock
 	SchedulerService schedulerService;
-
 	@Mock
 	ScheduledTasks scheduledTasks;
-	
+
 	@Mock
 	JobSchedularDAO jobSchedularDAO;
-	
+
 	@Mock
 	CronRepository cronRepository;
 
@@ -103,25 +109,6 @@ public class RunJobTest {
 
 	}
 
-	@Test()
-	public void testFilePath() throws ParseException {
-
-		// missing file path
-		when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(0).getBatchFilePath())).thenReturn(false);
-		assertFalse(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(0).getBatchFilePath()));
-		verify(schedulerService).checkfilepath(SchedularTestUtil.getJobSchedular(0).getBatchFilePath());
-
-		// wrong file path
-		when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(1).getBatchFilePath())).thenReturn(false);
-		assertFalse(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(1).getBatchFilePath()));
-		verify(schedulerService).checkfilepath(SchedularTestUtil.getJobSchedular(1).getBatchFilePath());
-
-		// correct file path
-		when(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath())).thenReturn(true);
-		assertTrue(schedulerService.checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath()));
-		verify(schedulerService).checkfilepath(SchedularTestUtil.getJobSchedular(2).getBatchFilePath());
-	}
-
 	@Test
 	public void runJobFailure() throws Exception {
 
@@ -135,5 +122,6 @@ public class RunJobTest {
 
 	}
 
+	
 
 }

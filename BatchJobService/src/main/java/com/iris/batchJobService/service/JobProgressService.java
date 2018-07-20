@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.iris.batchJobService.dao.IJobProgressDao;
 import com.iris.batchJobService.entity.JobProgressData;
-import com.iris.batchJobService.repository.JobProgressRepository;
 import com.iris.batchJobService.util.JobProgressConstants;
 
 /*
@@ -21,14 +21,14 @@ import com.iris.batchJobService.util.JobProgressConstants;
 public class JobProgressService implements IJobProgressService {
 
 	@Autowired
-	private JobProgressRepository jobProgressRepository;
+	private IJobProgressDao jobProgressDao;
 
 	private static final Logger logger = LoggerFactory.getLogger(JobProgressService.class);
 
 	@Override
 	public List<JobProgressData> getCompletedJobs() {
-		List<JobProgressData> list = getJobProgressRepository()
-				.findByStatusIn(Arrays.asList(JobProgressConstants.JOB_COMPLETED, JobProgressConstants.JOB_FAILED));
+		List<JobProgressData> list = getJobProgressDao().getJobProgressByStatus(
+				Arrays.asList(JobProgressConstants.JOB_COMPLETED, JobProgressConstants.JOB_FAILED));
 
 		logger.info("Inside getCompletedJobs : list size : " + list.size());
 
@@ -37,20 +37,26 @@ public class JobProgressService implements IJobProgressService {
 
 	@Override
 	public List<JobProgressData> getRunningJobs() {
-		List<JobProgressData> list = getJobProgressRepository()
-				.findByStatusIn(Arrays.asList(JobProgressConstants.JOB_RUNNING));
+		List<JobProgressData> list = getJobProgressDao()
+				.getJobProgressByStatus(Arrays.asList(JobProgressConstants.JOB_RUNNING));
 
 		logger.info("Inside getRunningJobs : list size : " + list.size());
 
 		return list;
 	}
 
-	public JobProgressRepository getJobProgressRepository() {
-		return jobProgressRepository;
+	@Override
+	public JobProgressData saveJobProgress(JobProgressData jobProgressData) {
+		JobProgressData jobProgressDataSave = jobProgressDao.saveJobProgress(jobProgressData);
+		return jobProgressDataSave;
 	}
 
-	public void setJobProgressRepository(JobProgressRepository jobProgressRepository) {
-		this.jobProgressRepository = jobProgressRepository;
+	public IJobProgressDao getJobProgressDao() {
+		return jobProgressDao;
+	}
+
+	public void setJobProgressDao(IJobProgressDao jobProgressDao) {
+		this.jobProgressDao = jobProgressDao;
 	}
 
 }

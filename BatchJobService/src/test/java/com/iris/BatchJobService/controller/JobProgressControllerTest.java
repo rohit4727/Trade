@@ -39,7 +39,7 @@ public class JobProgressControllerTest {
 		List<JobProgressData> mockList = new ArrayList<JobProgressData>();
 
 		jobProgressData = new JobProgressData();
-		jobProgressData.setJobId(1);
+		jobProgressData.setJobId(new Long(1));
 		jobProgressData.setStatus(1);
 		jobProgressData.setTotalLineCount(1000);
 		jobProgressData.setWriterLineCount(1000);
@@ -47,7 +47,7 @@ public class JobProgressControllerTest {
 		mockList.add(jobProgressData);
 		
 		jobProgressData = new JobProgressData();
-		jobProgressData.setJobId(2);
+		jobProgressData.setJobId(new Long(2));
 		jobProgressData.setStatus(2);
 		jobProgressData.setTotalLineCount(1000);
 		jobProgressData.setWriterLineCount(100);
@@ -74,7 +74,7 @@ public class JobProgressControllerTest {
 		List<JobProgressData> mockList = new ArrayList<JobProgressData>();
 
 		jobProgressData = new JobProgressData();
-		jobProgressData.setJobId(1);
+		jobProgressData.setJobId(new Long(1));
 		jobProgressData.setStatus(0);
 		jobProgressData.setTotalLineCount(1000);
 		jobProgressData.setWriterLineCount(100);
@@ -82,7 +82,7 @@ public class JobProgressControllerTest {
 		mockList.add(jobProgressData);
 		
 		jobProgressData = new JobProgressData();
-		jobProgressData.setJobId(2);
+		jobProgressData.setJobId(new Long(2));
 		jobProgressData.setStatus(0);
 		jobProgressData.setTotalLineCount(1000);
 		jobProgressData.setWriterLineCount(90);

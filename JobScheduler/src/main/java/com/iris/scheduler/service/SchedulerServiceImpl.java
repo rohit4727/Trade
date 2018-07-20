@@ -28,78 +28,60 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Autowired
 	private JobSchedulerRepository jobSchedulerRepository;
 
-
-	 @Override
+	@Override
 	public boolean checkfilepath(String path) {
-		 
-		try {
-			File f = new File(path);
-			if (f.exists() && !f.isDirectory()) {
-				logger.info(IControllerConstants.CHECKFILEPATHINFO,path);
-				return true;
-			}
-		} catch (Exception e) {
 
-			logger.error(IControllerConstants.CHECKFILEPATHERROR, path , e);
+		File f = new File(path);
+
+		if (f.exists() && !f.isDirectory()) {
+			logger.info(IControllerConstants.CHECKFILEPATHINFO, path);
+			return true;
 		}
-		logger.info(IControllerConstants.PATHNOTEXIST,path);
+
+		logger.info(IControllerConstants.PATHNOTEXIST, path);
 		return false;
 
 	}
 
-	
 	@Override
 	public void runcmd(String batchfilepath, Long id) {
 
 		try {
-
+			
 			String cronrun = IControllerConstants.CRON_RUN + batchfilepath + " " + id;
 			Runtime.getRuntime().exec(cronrun);
-			logger.info(IControllerConstants.RUNCMDINFO,cronrun);
+			logger.info(IControllerConstants.RUNCMDINFO, cronrun);
 		} catch (Exception e) {
-			logger.error(
-					IControllerConstants.RUNCMDERROR, batchfilepath,e);
+			logger.error(IControllerConstants.RUNCMDERROR, batchfilepath, e);
 		}
 
 	}
 
-	
 	@Override
 	public void savestatus(JobScheduler job) {
-		try {
-			logger.info(IControllerConstants.SAVESTATUSINFO);
-			jobSchedulerRepository.save(job);
-		} catch (Exception e) {
-			logger.error(IControllerConstants.SAVESTATUSERROR , e);
-		}
+
+		logger.info(IControllerConstants.SAVESTATUSINFO);
+		jobSchedulerRepository.save(job);
 
 	}
 
-	
 	@Override
 	public JobScheduler findbyjobId(Long id) {
+
 		
-		try {
-			JobScheduler Job=jobSchedularDAO.findbyjobId(id);
-			logger.info(IControllerConstants.FINDJOBIDINFO,id);
+			JobScheduler Job = jobSchedularDAO.findbyjobId(id);
+			logger.info(IControllerConstants.FINDJOBIDINFO, id);
 			return Job;
-		} catch (Exception e) {
-			logger.error(IControllerConstants.FINDJOBIDERROR , id , e);
-		}
-		return null;
+		
 	}
 
-	
 	@Override
 	public List<JobScheduler> findbycurDate() {
-		try {
-			List<JobScheduler> listJob= jobSchedularDAO.findbycurDate();
-			logger.info(IControllerConstants.FINDJOBBYCURDATEINFO,listJob.size());
-			return listJob;
-		} catch (Exception e) {
-			logger.error(IControllerConstants.FINDJOBBYCURDATEERROR , e);
-		}
-		return null;
+
+		List<JobScheduler> listJob = jobSchedularDAO.findbycurDate();
+		logger.info(IControllerConstants.FINDJOBBYCURDATEINFO, listJob.size());
+		return listJob;
+
 	}
 
 }
