@@ -19,7 +19,7 @@ import com.iris.scheduler.repository.JobSchedulerRepository;
 public class JobSchedulerDetailServiceImpl implements JobSchedulerDetailService {
 	
 	@Autowired
-	JobSchedulerRepository jobSchedulerRepository;
+	private JobSchedulerRepository jobSchedulerRepository;
 
 	/**
 	 * This method will get all sheduled job list
