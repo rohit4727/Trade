@@ -10,24 +10,27 @@ Ext.define('ui.view.feed.LiveFeedList', {
 
     title: 'Live Feed'
 
+	//top toolbar filters
     , dockedItems: [                
     	{
             xtype: 'toolbar'
             , dock: 'top'
-            , items: [
+            , items: [            	
             	{
-            		xtype:'label'
-        			, text: 'Security Name'
-    				, style: 'font-weight:bold;'
-            	},
-                {
-                	xtype:'textfield'
-            		, hideLabel	: true
-    				, reference: 'livefeedfiltertextfield' 
-					, bind:{
-						value: '{liveFeedListFilter.securityName}'
+            		xtype:'combobox'
+            	    ,fieldLabel: 'Select Security to Filter'
+        	    	, labelStyle: 'font-weight:bold;'
+    	    		, labelWidth: 160
+    	    		, labelSeparator: ''
+        	    	, reference: 'livefeedsecurityfilter' 
+            	    , store: []
+            	    , bind:{
+						value: '{liveFeedListFilter.security}'
 					}
-                }
+            		, listeners:{
+            			change: 'onLiveFeedSecurityChange'
+            		}
+            	}
             ]
         }
     ]
@@ -35,9 +38,9 @@ Ext.define('ui.view.feed.LiveFeedList', {
 
 	, reference: 'livefeedlist'
     , itemId: 'livefeedlist'
-	/*, bind:{
+	, bind:{
 		store:'{liveFeedListStore}'
-	}*/
+	}
 
     , columns: [
         { text: 'Security Name',  dataIndex: 'security', flex: 0.75 },
@@ -45,14 +48,7 @@ Ext.define('ui.view.feed.LiveFeedList', {
         { text: 'Date', dataIndex: 'tradeDate', type: 'date' },
         { text: 'Time', dataIndex: 'tradeTime', type: 'time' },
         { text: 'Broker', dataIndex: 'broker' },
-        { text: 'Trade Price', dataIndex: 'tradePrice' },
-        /*{ text: 'Change', dataIndex: 'status', flex: 0.2, renderer:function(v, md){        	
-        	
-    		md.style = 'background-color: #ff6262;color:#FFF;';  //green = #458445
-        	
-        	return '<span class="fa fa-arrow-down" style="color:#FFF;"></span> 3.5'
-        	} 
-        },*/
+        { text: 'Trade Price', dataIndex: 'tradePrice' },        
         { text: 'Currency', dataIndex: 'currency' }
     ]
 	, listeners: {

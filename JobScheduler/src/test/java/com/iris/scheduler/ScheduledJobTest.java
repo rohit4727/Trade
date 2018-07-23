@@ -94,7 +94,7 @@ public class ScheduledJobTest {
 
 	@Test
 	public void testfindbyjobId() {
-		service.savestatus(service.findbyjobId(new Long(1)));
+		service.savestatus(service.findbyjobId(new Long(2)));
 
 	}
 

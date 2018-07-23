@@ -4,7 +4,7 @@ public class ResponseBean {
 
 	private String statuscode;
 	private String message;
-	
+
 	public ResponseBean() {
 	}
 

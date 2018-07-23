@@ -14,6 +14,7 @@ public interface IControllerConstants {
 	public static final String DELETE_JOB_SCHEDULE_DETAIL = "/deleteJobScheduleDetail";
 	public static final String GET_LIVE_FEED_DATA = "/getLiveFeedData/{security}";
 	public static final String GET_ALL_SCHEDULE_JOB_PROG_LIST = "/getScheduleJobProgressList";
+	public static final String GET_ALL_EXECUTED_JOB_LIST = "/getAllExecutedJobList";
 
 	public static final String ID = "id";
 	public static final String SECURITY = "security";
@@ -30,6 +31,8 @@ public interface IControllerConstants {
 	public static final String DELETE_JOB_EXCEPTION_MSG = "method : deleteScheduleJobDetail - Delete Failed for Job Id : {} ";
 	public static final String GET_ALL_JOB_DETAILS_EXCEPTION_MSG = "method : getAllJobScheduleDetails - Error getting all job details";
 	public static final String GET_LIVE_FEED_DATA_EXCEPTION_MSG = "method : getLiveFeedData - Failed for security : {} ";
+	public static final String GET_PROGRESS_LIST_EXCEPTION_MSG = "method : getScheduleJobProgressList - Failed to load job progress list";
+	public static final String GET_EXECUTED_LIST_EXCEPTION_MSG = "method : getAllExecutedJobList - to load job excuted list";
 
 
 }

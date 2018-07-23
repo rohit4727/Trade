@@ -1,54 +1,65 @@
 package com.iris.trade.bean;
 
-/**
- * 
- * @author pushpendra.singh
- *
- */
+import java.util.Date;
+
 public class JobProgressData {
-
-	private Long jobId;
-
-	private Integer totalLineCount;
-
-	private Integer writerLineCount;
-
-	private Integer status;
-
-	public Long getJobId() {
-		return jobId;
+	
+	private Long id;
+	private String jobName;
+	private String batchFilePath;
+	private Date scheduleDate;
+	private String jobProgressStatus;
+	private String status;
+	private int totalLineCount;
+	private int writerLineCount;
+	public Long getId() {
+		return id;
 	}
-
-	public void setJobId(Long jobId) {
-		this.jobId = jobId;
+	public void setId(Long id) {
+		this.id = id;
 	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
+	public String getJobName() {
+		return jobName;
 	}
-
-	public Integer getTotalLineCount() {
-		return totalLineCount;
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
 	}
-
-	public void setTotalLineCount(Integer totalLineCount) {
-		this.totalLineCount = totalLineCount;
+	public String getBatchFilePath() {
+		return batchFilePath;
 	}
-
-	public Integer getWriterLineCount() {
-		return writerLineCount;
+	public void setBatchFilePath(String batchFilePath) {
+		this.batchFilePath = batchFilePath;
 	}
-
-	public void setWriterLineCount(Integer writerLineCount) {
-		this.writerLineCount = writerLineCount;
+	public Date getScheduleDate() {
+		return scheduleDate;
 	}
-
-	public int getStatus() {
+	public void setScheduleDate(Date scheduleDate) {
+		this.scheduleDate = scheduleDate;
+	}
+	
+	public String getJobProgressStatus() {
+		return jobProgressStatus;
+	}
+	public void setJobProgressStatus(String jobProgressStatus) {
+		this.jobProgressStatus = jobProgressStatus;
+	}
+	public String getStatus() {
 		return status;
 	}
-
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
-
+	public int getTotalLineCount() {
+		return totalLineCount;
+	}
+	public void setTotalLineCount(int totalLineCount) {
+		this.totalLineCount = totalLineCount;
+	}
+	public int getWriterLineCount() {
+		return writerLineCount;
+	}
+	public void setWriterLineCount(int writerLineCount) {
+		this.writerLineCount = writerLineCount;
+	}
+	
 }

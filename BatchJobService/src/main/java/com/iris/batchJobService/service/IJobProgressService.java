@@ -3,6 +3,7 @@ package com.iris.batchJobService.service;
 import java.util.List;
 
 import com.iris.batchJobService.entity.JobProgressData;
+import com.iris.batchJobService.entity.ScheduleJobDetails;
 
 /*
  * Service interface
@@ -11,10 +12,10 @@ import com.iris.batchJobService.entity.JobProgressData;
  */
 public interface IJobProgressService {
 
-	List<JobProgressData> getCompletedJobs();
+	List<ScheduleJobDetails> getCompletedJobs();
 
-	List<JobProgressData> getRunningJobs();
-	
+	List<ScheduleJobDetails> getRunningJobs();
+
 	JobProgressData saveJobProgress(JobProgressData jobProgressData);
 
 }

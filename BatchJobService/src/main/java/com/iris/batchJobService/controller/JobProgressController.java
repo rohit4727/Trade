@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iris.batchJobService.beans.ResponseBean;
 import com.iris.batchJobService.entity.JobProgressData;
+import com.iris.batchJobService.entity.ScheduleJobDetails;
 import com.iris.batchJobService.service.IJobProgressService;
 import com.iris.batchJobService.util.JobProgressConstants;
 
@@ -38,24 +39,24 @@ public class JobProgressController {
 	 * This method gets list of all the executed (completed or failed) jobs
 	 */
 	@GetMapping("/completed")
-	public ResponseEntity<List<JobProgressData>> getCompletedJobs() {
-		List<JobProgressData> list = jobProgressService.getCompletedJobs();
+	public ResponseEntity<List<ScheduleJobDetails>> getCompletedJobs() {
+		List<ScheduleJobDetails> list = jobProgressService.getCompletedJobs();
 
 		logger.info("Inside getCompletedJobs : list size : " + list.size());
 
-		return new ResponseEntity<List<JobProgressData>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<ScheduleJobDetails>>(list, HttpStatus.OK);
 	}
 
 	/*
 	 * This method gets list of all currently executing jobs
 	 */
 	@GetMapping("/running")
-	public ResponseEntity<List<JobProgressData>> getRunningJobs() {
-		List<JobProgressData> list = jobProgressService.getRunningJobs();
+	public ResponseEntity<List<ScheduleJobDetails>> getRunningJobs() {
+		List<ScheduleJobDetails> list = jobProgressService.getRunningJobs();
 
 		logger.info("Inside getRunningJobs : list size : " + list.size());
 
-		return new ResponseEntity<List<JobProgressData>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<ScheduleJobDetails>>(list, HttpStatus.OK);
 	}
 
 	/*
@@ -64,7 +65,7 @@ public class JobProgressController {
 	@PostMapping("/saveJobProgress")
 	public ResponseBean SaveJobProgressData(@Valid @RequestBody JobProgressData jobProgressData) {
 		JobProgressData jobProgressDataSaved = jobProgressService.saveJobProgress(jobProgressData);
-		
+
 		if (jobProgressDataSaved != null && jobProgressDataSaved.getJobId() != 0) {
 			return new ResponseBean(HttpStatus.OK.toString(), JobProgressConstants.SUCCESS);
 		} else {

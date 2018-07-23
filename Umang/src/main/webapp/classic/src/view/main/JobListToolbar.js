@@ -16,20 +16,8 @@ Ext.define('ui.view.main.JobListToolbar', {
             xtype: 'button'
             , iconCls: 'x-fa fa-refresh'
             , handler: 'onScheduleJobListRefreshButtonClick'
-        },   /*
-        {
-            xtype: 'datefield'
-        	, handler: function(picker, date) {
-                // do something with the selected date
-            }
-        },*/
-        '->', 
-        /*{
-            xtype: 'button'
-            , iconCls: 'x-fa fa-play-circle'
-            , text: 'Jobs Summary'
-            , handler: 'onScheduleJobListSummaryBtnClick'
-        },*/
+        },
+        '->',
         {
             xtype: 'button'
             , iconCls: 'x-fa fa-play-circle'

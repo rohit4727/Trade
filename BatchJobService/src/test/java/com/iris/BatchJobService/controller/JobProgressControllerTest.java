@@ -1,5 +1,6 @@
 package com.iris.BatchJobService.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.iris.batchJobService.controller.JobProgressController;
-import com.iris.batchJobService.entity.JobProgressData;
+import com.iris.batchJobService.entity.ScheduleJobDetails;
 import com.iris.batchJobService.service.IJobProgressService;
 
 @RunWith(SpringRunner.class)
@@ -31,28 +32,36 @@ public class JobProgressControllerTest {
 	@MockBean
 	private IJobProgressService jobProgressService;
 	
-	JobProgressData jobProgressData = null;
+	ScheduleJobDetails jobDetails = null;
 
 	@Test
 	public void testGetCompletedJobs() throws Exception {
 
-		List<JobProgressData> mockList = new ArrayList<JobProgressData>();
+		List<ScheduleJobDetails> mockList = new ArrayList<ScheduleJobDetails>();
 
-		jobProgressData = new JobProgressData();
-		jobProgressData.setJobId(new Long(1));
-		jobProgressData.setStatus(1);
-		jobProgressData.setTotalLineCount(1000);
-		jobProgressData.setWriterLineCount(1000);
+		jobDetails = new ScheduleJobDetails();
+		jobDetails.setId(new Long(1));
+		jobDetails.setJobProgressStatus(1);
+		jobDetails.setTotalLineCount(1000);
+		jobDetails.setWriterLineCount(1000);
+		jobDetails.setBatchFilePath("test");
+		jobDetails.setStatus("test");
+		jobDetails.setScheduleDate(new Date(System.currentTimeMillis()));
+		jobDetails.setJobName("Job1");
 
-		mockList.add(jobProgressData);
+		mockList.add(jobDetails);
 		
-		jobProgressData = new JobProgressData();
-		jobProgressData.setJobId(new Long(2));
-		jobProgressData.setStatus(2);
-		jobProgressData.setTotalLineCount(1000);
-		jobProgressData.setWriterLineCount(100);
+		jobDetails = new ScheduleJobDetails();
+		jobDetails.setId(new Long(2));
+		jobDetails.setJobProgressStatus(2);
+		jobDetails.setTotalLineCount(1000);
+		jobDetails.setWriterLineCount(100);
+		jobDetails.setBatchFilePath("test");
+		jobDetails.setStatus("test");
+		jobDetails.setScheduleDate(Date.valueOf("2018-07-20"));
+		jobDetails.setJobName("Job2");
 
-		mockList.add(jobProgressData);
+		mockList.add(jobDetails);
 
 		Mockito.when(jobProgressService.getCompletedJobs()).thenReturn(mockList);
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/joblist/completed")
@@ -61,8 +70,8 @@ public class JobProgressControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
 		System.out.println(result.getResponse());
-		String expected = "[{jobId:1,totalLineCount:1000,writerLineCount:1000,status:1},"
-				+ "{jobId:2,totalLineCount:1000,writerLineCount:100,status:2}]";
+		String expected = "[{id:1,totalLineCount:1000,writerLineCount:1000,jobProgressStatus:1,batchFilePath:test,status:test,scheduleDate:2018-07-20,jobName:Job1},"
+				+ "{id:2,totalLineCount:1000,writerLineCount:100,jobProgressStatus:2,batchFilePath:test,status:test,scheduleDate:2018-07-20,jobName:Job2}]";
 
 		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), true);
 
@@ -71,23 +80,31 @@ public class JobProgressControllerTest {
 	@Test
 	public void testGetRunningJobs() throws Exception {
 
-		List<JobProgressData> mockList = new ArrayList<JobProgressData>();
+		List<ScheduleJobDetails> mockList = new ArrayList<ScheduleJobDetails>();
 
-		jobProgressData = new JobProgressData();
-		jobProgressData.setJobId(new Long(1));
-		jobProgressData.setStatus(0);
-		jobProgressData.setTotalLineCount(1000);
-		jobProgressData.setWriterLineCount(100);
+		jobDetails = new ScheduleJobDetails();
+		jobDetails.setId(new Long(1));
+		jobDetails.setJobProgressStatus(0);
+		jobDetails.setTotalLineCount(1000);
+		jobDetails.setWriterLineCount(100);
+		jobDetails.setBatchFilePath("test");
+		jobDetails.setStatus("test");
+		jobDetails.setScheduleDate(new Date(System.currentTimeMillis()));
+		jobDetails.setJobName("Job1");
 
-		mockList.add(jobProgressData);
+		mockList.add(jobDetails);
 		
-		jobProgressData = new JobProgressData();
-		jobProgressData.setJobId(new Long(2));
-		jobProgressData.setStatus(0);
-		jobProgressData.setTotalLineCount(1000);
-		jobProgressData.setWriterLineCount(90);
+		jobDetails = new ScheduleJobDetails();
+		jobDetails.setId(new Long(2));
+		jobDetails.setJobProgressStatus(0);
+		jobDetails.setTotalLineCount(1000);
+		jobDetails.setWriterLineCount(90);
+		jobDetails.setBatchFilePath("test");
+		jobDetails.setStatus("test");
+		jobDetails.setScheduleDate(new Date(System.currentTimeMillis()));
+		jobDetails.setJobName("Job2");
 
-		mockList.add(jobProgressData);
+		mockList.add(jobDetails);
 
 		Mockito.when(jobProgressService.getRunningJobs()).thenReturn(mockList);
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/joblist/running")
@@ -96,8 +113,8 @@ public class JobProgressControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
 		System.out.println(result.getResponse());
-		String expected = "[{jobId:1,totalLineCount:1000,writerLineCount:100,status:0},"
-				+ "{jobId:2,totalLineCount:1000,writerLineCount:90,status:0}]";
+		String expected = "[{id:1,totalLineCount:1000,writerLineCount:100,jobProgressStatus:0,batchFilePath:test,status:test,scheduleDate:2018-07-20,jobName:Job1},"
+				+ "{id:2,totalLineCount:1000,writerLineCount:90,jobProgressStatus:0,batchFilePath:test,status:test,scheduleDate:2018-07-20,jobName:Job2}]";
 
 		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), true);
 

@@ -209,7 +209,7 @@ public class TradeAppController {
 	/**
 	 * This method will get All schedule Job progress List
 	 * 
-	 * @return List<Trade>
+	 * @return List<JobProgressData>
 	 */
 	@SuppressWarnings("unchecked")
 	@GetMapping(IControllerConstants.GET_ALL_SCHEDULE_JOB_PROG_LIST)
@@ -223,11 +223,35 @@ public class TradeAppController {
 			sheduleJobsProgressList = restTemplate.getForObject(tradeAppProperty.getAllScheduleJobProgressList(), List.class);
 
 		} catch (Exception ex) {
-			logger.info(IControllerConstants.GET_LIVE_FEED_DATA_EXCEPTION_MSG ,
+			logger.info(IControllerConstants.GET_PROGRESS_LIST_EXCEPTION_MSG ,
 					ex);
 		}
 
 		return sheduleJobsProgressList;
+	}
+	
+	/**
+	 * This method will get All schedule Job progress List
+	 * 
+	 * @return List<JobProgressData>
+	 */
+	@SuppressWarnings("unchecked")
+	@GetMapping(IControllerConstants.GET_ALL_EXECUTED_JOB_LIST)
+	@ResponseBody
+	public List<JobProgressData> getAllExecutedJobList() {
+
+		List<JobProgressData> executedJobsList = new ArrayList<>();
+
+		try {
+			
+			executedJobsList = restTemplate.getForObject(tradeAppProperty.getAllExecutedJobList(), List.class);
+
+		} catch (Exception ex) {
+			logger.info(IControllerConstants.GET_EXECUTED_LIST_EXCEPTION_MSG ,
+					ex);
+		}
+
+		return executedJobsList;
 	}
 
 }

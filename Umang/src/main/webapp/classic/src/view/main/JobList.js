@@ -40,7 +40,9 @@ Ext.define('ui.view.main.JobList', {
         		else if(v==2){return "Run Failed";}
         		else {return "Unknown";}
         	} 
-        },        
+        },    
+        
+        //returns edit/delete buttons for scheduled jb, for other jobs actions buttons will be disabled
         {
             xtype:'actioncolumn'
             , width:60
@@ -49,6 +51,7 @@ Ext.define('ui.view.main.JobList', {
 	                iconCls: 'x-fa fa-pencil'
 	                , tooltip: 'Edit'
                 	, handler: 'onScheduleJobListEditBtnClick'
+            		//Below method is used to check whether job is scheduled type? for other jobs actions buttons will be disabled
             		, isDisabled: function(view, rowIndex, colIndex, item, record) {
             			return record.get('status')!=0;
                     }

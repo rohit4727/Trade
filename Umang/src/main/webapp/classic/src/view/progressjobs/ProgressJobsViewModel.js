@@ -2,16 +2,12 @@
  * Author: Umang Goel
  * This class is the view model for the Main view of the application.
  */
-Ext.define('ui.view.feed.LiveFeedViewModel', {
+Ext.define('ui.view.progressjobs.ProgressJobsViewModel', {
     extend: 'Ext.app.ViewModel'
-    , alias: 'viewmodel.livefeed'
-	, links: {
-		liveFeedListFilter: {
-            type: 'ui.model.LiveFeedFilterModel'
-             , create: true
-        },
-        liveFeedListModel: {
-            type: 'ui.model.LiveFeedModel'
+    , alias: 'viewmodel.progressjobs'
+	, links: {		
+        progressJobsListModel: {
+            type: 'ui.model.ProgressJobsModel'
              , create: true
         }
     }
@@ -24,17 +20,17 @@ Ext.define('ui.view.feed.LiveFeedViewModel', {
     //initialization of view stores
     , initStores: function () {
         return {            
-            liveFeedListStore: {
-                model: 'ui.model.LiveFeedModel'
-                , autoLoad: false
-                , storeId: 'liveFeedListStore'                
+        	progressJobsListStore: {
+                model: 'ui.model.ProgressJobsModel'
+                , autoLoad: true
+                , storeId: 'progressJobsListStore'                
             	, proxy: {
                     type: 'ajax'
                     , api: {
-                        read: '/TradeApp/getLiveFeedData'
+                        read: '/TradeApp/getScheduleJobProgressList'
                     }
                 }                
             }
         }
     }
-    });
+});

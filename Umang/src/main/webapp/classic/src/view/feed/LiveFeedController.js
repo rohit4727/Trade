@@ -7,15 +7,37 @@ Ext.define('ui.view.feed.LiveFeedController', {
     extend: 'Ext.app.ViewController',
 
     alias: 'controller.livefeed'
-    
+    , firstTimeLoad: false
 	, listen: {
         store: {
             '#liveFeedListStore': {
                 beforeload: 'onLiveFeedListBeforeLoad'
+            	, load: 'onLiveFeedListLoad'
             }
         }
     }
 
+	//used to fill security filter in toolbar
+	, onLiveFeedListLoad:function(store, records){
+		if(!records || this.firstTimeLoad==true){return;}
+		
+		this.firstTimeLoad =true;
+		
+		var len = records.length
+			, securityArray = ['All'];
+		
+
+		for (var i = 0, securityName; i < len; i++) {
+			securityName = records[i]['data']['security'];
+
+			if (securityArray.indexOf(securityName != -1)) {
+				securityArray.push(records[i]['data']['security']);
+			}
+		}
+		
+		this.lookupReference('livefeedsecurityfilter').store.loadData(securityArray.map(function(item){ return [item]; }));
+	}
+	
 	, onLiveFeedListAfterRender: function (grid) {  
 		var me = this;
 		/*Ext.TaskManager.start({
@@ -40,8 +62,10 @@ Ext.define('ui.view.feed.LiveFeedController', {
 	        liveFeedListFilterModel.set('dir', dir);
 	        liveFeedListFilterModel.set('sort', id.substr(0, id.indexOf('-') > -1 ? id.indexOf('-') : id));
 	    }		
-		//liveFeedListFilterModel.set('securityName', dir);
-	    store.proxy.setExtraParams(liveFeedListFilterModel.getData());
+	    //store.proxy.setExtraParams(liveFeedListFilterModel.getData());
+	    
+	    var securityName = liveFeedListFilterModel.get('security');
+	    store.proxy.api.read = "/TradeApp/getLiveFeedData/" + (Ext.isEmpty(securityName)?'all':securityName);
 	}
 	
 	, onLiveFeedListFilterChange: function (combo, newValue, oldValue) {
@@ -51,5 +75,10 @@ Ext.define('ui.view.feed.LiveFeedController', {
 	, loadLiveFeedList: function (grid, options) {
         var store = this.getViewModel().getStore('liveFeedListStore');
         store.read(options);
+    }
+	
+	, onLiveFeedSecurityChange: function (tf) {
+        var grid = tf.up('grid');
+        this.loadLiveFeedList(grid);
     }
 });
