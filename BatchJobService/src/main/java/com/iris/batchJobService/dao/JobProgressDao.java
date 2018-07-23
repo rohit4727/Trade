@@ -6,14 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.iris.batchJobService.entity.JobProgressData;
+import com.iris.batchJobService.entity.ScheduleJobDetails;
+import com.iris.batchJobService.repository.JobDetailRepository;
 import com.iris.batchJobService.repository.JobProgressRepository;
 
 @Repository
 public class JobProgressDao implements IJobProgressDao {
 
 	@Autowired
+	private JobDetailRepository jobDetailRepository;
+
+	@Autowired
 	private JobProgressRepository jobProgressRepository;
-	
+
 	public JobProgressRepository getJobProgressRepository() {
 		return jobProgressRepository;
 	}
@@ -21,10 +26,18 @@ public class JobProgressDao implements IJobProgressDao {
 	public void setJobProgressRepository(JobProgressRepository jobProgressRepository) {
 		this.jobProgressRepository = jobProgressRepository;
 	}
-	
+
+	public JobDetailRepository getJobDetailRepository() {
+		return jobDetailRepository;
+	}
+
+	public void setJobDetailRepository(JobDetailRepository jobDetailRepository) {
+		this.jobDetailRepository = jobDetailRepository;
+	}
+
 	@Override
-	public List<JobProgressData> getJobProgressByStatus(List<Integer> statusList) {
-		List<JobProgressData> list = getJobProgressRepository().findByStatusIn(statusList);
+	public List<ScheduleJobDetails> getJobProgressByStatus(List<Integer> statusList) {
+		List<ScheduleJobDetails> list = getJobDetailRepository().findByJobProgressStatusIn(statusList);
 
 		return list;
 	}
@@ -43,7 +56,7 @@ public class JobProgressDao implements IJobProgressDao {
 			if (jobProgressData.getWriterLineCount() != null) {
 				jobProgressDataDb.setWriterLineCount(jobProgressData.getWriterLineCount());
 			}
-			
+
 			if (jobProgressData.getStatus() != null) {
 				jobProgressDataDb.setStatus(jobProgressData.getStatus());
 			}
@@ -53,7 +66,7 @@ public class JobProgressDao implements IJobProgressDao {
 		}
 
 		JobProgressData JobProgressDataSaved = getJobProgressRepository().save(jobProgressDataDb);
-		
+
 		return JobProgressDataSaved;
 	}
 

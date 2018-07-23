@@ -3,6 +3,7 @@ package com.iris.BatchJobService.service;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.iris.batchJobService.dao.IJobProgressDao;
 import com.iris.batchJobService.entity.JobProgressData;
-import com.iris.batchJobService.repository.JobProgressRepository;
+import com.iris.batchJobService.entity.ScheduleJobDetails;
 import com.iris.batchJobService.service.JobProgressService;
 import com.iris.batchJobService.util.JobProgressConstants;
 
@@ -23,29 +24,38 @@ import com.iris.batchJobService.util.JobProgressConstants;
 public class JobProgressServiceTest {
 
 	@MockBean
-	JobProgressData jobProgressData;
+	ScheduleJobDetails jobDetails;
 
 	@Test
 	public void testGetCompletedJobs() throws Exception {
 
-		List<JobProgressData> mockList = new ArrayList<JobProgressData>();
-		List<JobProgressData> expectedList = new ArrayList<JobProgressData>();
+		List<ScheduleJobDetails> mockList = new ArrayList<ScheduleJobDetails>();
+		List<ScheduleJobDetails> expectedList = new ArrayList<ScheduleJobDetails>();
+		
+		jobDetails.setId(new Long(1));
+		jobDetails.setJobProgressStatus(1);
+		jobDetails.setTotalLineCount(1000);
+		jobDetails.setWriterLineCount(11000);
+		jobDetails.setBatchFilePath("test");
+		jobDetails.setStatus("test");
+		jobDetails.setScheduleDate(new Date(System.currentTimeMillis()));
+		jobDetails.setJobName("Job1");
 
-		jobProgressData.setJobId(new Long(1));
-		jobProgressData.setStatus(1);
-		jobProgressData.setTotalLineCount(1000);
-		jobProgressData.setWriterLineCount(11000);
 
-		mockList.add(jobProgressData);
-		expectedList.add(jobProgressData);
+		mockList.add(jobDetails);
+		expectedList.add(jobDetails);
+		
+		jobDetails.setId(new Long(2));
+		jobDetails.setJobProgressStatus(2);
+		jobDetails.setTotalLineCount(1000);
+		jobDetails.setWriterLineCount(100);
+		jobDetails.setBatchFilePath("test");
+		jobDetails.setStatus("test");
+		jobDetails.setScheduleDate(new Date(System.currentTimeMillis()));
+		jobDetails.setJobName("Job2");
 
-		jobProgressData.setJobId(new Long(2));
-		jobProgressData.setStatus(2);
-		jobProgressData.setTotalLineCount(1000);
-		jobProgressData.setWriterLineCount(100);
-
-		mockList.add(jobProgressData);
-		expectedList.add(jobProgressData);
+		mockList.add(jobDetails);
+		expectedList.add(jobDetails);
 
 		IJobProgressDao jobProgressDao = mock(IJobProgressDao.class);
 		when(jobProgressDao.getJobProgressByStatus(
@@ -54,7 +64,7 @@ public class JobProgressServiceTest {
 
 		JobProgressService jobProgressService = new JobProgressService();
 		jobProgressService.setJobProgressDao(jobProgressDao);
-		List<JobProgressData> result = jobProgressService.getCompletedJobs();
+		List<ScheduleJobDetails> result = jobProgressService.getCompletedJobs();
 
 		Assert.assertEquals(expectedList, result);
 
@@ -63,24 +73,32 @@ public class JobProgressServiceTest {
 	@Test
 	public void testGetRunningJobs() throws Exception {
 
-		List<JobProgressData> mockList = new ArrayList<JobProgressData>();
-		List<JobProgressData> expectedList = new ArrayList<JobProgressData>();
+		List<ScheduleJobDetails> mockList = new ArrayList<ScheduleJobDetails>();
+		List<ScheduleJobDetails> expectedList = new ArrayList<ScheduleJobDetails>();
+		
+		jobDetails.setId(new Long(1));
+		jobDetails.setJobProgressStatus(1);
+		jobDetails.setTotalLineCount(1000);
+		jobDetails.setWriterLineCount(1000);
+		jobDetails.setBatchFilePath("test");
+		jobDetails.setStatus("test");
+		jobDetails.setScheduleDate(new Date(System.currentTimeMillis()));
+		jobDetails.setJobName("Job2");
 
-		jobProgressData.setJobId(new Long(1));
-		jobProgressData.setStatus(1);
-		jobProgressData.setTotalLineCount(1000);
-		jobProgressData.setWriterLineCount(1000);
+		mockList.add(jobDetails);
+		expectedList.add(jobDetails);
+		
+		jobDetails.setId(new Long(2));
+		jobDetails.setJobProgressStatus(2);
+		jobDetails.setTotalLineCount(1000);
+		jobDetails.setWriterLineCount(100);
+		jobDetails.setBatchFilePath("test");
+		jobDetails.setStatus("test");
+		jobDetails.setScheduleDate(new Date(System.currentTimeMillis()));
+		jobDetails.setJobName("Job2");
 
-		mockList.add(jobProgressData);
-		expectedList.add(jobProgressData);
-
-		jobProgressData.setJobId(new Long(2));
-		jobProgressData.setStatus(2);
-		jobProgressData.setTotalLineCount(1000);
-		jobProgressData.setWriterLineCount(100);
-
-		mockList.add(jobProgressData);
-		expectedList.add(jobProgressData);
+		mockList.add(jobDetails);
+		expectedList.add(jobDetails);
 
 		IJobProgressDao jobProgressDao = mock(IJobProgressDao.class);
 		when(jobProgressDao.getJobProgressByStatus(Arrays.asList(JobProgressConstants.JOB_RUNNING)))
@@ -88,7 +106,7 @@ public class JobProgressServiceTest {
 
 		JobProgressService jobProgressService = new JobProgressService();
 		jobProgressService.setJobProgressDao(jobProgressDao);
-		List<JobProgressData> result = jobProgressService.getRunningJobs();
+		List<ScheduleJobDetails> result = jobProgressService.getRunningJobs();
 
 		Assert.assertEquals(expectedList, result);
 

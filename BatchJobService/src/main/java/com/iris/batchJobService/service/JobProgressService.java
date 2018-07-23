@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.iris.batchJobService.dao.IJobProgressDao;
 import com.iris.batchJobService.entity.JobProgressData;
+import com.iris.batchJobService.entity.ScheduleJobDetails;
 import com.iris.batchJobService.util.JobProgressConstants;
 
 /*
@@ -26,8 +27,8 @@ public class JobProgressService implements IJobProgressService {
 	private static final Logger logger = LoggerFactory.getLogger(JobProgressService.class);
 
 	@Override
-	public List<JobProgressData> getCompletedJobs() {
-		List<JobProgressData> list = getJobProgressDao().getJobProgressByStatus(
+	public List<ScheduleJobDetails> getCompletedJobs() {
+		List<ScheduleJobDetails> list = getJobProgressDao().getJobProgressByStatus(
 				Arrays.asList(JobProgressConstants.JOB_COMPLETED, JobProgressConstants.JOB_FAILED));
 
 		logger.info("Inside getCompletedJobs : list size : " + list.size());
@@ -36,8 +37,8 @@ public class JobProgressService implements IJobProgressService {
 	}
 
 	@Override
-	public List<JobProgressData> getRunningJobs() {
-		List<JobProgressData> list = getJobProgressDao()
+	public List<ScheduleJobDetails> getRunningJobs() {
+		List<ScheduleJobDetails> list = getJobProgressDao()
 				.getJobProgressByStatus(Arrays.asList(JobProgressConstants.JOB_RUNNING));
 
 		logger.info("Inside getRunningJobs : list size : " + list.size());

@@ -1,13 +1,14 @@
 --CREATE DATABASE IF NOT EXISTS `jobprogress`;
-USE `jobprogress`;
+USE `jobscheduler`;
 
 CREATE TABLE IF NOT EXISTS `JOB_PROGRESS_DATA` (
-  `job_id` int unsigned NOT NULL,
+  `job_id` bigint(20) NOT NULL,
   `total_line_count` int default NULL,
   `writer_line_count` int default NULL,
   `status` SMALLINT default NULL,
+  FOREIGN KEY(job_id) REFERENCES schedule_job_details(id),
   PRIMARY KEY (`job_id`)
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 INSERT INTO `JOB_PROGRESS_DATA` (`job_id`, `total_line_count`, `writer_line_count`,`status`) VALUES

@@ -223,7 +223,7 @@ public class TradeAppController {
 			sheduleJobsProgressList = restTemplate.getForObject(tradeAppProperty.getAllScheduleJobProgressList(), List.class);
 
 		} catch (Exception ex) {
-			logger.info(IControllerConstants.GET_LIVE_FEED_DATA_EXCEPTION_MSG ,
+			logger.info(IControllerConstants.GET_PROGRESS_LIST_EXCEPTION_MSG ,
 					ex);
 		}
 
@@ -240,18 +240,18 @@ public class TradeAppController {
 	@ResponseBody
 	public List<JobProgressData> getAllExecutedJobList() {
 
-		List<JobProgressData> sheduleJobsProgressList = new ArrayList<>();
+		List<JobProgressData> executedJobsList = new ArrayList<>();
 
 		try {
 			
-			sheduleJobsProgressList = restTemplate.getForObject(tradeAppProperty.getAllExecutedJobList(), List.class);
+			executedJobsList = restTemplate.getForObject(tradeAppProperty.getAllExecutedJobList(), List.class);
 
 		} catch (Exception ex) {
-			logger.info(IControllerConstants.GET_LIVE_FEED_DATA_EXCEPTION_MSG ,
+			logger.info(IControllerConstants.GET_EXECUTED_LIST_EXCEPTION_MSG ,
 					ex);
 		}
 
-		return sheduleJobsProgressList;
+		return executedJobsList;
 	}
 
 }

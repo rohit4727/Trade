@@ -8,7 +8,7 @@ public class JobProgressData {
 	private String jobName;
 	private String batchFilePath;
 	private Date scheduleDate;
-	private String jobProgresstatus;
+	private String jobProgressStatus;
 	private String status;
 	private int totalLineCount;
 	private int writerLineCount;
@@ -36,11 +36,12 @@ public class JobProgressData {
 	public void setScheduleDate(Date scheduleDate) {
 		this.scheduleDate = scheduleDate;
 	}
-	public String getJobProgresstatus() {
-		return jobProgresstatus;
+	
+	public String getJobProgressStatus() {
+		return jobProgressStatus;
 	}
-	public void setJobProgresstatus(String jobProgresstatus) {
-		this.jobProgresstatus = jobProgresstatus;
+	public void setJobProgressStatus(String jobProgressStatus) {
+		this.jobProgressStatus = jobProgressStatus;
 	}
 	public String getStatus() {
 		return status;
