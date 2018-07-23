@@ -16,7 +16,7 @@ Ext.define('ui.view.main.JobListToolbar', {
             xtype: 'button'
             , iconCls: 'x-fa fa-refresh'
             , handler: 'onScheduleJobListRefreshButtonClick'
-        }
+        },
         '->',
         {
             xtype: 'button'
