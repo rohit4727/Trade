@@ -26,14 +26,36 @@ public class TradeServiceImpl implements TradeService {
 	@Override
 	public double findBestPrice(String security, String tradeDate, String tradeTime) {
 		RestTemplate restTemplate = new RestTemplate();
-		double bestPrice = 0f;
+		BestPriceRes bestPrice = null;
 		try {
 			URI uri = new URI(PropertiesUtil.get(LIVE_TRADE_URL) + security + "/" + tradeDate + "/" + tradeTime);
-			ResponseEntity<Double> result = restTemplate.<Double>getForEntity(uri, Double.class);
+			ResponseEntity<BestPriceRes> result = restTemplate.<BestPriceRes>getForEntity(uri, BestPriceRes.class);
 			bestPrice = result.getBody();
 		} catch (URISyntaxException e) {
 			log.error(e.getMessage());
 		}
-		return bestPrice;
+		return bestPrice != null ? bestPrice.getValue() : 0;
+	}
+
+	private static class BestPriceRes {
+		private double value;
+		private String message;
+
+		public double getValue() {
+			return value;
+		}
+
+		public void setValue(double value) {
+			this.value = value;
+		}
+
+		public String getMessage() {
+			return message;
+		}
+
+		public void setMessage(String message) {
+			this.message = message;
+		}
+
 	}
 }
