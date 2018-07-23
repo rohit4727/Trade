@@ -117,7 +117,6 @@ Ext.define('ui.view.main.MainController', {
 	        			});	
 	        			 
 	        			 win.destroy();
-	        			 me.loadScheduleJobList();
 	        		 }
 	        		 else{	   
 	        			 if(win.mode == 'add'){
@@ -125,7 +124,8 @@ Ext.define('ui.view.main.MainController', {
 	        			 }
 	        			 me.showToast(response.message);	        			 
 	        		 }	        		 
-	        	 }	             
+	        	 }	 
+	        	 me.loadScheduleJobList();
 	         }
 	     });
 	}

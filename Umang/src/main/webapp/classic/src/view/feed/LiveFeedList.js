@@ -10,6 +10,7 @@ Ext.define('ui.view.feed.LiveFeedList', {
 
     title: 'Live Feed'
 
+	//top toolbar filters
     , dockedItems: [                
     	{
             xtype: 'toolbar'
@@ -19,6 +20,8 @@ Ext.define('ui.view.feed.LiveFeedList', {
             		xtype:'combobox'
             	    ,fieldLabel: 'Select Security to Filter'
         	    	, labelStyle: 'font-weight:bold;'
+    	    		, labelWidth: 160
+    	    		, labelSeparator: ''
         	    	, reference: 'livefeedsecurityfilter' 
             	    , store: []
             	    , bind:{
@@ -45,14 +48,7 @@ Ext.define('ui.view.feed.LiveFeedList', {
         { text: 'Date', dataIndex: 'tradeDate', type: 'date' },
         { text: 'Time', dataIndex: 'tradeTime', type: 'time' },
         { text: 'Broker', dataIndex: 'broker' },
-        { text: 'Trade Price', dataIndex: 'tradePrice' },
-        /*{ text: 'Change', dataIndex: 'status', flex: 0.2, renderer:function(v, md){        	
-        	
-    		md.style = 'background-color: #ff6262;color:#FFF;';  //green = #458445
-        	
-        	return '<span class="fa fa-arrow-down" style="color:#FFF;"></span> 3.5'
-        	} 
-        },*/
+        { text: 'Trade Price', dataIndex: 'tradePrice' },        
         { text: 'Currency', dataIndex: 'currency' }
     ]
 	, listeners: {

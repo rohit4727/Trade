@@ -16,6 +16,8 @@ Ext.define('ui.view.progressjobs.ProgressJobsViewModel', {
 
         this.callParent(arguments);
     }
+    
+    //initialization of view stores
     , initStores: function () {
         return {            
         	progressJobsListStore: {
@@ -31,4 +33,4 @@ Ext.define('ui.view.progressjobs.ProgressJobsViewModel', {
             }
         }
     }
-    });
+});

@@ -16,6 +16,8 @@ Ext.define('ui.view.main.MainModel', {
 
         this.callParent(arguments);
     }
+    
+    //initialization of view stores
     , initStores: function () {
         return {            
             scheduleJobListStore: {

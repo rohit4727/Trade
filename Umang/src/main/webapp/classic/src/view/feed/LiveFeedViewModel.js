@@ -20,6 +20,8 @@ Ext.define('ui.view.feed.LiveFeedViewModel', {
 
         this.callParent(arguments);
     }
+    
+    //initialization of view stores
     , initStores: function () {
         return {            
             liveFeedListStore: {

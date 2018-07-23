@@ -13,9 +13,6 @@ Ext.define('ui.view.progressjobs.ProgressJobsController', {
 	    this.loadProgressJobsList(grid);
 	}
 	
-	, onProgressJobsListFilterChange: function (combo, newValue, oldValue) {
-        this.loadProgressJobsList(combo.up('grid'));
-    }
 	
 	, loadProgressJobsList: function (grid, options) {
         var store = this.getViewModel().getStore('progressJobsListStore');

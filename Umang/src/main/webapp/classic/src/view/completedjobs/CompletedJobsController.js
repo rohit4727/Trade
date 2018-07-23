@@ -7,14 +7,6 @@ Ext.define('ui.view.completedjobs.CompletedJobsController', {
     extend: 'Ext.app.ViewController',
 
     alias: 'controller.completedjobs'
-    
-	, listen: {
-        store: {
-            '#completedJobsListStore': {
-                beforeload: 'onCompletedJobsListBeforeLoad'
-            }
-        }
-    }
 
 	, onCompletedJobsListAfterRender: function (grid) {  
 		var me = this;
@@ -26,22 +18,6 @@ Ext.define('ui.view.completedjobs.CompletedJobsController', {
 		});*/
 		me.loadCompletedJobsList(grid);
 	}
-	, onCompletedJobsListBeforeLoad: function (store) {
-	    var sorter = store.getSorters().getRange()[0]
-	        , viewModel = this.getViewModel()
-	        , completedJobsListFilterModel = viewModel.get('completedJobsListFilter')
-	        , dir
-	        , id;
-	
-	    if (sorter) {
-	        dir = sorter.getDirection();
-	        id = sorter.getId();
-	
-	        completedJobsListFilterModel.set('dir', dir);
-	        completedJobsListFilterModel.set('sort', id.substr(0, id.indexOf('-') > -1 ? id.indexOf('-') : id));
-	    }		
-	    store.proxy.setExtraParams(completedJobsListFilterModel.getData());
-	}
 	
 	, onCompletedJobsListFilterChange: function (combo, newValue, oldValue) {
         this.loadCompletedJobsList(combo.up('grid'));
@@ -51,4 +27,35 @@ Ext.define('ui.view.completedjobs.CompletedJobsController', {
         var store = this.getViewModel().getStore('completedJobsListStore');
         store.read(options);
     }
+	
+	, onCompletedJobsJobNameFilterChange:function(){
+		var jobNameField = this.lookupReference('completedJobsListJobNameFilter')
+			, store = this.getViewModel().getStore('completedJobsListStore');
+		
+		store.filterBy(function(rec){
+			return (rec.get('jobName').indexOf(jobNameField.getValue()) != -1);
+		})
+		
+	}
+	
+	, onCompletedJobsJobPathFilterChange:function(){
+		var jobNameField = this.lookupReference('completedJobsListJobPathFilter')
+			, store = this.getViewModel().getStore('completedJobsListStore');
+		
+		store.filterBy(function(rec){
+			return (rec.get('batchFilePath').indexOf(jobNameField.getValue()) != -1);
+		});		
+	}
+	
+	, onCompletedJobsFilterReset:function(){
+		var store = this.getViewModel().getStore('completedJobsListStore');
+		store.clearFilter();
+		this.resetFilterValues();
+	}
+	
+	
+	, resetFilterValues:function(){
+		this.lookupReference('completedJobsListJobNameFilter').setValue('');
+		this.lookupReference('completedJobsListJobPathFilter').setValue('');
+	}
 });

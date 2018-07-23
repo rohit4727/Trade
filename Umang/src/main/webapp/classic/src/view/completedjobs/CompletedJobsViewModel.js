@@ -16,16 +16,18 @@ Ext.define('ui.view.completedjobs.CompletedJobsViewModel', {
 
         this.callParent(arguments);
     }
+    
+    //initialization of view stores
     , initStores: function () {
         return {            
             completedJobsListStore: {
                 model: 'ui.model.CompletedJobsModel'
-                , autoLoad: false
+                , autoLoad: true
                 , storeId: 'completedJobsListStore'                
             	, proxy: {
                     type: 'ajax'
                     , api: {
-                        read: '/TradeApp/getCompletedJobsData'
+                        read: '/TradeApp/getAllExecutedJobList'
                     }
                 }                
             }
