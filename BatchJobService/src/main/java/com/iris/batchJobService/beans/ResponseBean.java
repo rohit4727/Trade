@@ -1,5 +1,10 @@
 package com.iris.batchJobService.beans;
 
+/*
+ * Response bean for sending response for web service calls
+ * 
+ * @author Rohit Elayathu
+ */
 public class ResponseBean {
 
 	private String statuscode;

@@ -12,7 +12,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
+/*
+ * Entity class for SCHEDULE_JOB_DETAILS table
  * 
  * @author Rohit Elayathu
  *

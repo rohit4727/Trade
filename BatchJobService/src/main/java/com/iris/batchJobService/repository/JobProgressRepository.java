@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import com.iris.batchJobService.entity.JobProgressData;
 
 /*
- * Repository interface 
+ * Repository interface for JOB_PROGRESS_DATA table 
  * 
  * @author Rohit Elayathu
  */
