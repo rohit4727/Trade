@@ -27,11 +27,22 @@ Ext.define('ui.view.feed.LiveFeedViewModel', {
             liveFeedListStore: {
                 model: 'ui.model.LiveFeedModel'
                 , autoLoad: false
-                , storeId: 'liveFeedListStore'                
+                , storeId: 'liveFeedListStore'
             	, proxy: {
                     type: 'ajax'
                     , api: {
                         read: '/TradeApp/getLiveFeedData'
+                    }
+                }                
+            },
+            liveFeedSecurityStore: {
+                fields: ['security']
+                , autoLoad: false
+                , storeId: 'liveFeedSecurityStore'
+            	, proxy: {
+                    type: 'ajax'
+                    , api: {
+                        read: '/TradeApp/getSecurityList'
                     }
                 }                
             }

@@ -253,5 +253,29 @@ public class TradeAppController {
 
 		return executedJobsList;
 	}
+	
+	/**
+	 * This method will get All security list
+	 * 
+	 * @return List<TradeList>
+	 */
+	@SuppressWarnings("unchecked")
+	@GetMapping(IControllerConstants.GET_SECURITY_LIST)
+	@ResponseBody
+	public List<JobProgressData> getAllSecurityList() {
+
+		List<JobProgressData> securityList = new ArrayList<>();
+
+		try {
+			
+			securityList = restTemplate.getForObject(tradeAppProperty.getSecurityList(), List.class);
+
+		} catch (Exception ex) {
+			logger.info(IControllerConstants.GET_SECURITY_LIST_EXCEPTION_MSG ,
+					ex);
+		}
+
+		return securityList;
+	}
 
 }
