@@ -7,6 +7,7 @@ Ext.define('ui.model.LiveFeedModel', {
         , { name: 'instrumentType' }  
         , { name: 'currency'} 
         , { name: 'broker' }
+        , { name: 'direction' }
         , { name: 'tradePrice' }  
         , { name: 'tradeDate', convert: function (v, rec) {
 	            if (v) {
@@ -17,16 +18,19 @@ Ext.define('ui.model.LiveFeedModel', {
 	            return v;
         	} 
         }
-        , {
-            name: 'tradeTime', convert: function (v, rec) {
-                v = new Date(v);                
-                v = new Date(v.getTime() + (v.getTimezoneOffset() * 60000));
-                                         	
-                if (v) {                	
-                	v = Ext.Date.format(v, 'H:i');
-                }
-
+        ,{
+            name: 'tradeTime', convert: function (v, rec) {     
+            	var date = new Date(v);
+            	
+            	if (isNaN(date.getTime())) {  
+            	    return v;
+            	} 
+            	else {   
+                	v = Ext.Date.format(v, 'H:i:s');
+            	}
+            	
                 return v;
+            	
             }
         }
     ]

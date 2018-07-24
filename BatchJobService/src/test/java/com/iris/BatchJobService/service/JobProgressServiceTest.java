@@ -15,23 +15,30 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.iris.batchJobService.dao.IJobProgressDao;
-import com.iris.batchJobService.entity.JobProgressData;
 import com.iris.batchJobService.entity.ScheduleJobDetails;
 import com.iris.batchJobService.service.JobProgressService;
-import com.iris.batchJobService.util.JobProgressConstants;
+import com.iris.batchJobService.util.JobStatusEnum;
 
+/*
+ * JUnit class for unit testing service
+ * 
+ * @author Rohit ELayathu
+ */
 @RunWith(SpringRunner.class)
 public class JobProgressServiceTest {
 
 	@MockBean
-	ScheduleJobDetails jobDetails;
+	private ScheduleJobDetails jobDetails;
 
+	/*
+	 * This method does unit testing for getCompletedJobs() service
+	 */
 	@Test
 	public void testGetCompletedJobs() throws Exception {
 
 		List<ScheduleJobDetails> mockList = new ArrayList<ScheduleJobDetails>();
 		List<ScheduleJobDetails> expectedList = new ArrayList<ScheduleJobDetails>();
-		
+
 		jobDetails.setId(new Long(1));
 		jobDetails.setJobProgressStatus(1);
 		jobDetails.setTotalLineCount(1000);
@@ -41,10 +48,9 @@ public class JobProgressServiceTest {
 		jobDetails.setScheduleDate(new Date(System.currentTimeMillis()));
 		jobDetails.setJobName("Job1");
 
-
 		mockList.add(jobDetails);
 		expectedList.add(jobDetails);
-		
+
 		jobDetails.setId(new Long(2));
 		jobDetails.setJobProgressStatus(2);
 		jobDetails.setTotalLineCount(1000);
@@ -59,7 +65,7 @@ public class JobProgressServiceTest {
 
 		IJobProgressDao jobProgressDao = mock(IJobProgressDao.class);
 		when(jobProgressDao.getJobProgressByStatus(
-				Arrays.asList(JobProgressConstants.JOB_COMPLETED, JobProgressConstants.JOB_FAILED)))
+				Arrays.asList(JobStatusEnum.JOB_COMPLETED.getValue(), JobStatusEnum.JOB_FAILED.getValue())))
 						.thenReturn(mockList);
 
 		JobProgressService jobProgressService = new JobProgressService();
@@ -70,12 +76,15 @@ public class JobProgressServiceTest {
 
 	}
 
+	/*
+	 * This method does unit testing for getRunningJobs() service
+	 */
 	@Test
 	public void testGetRunningJobs() throws Exception {
 
 		List<ScheduleJobDetails> mockList = new ArrayList<ScheduleJobDetails>();
 		List<ScheduleJobDetails> expectedList = new ArrayList<ScheduleJobDetails>();
-		
+
 		jobDetails.setId(new Long(1));
 		jobDetails.setJobProgressStatus(1);
 		jobDetails.setTotalLineCount(1000);
@@ -87,7 +96,7 @@ public class JobProgressServiceTest {
 
 		mockList.add(jobDetails);
 		expectedList.add(jobDetails);
-		
+
 		jobDetails.setId(new Long(2));
 		jobDetails.setJobProgressStatus(2);
 		jobDetails.setTotalLineCount(1000);
@@ -101,7 +110,7 @@ public class JobProgressServiceTest {
 		expectedList.add(jobDetails);
 
 		IJobProgressDao jobProgressDao = mock(IJobProgressDao.class);
-		when(jobProgressDao.getJobProgressByStatus(Arrays.asList(JobProgressConstants.JOB_RUNNING)))
+		when(jobProgressDao.getJobProgressByStatus(Arrays.asList(JobStatusEnum.JOB_RUNNING.getValue())))
 				.thenReturn(mockList);
 
 		JobProgressService jobProgressService = new JobProgressService();

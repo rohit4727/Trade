@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /*
- * Entity class for table  JOB_PROGRESS_DATA
+ * Entity class for JOB_PROGRESS_DATA table
  * 
  * @author Rohit Elayathu
  */

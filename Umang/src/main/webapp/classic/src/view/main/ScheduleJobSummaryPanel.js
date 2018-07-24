@@ -15,6 +15,9 @@ Ext.define('ui.view.main.ScheduleJobSummaryPanel', {
 	
 	, requires: [
 	    'Ext.chart.PolarChart'
+		, 'Ext.chart.interactions.ItemHighlight'
+		, 'Ext.chart.interactions.Rotate'
+		, 'Ext.chart.series.Pie3D'
 	]
 	
 	, buildItems:function(){

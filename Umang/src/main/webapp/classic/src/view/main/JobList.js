@@ -52,7 +52,7 @@ Ext.define('ui.view.main.JobList', {
 	                , tooltip: 'Edit'
                 	, handler: 'onScheduleJobListEditBtnClick'
             		//Below method is used to check whether job is scheduled type? for other jobs actions buttons will be disabled
-            		, isDisabled: function(view, rowIndex, colIndex, item, record) {
+            		, isActionDisabled: function(view, rowIndex, colIndex, item, record) {
             			return record.get('status')!=0;
                     }
 	            },
@@ -60,7 +60,7 @@ Ext.define('ui.view.main.JobList', {
 	            	iconCls: 'x-fa fa-times'
 	                , tooltip: 'Delete'
                 	, style:'float:right'
-            		, isDisabled: function(view, rowIndex, colIndex, item, record) {
+            		, isActionDisabled: function(view, rowIndex, colIndex, item, record) {
             			return record.get('status')!=0;
                     }
 	            }

@@ -97,7 +97,7 @@ public class CustomStepListener implements StepExecutionListener {
 			reader = new LineNumberReader(new FileReader(filePath));
 			reader.skip(Integer.MAX_VALUE);
 
-			totalLineCount = reader.getLineNumber() - ETLConstants.LINES_TO_SKIP;
+			totalLineCount = reader.getLineNumber() - Integer.valueOf(PropertiesUtil.get("lines_to_skip"));
 
 			JobProgressData jobProgressData = new JobProgressData();
 			jobProgressData.setJobId(getJobId());

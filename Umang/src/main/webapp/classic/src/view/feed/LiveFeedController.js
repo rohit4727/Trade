@@ -12,26 +12,27 @@ Ext.define('ui.view.feed.LiveFeedController', {
         store: {
             '#liveFeedListStore': {
                 beforeload: 'onLiveFeedListBeforeLoad'
-            	, load: 'onLiveFeedListLoad'
+            },
+            '#liveFeedSecurityStore': {
+                load: 'onLiveFeedSecurityStoreLoad'
             }
         }
     }
 
-	//used to fill security filter in toolbar
-	, onLiveFeedListLoad:function(store, records){
-		if(!records || this.firstTimeLoad==true){return;}
-		
-		this.firstTimeLoad =true;
-		
+	, onLiveFeedSecurityComboAfterRender:function(){
+		var store = this.getViewModel().getStore('liveFeedSecurityStore');
+        store.read();
+	}
+	
+	, onLiveFeedSecurityStoreLoad:function(store, records){
 		var len = records.length
 			, securityArray = ['All'];
-		
 
 		for (var i = 0, securityName; i < len; i++) {
-			securityName = records[i]['data']['security'];
-
+			securityName = records[i]['data'];
+	
 			if (securityArray.indexOf(securityName != -1)) {
-				securityArray.push(records[i]['data']['security']);
+				securityArray.push(securityName);
 			}
 		}
 		
@@ -40,12 +41,12 @@ Ext.define('ui.view.feed.LiveFeedController', {
 	
 	, onLiveFeedListAfterRender: function (grid) {  
 		var me = this;
-		/*Ext.TaskManager.start({
+		Ext.TaskManager.start({
 		  run: function() { 
 			  me.loadLiveFeedList(grid);
 		  },
 		  interval: 1000
-		});*/
+		});
 		me.loadLiveFeedList(grid);
 	}
 	, onLiveFeedListBeforeLoad: function (store) {
