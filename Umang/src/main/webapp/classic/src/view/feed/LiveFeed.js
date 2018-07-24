@@ -20,5 +20,6 @@ Ext.define('ui.view.feed.LiveFeed', {
     	xtype:'livefeedlist'
 		, reference: 'livefeedlist'
         , itemId: 'livefeedlist'
+    	, height: Ext.getBody().getHeight()-20
     }]
 });

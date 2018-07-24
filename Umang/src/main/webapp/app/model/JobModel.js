@@ -15,7 +15,7 @@ Ext.define('ui.model.JobModel', {
         		v = rec.get('scheduleDate');
 	            if (v) {
 	                v = Ext.isDate(v) ? v : new Date(v);
-	                v = Ext.Date.format(v, 'Y-m-d');
+	                v = Ext.Date.format(v, 'm-d-Y');
 	            }
 	
 	            return v;

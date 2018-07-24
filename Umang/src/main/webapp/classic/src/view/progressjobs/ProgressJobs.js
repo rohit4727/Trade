@@ -20,5 +20,6 @@ Ext.define('ui.view.progressjobs.ProgressJobs', {
     	xtype:'progressjobslist'
 		, reference: 'progressjobslist'
         , itemId: 'progressjobslist'
+    	, height: Ext.getBody().getHeight()-20
     }]
 });

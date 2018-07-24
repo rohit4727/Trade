@@ -16,7 +16,7 @@ Ext.define('ui.view.completedjobs.CompletedJobsList', {
             , dock: 'top'
         	, defaults:{
         		labelStyle: 'font-weight:bold;'
-	    		, labelWidth: 160
+	    		, labelWidth: 80
 	    		, labelSeparator: ''
         	}
             , items: [
@@ -41,6 +41,22 @@ Ext.define('ui.view.completedjobs.CompletedJobsList', {
         			, reference: 'completedJobsListJobPathFilter'
         			, listeners:{
         				'keyup': 'onCompletedJobsJobPathFilterChange'
+        			}
+                },
+                {
+                	xtype:'datefield'
+            		, fieldLabel: 'Date Range'
+            		, reference: 'completedJobsListDateFromFilter'
+        			, listeners:{
+        				'change': 'onCompletedJobsDateFromFilterChange'
+        			}
+                },
+                {
+                	xtype:'datefield'
+            		, hideLabel: true
+            		, reference: 'completedJobsListDateToFilter'
+        			, listeners:{
+        				'change': 'onCompletedJobsDateToFilterChange'
         			}
                 },
                 {

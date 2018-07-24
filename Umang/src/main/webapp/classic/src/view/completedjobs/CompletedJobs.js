@@ -20,5 +20,6 @@ Ext.define('ui.view.completedjobs.CompletedJobs', {
     	xtype:'completedjobslist'
 		, reference: 'completedjobslist'
         , itemId: 'completedjobslist'
+    	, height: Ext.getBody().getHeight()-20
     }]
 });

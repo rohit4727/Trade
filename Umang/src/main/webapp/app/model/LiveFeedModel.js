@@ -12,7 +12,7 @@ Ext.define('ui.model.LiveFeedModel', {
         , { name: 'tradeDate', convert: function (v, rec) {
 	            if (v) {
 	                v = Ext.isDate(v) ? v : new Date(v);
-	                v = Ext.Date.format(v, 'Y-m-d');
+	                v = Ext.Date.format(v, 'm-d-Y');
 	            }
 	
 	            return v;

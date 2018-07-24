@@ -28,9 +28,8 @@ Ext.define('ui.view.completedjobs.CompletedJobsController', {
         store.read(options);
     }
 	
-	, onCompletedJobsJobNameFilterChange:function(){
-		var jobNameField = this.lookupReference('completedJobsListJobNameFilter')
-			, store = this.getViewModel().getStore('completedJobsListStore');
+	, onCompletedJobsJobNameFilterChange:function(jobNameField){
+		var store = this.getViewModel().getStore('completedJobsListStore');
 		
 		store.filterBy(function(rec){
 			return (rec.get('jobName').indexOf(jobNameField.getValue()) != -1);
@@ -38,13 +37,32 @@ Ext.define('ui.view.completedjobs.CompletedJobsController', {
 		
 	}
 	
-	, onCompletedJobsJobPathFilterChange:function(){
-		var jobNameField = this.lookupReference('completedJobsListJobPathFilter')
-			, store = this.getViewModel().getStore('completedJobsListStore');
+	, onCompletedJobsJobPathFilterChange:function(jobPathField){
+		var store = this.getViewModel().getStore('completedJobsListStore');
 		
 		store.filterBy(function(rec){
-			return (rec.get('batchFilePath').indexOf(jobNameField.getValue()) != -1);
+			return (rec.get('batchFilePath').indexOf(jobPathField.getValue()) != -1);
 		});		
+	}
+	
+	, onCompletedJobsDateFromFilterChange:function(df, nv, ov){
+		var store = this.getViewModel().getStore('completedJobsListStore');
+		
+		nv = new Date(nv);
+		
+		store.filterBy(function(rec){
+			return (new Date(rec.get('displayDate'))>= nv); 
+		});
+	}
+	
+	, onCompletedJobsDateToFilterChange:function(df, nv, ov){
+		var store = this.getViewModel().getStore('completedJobsListStore');
+		
+		nv = new Date(nv);
+		
+		store.filterBy(function(rec){
+			return (new Date(rec.get('displayDate'))<= nv); 
+		});
 	}
 	
 	, onCompletedJobsFilterReset:function(){

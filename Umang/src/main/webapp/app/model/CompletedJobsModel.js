@@ -17,16 +17,15 @@ Ext.define('ui.model.CompletedJobsModel', {
         		v = rec.get('scheduleDate');
 	            if (v) {
 	                v = Ext.isDate(v) ? v : new Date(v);
-	                v = Ext.Date.format(v, 'Y-m-d');
+	                v = Ext.Date.format(v, 'm-d-Y');
 	            }
 	
 	            return v;
         	} 
         }
         , {
-            name: 'displayTime', convert: function (v, rec) {	
-                v = new Date(rec.get('scheduleDate'));                
-                v = new Date(v.getTime() + (v.getTimezoneOffset() * 60000));
+            name: 'displayTime', convert: function (v, rec) {
+                v = new Date(rec.get('scheduleDate'));
                                          	
                 if (v) {                	
                 	v = Ext.Date.format(v, 'H:i');
