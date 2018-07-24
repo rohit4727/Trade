@@ -101,7 +101,7 @@ CREATE TABLE BATCH_JOB_SEQ (
 INSERT INTO BATCH_JOB_SEQ (ID, UNIQUE_KEY) select * from (select 0 as ID, '0' as UNIQUE_KEY) as tmp where not exists(select * from BATCH_JOB_SEQ);
 
 create table TRADE (
-	trade_id BIGINT NOT NULL PRIMARY KEY,
+	trade_id BIGINT NOT NULL,
 	trade_price float,
 	security varchar(127),
 	instument_type varchar(127),
@@ -117,6 +117,7 @@ create table TRADE (
 	clearing_system varchar(127),
 	clearingHouse varchar(127),
 	job_id varchar(255),
-	deviation float
+	deviation float,
+	constraint UNIQUE_KEY_UN unique (trade_id, job_id)
 ) ENGINE=InnoDB;
 	

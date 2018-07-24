@@ -7,18 +7,23 @@ import java.net.URL;
 
 public class RunJob {
 
-
 	private static String restApiUrl = "";
 
 	public static void main(String[] args) {
 
-
 		if (args.length == 0 || args[0].isEmpty()) {
-			throw new RuntimeException("Failed : Job id not provided");
+			throw new RuntimeException(
+					"Failed : Please provide spring batch rest api url as first argument and job is as secound argument.");
+		} else {
+			restApiUrl = args[0];
 		}
+		if (args.length < 2 || args[1].isEmpty()) {
+			throw new RuntimeException("Failed : Please provide job id as secound argument.");
+		}
+		System.out.println(restApiUrl);
+		restApiUrl = restApiUrl.replace("{jobId}", args[1]);
 
-		//restApiUrl = restApiUrl.replace("{jobId}", args[0]);
-		restApiUrl = args[0];
+		System.out.println(restApiUrl);
 		try {
 
 			URL url = new URL(restApiUrl);
