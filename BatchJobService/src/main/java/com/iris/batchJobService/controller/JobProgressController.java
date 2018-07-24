@@ -38,7 +38,7 @@ public class JobProgressController {
 	/*
 	 * This method gets list of all the executed (completed or failed) jobs
 	 */
-	@GetMapping("/completed")
+	@GetMapping("completed")
 	public ResponseEntity<List<ScheduleJobDetails>> getCompletedJobs() {
 		List<ScheduleJobDetails> list = jobProgressService.getCompletedJobs();
 
@@ -50,7 +50,7 @@ public class JobProgressController {
 	/*
 	 * This method gets list of all currently executing jobs
 	 */
-	@GetMapping("/running")
+	@GetMapping("running")
 	public ResponseEntity<List<ScheduleJobDetails>> getRunningJobs() {
 		List<ScheduleJobDetails> list = jobProgressService.getRunningJobs();
 
@@ -62,8 +62,8 @@ public class JobProgressController {
 	/*
 	 * This method saves/updates job progress data
 	 */
-	@PostMapping("/saveJobProgress")
-	public ResponseBean SaveJobProgressData(@Valid @RequestBody JobProgressData jobProgressData) {
+	@PostMapping("saveJobProgress")
+	public ResponseBean saveJobProgressData(@Valid @RequestBody JobProgressData jobProgressData) {
 		JobProgressData jobProgressDataSaved = jobProgressService.saveJobProgress(jobProgressData);
 
 		if (jobProgressDataSaved != null && jobProgressDataSaved.getJobId() != 0) {

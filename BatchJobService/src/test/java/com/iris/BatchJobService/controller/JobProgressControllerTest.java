@@ -18,7 +18,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iris.batchJobService.controller.JobProgressController;
+import com.iris.batchJobService.entity.JobProgressData;
 import com.iris.batchJobService.entity.ScheduleJobDetails;
 import com.iris.batchJobService.service.IJobProgressService;
 
@@ -36,7 +38,7 @@ public class JobProgressControllerTest {
 
 	@MockBean
 	private IJobProgressService jobProgressService;
-	
+
 	private ScheduleJobDetails jobDetails = null;
 
 	/*
@@ -58,7 +60,7 @@ public class JobProgressControllerTest {
 		jobDetails.setJobName("Job1");
 
 		mockList.add(jobDetails);
-		
+
 		jobDetails = new ScheduleJobDetails();
 		jobDetails.setId(new Long(2));
 		jobDetails.setJobProgressStatus(2);
@@ -77,14 +79,13 @@ public class JobProgressControllerTest {
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
-		System.out.println(result.getResponse());
 		String expected = "[{id:1,totalLineCount:1000,writerLineCount:1000,jobProgressStatus:1,batchFilePath:test,status:test,scheduleDate:2018-07-20,jobName:Job1},"
 				+ "{id:2,totalLineCount:1000,writerLineCount:100,jobProgressStatus:2,batchFilePath:test,status:test,scheduleDate:2018-07-20,jobName:Job2}]";
 
 		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), true);
 
 	}
-	
+
 	/*
 	 * This method does unit testing for '/joblist/running' web service
 	 */
@@ -104,7 +105,7 @@ public class JobProgressControllerTest {
 		jobDetails.setJobName("Job1");
 
 		mockList.add(jobDetails);
-		
+
 		jobDetails = new ScheduleJobDetails();
 		jobDetails.setId(new Long(2));
 		jobDetails.setJobProgressStatus(0);
@@ -123,12 +124,40 @@ public class JobProgressControllerTest {
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
-		System.out.println(result.getResponse());
 		String expected = "[{id:1,totalLineCount:1000,writerLineCount:100,jobProgressStatus:0,batchFilePath:test,status:test,scheduleDate:2018-07-20,jobName:Job1},"
 				+ "{id:2,totalLineCount:1000,writerLineCount:90,jobProgressStatus:0,batchFilePath:test,status:test,scheduleDate:2018-07-20,jobName:Job2}]";
 
 		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), true);
+	}
 
+	/*
+	 * This method does unit testing for '/joblist/saveJobProgress' web service
+	 */
+	@Test
+	public void testSaveJobProgressData() throws Exception {
+
+		JobProgressData jobProgressData = new JobProgressData();
+		jobProgressData.setJobId(new Long(1));
+
+		Mockito.when(jobProgressService.saveJobProgress(Mockito.any(JobProgressData.class)))
+				.thenReturn(jobProgressData);
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/joblist/saveJobProgress")
+				.contentType(MediaType.APPLICATION_JSON).content(asJsonString(jobProgressData));
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		;
+
+		String expected = "{statuscode:'200',message:SUCCESS}";
+
+		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), true);
+	}
+
+	public static String asJsonString(final Object obj) {
+		try {
+			return new ObjectMapper().writeValueAsString(obj);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
