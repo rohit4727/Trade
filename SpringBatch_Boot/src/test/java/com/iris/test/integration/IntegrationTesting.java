@@ -1,4 +1,4 @@
-package com.iris.controller;
+package com.iris.test.integration;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -38,6 +38,9 @@ public class IntegrationTesting {
 
 	@Autowired
 	private DataSource dataSource;
+
+	// @MockBeans
+	// private TradeServiceImpl tradeService;
 
 	private JdbcTemplate jdbcTemplate;
 	private final String DELETE_TRADE = "delete from trade where trade_id>0";

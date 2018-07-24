@@ -32,7 +32,7 @@ public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 		this.setResource(new ClassPathResource(filePath));
 
 		// Skip the file header line
-		this.setLinesToSkip(ETLConstants.LINES_TO_SKIP);
+		this.setLinesToSkip(Integer.valueOf(PropertiesUtil.get("lines_to_skip")));
 		// Line is mapped to item (FxMarketEvent) using setLineMapper(LineMapper)
 
 		try {

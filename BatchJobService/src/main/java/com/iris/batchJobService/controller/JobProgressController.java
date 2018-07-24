@@ -19,7 +19,7 @@ import com.iris.batchJobService.beans.ResponseBean;
 import com.iris.batchJobService.entity.JobProgressData;
 import com.iris.batchJobService.entity.ScheduleJobDetails;
 import com.iris.batchJobService.service.IJobProgressService;
-import com.iris.batchJobService.util.JobProgressConstants;
+import com.iris.batchJobService.util.ResponseBeanStatusEnum;
 
 /*
  * JobProgressController class for rest services
@@ -60,16 +60,16 @@ public class JobProgressController {
 	}
 
 	/*
-	 * This method saves/updated job progress data
+	 * This method saves/updates job progress data
 	 */
 	@PostMapping("/saveJobProgress")
 	public ResponseBean SaveJobProgressData(@Valid @RequestBody JobProgressData jobProgressData) {
 		JobProgressData jobProgressDataSaved = jobProgressService.saveJobProgress(jobProgressData);
 
 		if (jobProgressDataSaved != null && jobProgressDataSaved.getJobId() != 0) {
-			return new ResponseBean(HttpStatus.OK.toString(), JobProgressConstants.SUCCESS);
+			return new ResponseBean(HttpStatus.OK.toString(), ResponseBeanStatusEnum.SUCCESS.getValue());
 		} else {
-			return new ResponseBean(HttpStatus.NOT_FOUND.toString(), JobProgressConstants.FAILED);
+			return new ResponseBean(HttpStatus.NOT_FOUND.toString(), ResponseBeanStatusEnum.FAILED.getValue());
 		}
 	}
 

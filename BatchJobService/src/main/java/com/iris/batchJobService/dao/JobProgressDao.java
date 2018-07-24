@@ -10,6 +10,11 @@ import com.iris.batchJobService.entity.ScheduleJobDetails;
 import com.iris.batchJobService.repository.JobDetailRepository;
 import com.iris.batchJobService.repository.JobProgressRepository;
 
+/*
+ * DAO implementation class
+ * 
+ * @author Rohit Elayathu
+ */
 @Repository
 public class JobProgressDao implements IJobProgressDao {
 
@@ -42,6 +47,9 @@ public class JobProgressDao implements IJobProgressDao {
 		return list;
 	}
 
+	/*
+	 * This method saves/updates data in JOB_PROGRESS_DATA table
+	 */
 	@Override
 	public JobProgressData saveJobProgress(JobProgressData jobProgressData) {
 		JobProgressData jobProgressDataDb = null;

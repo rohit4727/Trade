@@ -22,6 +22,11 @@ import com.iris.batchJobService.controller.JobProgressController;
 import com.iris.batchJobService.entity.ScheduleJobDetails;
 import com.iris.batchJobService.service.IJobProgressService;
 
+/*
+ * JUnit class for unit testing controller
+ * 
+ * @author Rohit ELayathu
+ */
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = JobProgressController.class, secure = false)
 public class JobProgressControllerTest {
@@ -32,8 +37,11 @@ public class JobProgressControllerTest {
 	@MockBean
 	private IJobProgressService jobProgressService;
 	
-	ScheduleJobDetails jobDetails = null;
+	private ScheduleJobDetails jobDetails = null;
 
+	/*
+	 * This method does unit testing for '/joblist/completed' web service
+	 */
 	@Test
 	public void testGetCompletedJobs() throws Exception {
 
@@ -46,7 +54,7 @@ public class JobProgressControllerTest {
 		jobDetails.setWriterLineCount(1000);
 		jobDetails.setBatchFilePath("test");
 		jobDetails.setStatus("test");
-		jobDetails.setScheduleDate(new Date(System.currentTimeMillis()));
+		jobDetails.setScheduleDate(Date.valueOf("2018-07-20"));
 		jobDetails.setJobName("Job1");
 
 		mockList.add(jobDetails);
@@ -77,6 +85,9 @@ public class JobProgressControllerTest {
 
 	}
 	
+	/*
+	 * This method does unit testing for '/joblist/running' web service
+	 */
 	@Test
 	public void testGetRunningJobs() throws Exception {
 
@@ -89,7 +100,7 @@ public class JobProgressControllerTest {
 		jobDetails.setWriterLineCount(100);
 		jobDetails.setBatchFilePath("test");
 		jobDetails.setStatus("test");
-		jobDetails.setScheduleDate(new Date(System.currentTimeMillis()));
+		jobDetails.setScheduleDate(Date.valueOf("2018-07-20"));
 		jobDetails.setJobName("Job1");
 
 		mockList.add(jobDetails);
@@ -101,7 +112,7 @@ public class JobProgressControllerTest {
 		jobDetails.setWriterLineCount(90);
 		jobDetails.setBatchFilePath("test");
 		jobDetails.setStatus("test");
-		jobDetails.setScheduleDate(new Date(System.currentTimeMillis()));
+		jobDetails.setScheduleDate(Date.valueOf("2018-07-20"));
 		jobDetails.setJobName("Job2");
 
 		mockList.add(jobDetails);

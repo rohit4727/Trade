@@ -13,7 +13,6 @@ public interface ETLConstants {
 	String TRADE_CLASS_NAME = "Trade";
 	String CONCURRENCY_LIMIT = "concurrency_limit";
 	String CHUNK_SIXE = "chunk_size";
-	int LINES_TO_SKIP = 1;
 
 	// Job Status
 	int JOB_RUNNING = 0;

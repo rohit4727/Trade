@@ -17,8 +17,12 @@ public class Processor<T extends TradeBase> implements ItemProcessor<T, T> {
 
 	private static final Logger log = LoggerFactory.getLogger(Processor.class);
 
-	@Autowired
 	private TradeServiceImpl tradeService;
+
+	@Autowired
+	public void setTradeService(TradeServiceImpl tradeService) {
+		this.tradeService = tradeService;
+	}
 
 	private Long jobId;
 
@@ -29,6 +33,9 @@ public class Processor<T extends TradeBase> implements ItemProcessor<T, T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public TradeBase process(final TradeBase trade) throws Exception {
+		if (trade == null) {
+			return null;
+		}
 		log.info("processed trade with id " + trade.getTradeId());
 
 		double bestPrice = tradeService.findBestPrice(trade.getSecurity(), trade.getTradeDate(), trade.getTradeTime());
