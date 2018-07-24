@@ -153,6 +153,42 @@ Ext.define('ui.view.main.MainController', {
         }).showBy(Ext.getBody());
     }
     
+    //delete mode for schedule jobs
+    , onScheduleJobListEditBtnClick:function(grid, ri){
+    	var rec = grid.getStore().getAt(ri)
+    		, viewModel = this.getViewModel() 
+    		, jobItem = viewModel.get('jobItem');
+    	
+    	viewModel.set('jobItem', rec);
+    	
+    	jobItem['destroy']({
+	         scope: this
+	         , maskCmp: win	        
+	         , callback: function (records, operation, success) {
+	        	 if (!success) {
+	        		 var error = operation.getError()
+	        		 	, resptext = Ext.decode(error.response.responseText);
+	        		 
+	        		 me.showToast(resptext.message);
+	        	 }
+	        	 else{
+	        		 var response = Ext.decode(operation._response.responseText);
+	        		 if(response.statusCode=='200'){
+	        			 swal({
+		        			  title: "Success",
+		        			  text: response.message,
+		        			  icon: "success"
+	        			});	
+	        		 }
+	        		 else{	
+	        			 me.showToast(response.message);	        			 
+	        		 }	        		 
+	        	 }	 
+	        	 me.loadScheduleJobList();
+	         }
+	     });
+    }
+    
     
     , loadScheduleJobList: function (grid, options) {
         var store = this.getViewModel().getStore('scheduleJobListStore');

@@ -42,7 +42,7 @@ Ext.define('ui.model.JobModel', {
         , api: {
             create: '/TradeApp/scheduleOrRunJob'
             , update: '/TradeApp/updateJobScheduleDetails'
-            , destroy:'/TradeApp/schedule_job_delete'
+            , destroy:'/TradeApp/deleteJobScheduleDetail'
         }
     }
 });
