@@ -1,0 +1,1 @@
+java -jar RunJob.jar http://172.16.14.34:8080/runjob/{jobId} %*
