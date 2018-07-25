@@ -1,6 +1,7 @@
 package com.iris.scheduler.entity;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -8,10 +9,18 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 @Entity
 @Table(name = "schedule_job_details")
-public class JobScheduler {
+public class JobScheduler implements Serializable{
 	
+	
+	private static final long serialVersionUID = -6334117912831273874L;
+
 	@Id
 	@GeneratedValue(
 	    strategy= GenerationType.AUTO, 
@@ -39,6 +48,17 @@ public class JobScheduler {
 	@NotBlank
 	private String status;
 
+	public JobScheduler () {
+		
+	}
+	
+	public JobScheduler (String jobName, String batchFilePath, Date scheduleDate, String status ) {
+		this.jobName = jobName;
+		this.batchFilePath = batchFilePath;
+		this.scheduleDate = scheduleDate;
+		this.status = status;
+    }
+	
 	public String getStatus() {
 		return status;
 	}
@@ -49,6 +69,10 @@ public class JobScheduler {
 
 	public Long getId() {
 		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getJobName() {
@@ -75,5 +99,4 @@ public class JobScheduler {
 		this.scheduleDate = scheduleDate;
 	}
 
-	
 }

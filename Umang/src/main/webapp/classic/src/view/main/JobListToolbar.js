@@ -1,3 +1,7 @@
+/**
+ * Author: Umang Goel * 
+ * toolbar for Schedule job list.
+ */
 
 Ext.define('ui.view.main.JobListToolbar', {
     extend: 'Ext.toolbar.Toolbar'
@@ -8,23 +12,17 @@ Ext.define('ui.view.main.JobListToolbar', {
         , labelStyle: 'font-weight:bold;'
     }
     , items: [   
-        /*{
+        {
             xtype: 'button'
             , iconCls: 'x-fa fa-refresh'
-            //, handler: 'onJobListRefreshButtonClick'
-        },   
-        {
-            xtype: 'datefield'
-        	, handler: function(picker, date) {
-                // do something with the selected date
-            }
-        },*/
-        '->',        
+            , handler: 'onScheduleJobListRefreshButtonClick'
+        },
+        '->',
         {
             xtype: 'button'
             , iconCls: 'x-fa fa-play-circle'
             , text: 'Run/Schedule Jobs'
-            , handler: 'onJobListRunJobButtonClick'
+            , handler: 'onJobListRunOrScheduleJobBtnClick'
         }
     ]    
 });

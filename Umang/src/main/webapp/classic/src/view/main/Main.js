@@ -1,26 +1,25 @@
 /**
- * This class is the main view for the application. It is specified in app.js as the
- * "mainView" property. That setting automatically applies the "viewport"
- * plugin causing this view to become the body element (i.e., the viewport).
- *
- * TODO - Replace this content of this view to suite the needs of your application.
+ * Author: Umang Goel
+ * This class is the main view for the application. It is specified in app.js
  */
+
 Ext.define('ui.view.main.Main', {
     extend: 'Ext.tab.Panel',
     xtype: 'app-main',
-
+    
     requires: [
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
-
         'ui.view.main.MainController',
         'ui.view.main.MainModel',
-        'ui.view.main.JobList'
+        'ui.view.main.JobList',
+        'ui.view.main.ScheduleJobSummaryPanel',
+        
+        'ui.view.feed.LiveFeed'
     ],
 
     controller: 'main',
     viewModel: 'main',
-
     ui: 'navigation',
 
     tabBarHeaderPosition: 1,
@@ -33,7 +32,7 @@ Ext.define('ui.view.main.Main', {
         },
         title: {
             bind: {
-                text: '{name}'
+                text: 'Trade!'
             },
             flex: 0
         },
@@ -75,18 +74,34 @@ Ext.define('ui.view.main.Main', {
         }
     },
 
-    items: [{
-        title: 'Run/Schedule Jobs',
-        iconCls: 'fa-home',
-        // The following grid shares a store with the classic version's grid as well!
-        items: [{
-            xtype: 'joblist'
-        }]
-    }, {
-        title: 'Trade',
-        iconCls: 'fa-user',
-        bind: {
-            html: '{loremIpsum}'
-        }
-    }]
+    items: [
+    	{
+	        title: 'Run/Schedule Jobs',
+	        iconCls: 'fa-home',
+	        items: [
+	        	{
+	        		xtype:'schedulejobsummarypanel'
+	        	},
+	        	{
+		            xtype: 'joblist'
+		        	, height: Ext.getBody().getHeight()-20
+	        	}
+	    	]
+	    },
+	    {
+	    	xtype:'live-feed',
+    		title: 'Live Feed',
+    		iconCls: 'fa-line-chart'
+	    },
+	    {
+	        title: 'Progress Jobs',
+	        xtype: 'progressjobs',
+	        iconCls: 'fa-th-list'
+	    },
+	    {
+	        title: 'Completed Jobs',
+	        xtype: 'completedjobs',
+	        iconCls: 'fa-th-list'
+	    }
+    ]
 });

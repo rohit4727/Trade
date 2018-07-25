@@ -1,16 +1,41 @@
 /**
+ * Author: Umang Goel
  * This class is the view model for the Main view of the application.
  */
 Ext.define('ui.view.main.MainModel', {
-    extend: 'Ext.app.ViewModel',
-
-    alias: 'viewmodel.main',
-
-    data: {
-        name: 'Trade!',
-
-        loremIpsum: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    extend: 'Ext.app.ViewModel'
+    , alias: 'viewmodel.main'
+	, links: {
+        jobItem: {
+            type: 'ui.model.JobModel'
+             , create: true
+        }
     }
+    , constructor: function (config) {
+        config.stores = this.initStores();
 
-    //TODO - add data, formulas and/or methods to support your view
-});
+        this.callParent(arguments);
+    }
+    
+    //initialization of view stores
+    , initStores: function () {
+        return {            
+            scheduleJobListStore: {
+                model: 'ui.model.JobModel'
+                , autoLoad: true
+                , storeId: 'scheduleJobListStore'                
+            	, proxy: {
+                    type: 'ajax'
+                    , api: {
+                        read: '/TradeApp/getAllJobScheduleDetails'
+                    }
+                }                
+            },
+            scheduleListChartStore:{
+                storeId: 'scheduleListChartStore' 
+            	, fields: ['type', 'count' ]
+            	, data:[]	            
+            }
+        }
+    }
+    });

@@ -2,7 +2,10 @@
 Ext.define('ui.view.main.RunScheduleJobPopUp', {
     extend: 'Ext.window.Window'
     , xtype: 'runschedulejobpopup'
-	, autoScroll: true
+	, reference: 'runschedulejobpopup'
+	, modal: true
+	, width:800
+	, autoHeight: true
     , defaults: {
         labelSeparator: ''
     	, labelAlign: 'top'
@@ -12,95 +15,146 @@ Ext.define('ui.view.main.RunScheduleJobPopUp', {
 	    this.items = this.buildItems();
 	
 	    this.callParent();
-	}
-	, dockedItems: [
-		{
-	        xtype: 'toolbar',
-	        dock: 'bottom',
-	        items: [
-	        	'->',
-	        	{
-	                xtype: 'button'
-	                , iconCls: 'x-fa fa-arrow-right'
-	                , text: 'Go'
-	                //, handler: 'onJobListRunJobButtonClick'
-	            },
-	            {
-	                xtype: 'button'
-	                , iconCls: 'x-fa fa-times'
-	                , text: 'Close'
-	            	, scope: this
-	                , handler: function(){
-	                	this.close();            	
-	                }
+	}	
+	
+	
+	, buildItems:function(){
+		var me = this;
+	
+		return [	
+			{
+ 			   xtype:'box'
+ 			   , html:'<i class="fa fa-play-circle" aria-hidden="true" style="vertical-align: middle;margin-right: 5px;"></i>'+ (me.mode=='add'? 'You may run now or schedule a job for later.':'Update Your Schedule Job')
+ 			   , style: 'padding:10px;background: #e6e6d8;font-weight:bold;margin: -20px -20px 10px -20px;'
+ 		   	},
+	        {
+	            xtype: 'form'
+	            , bodyStyle: 'background-color:transparent;padding:10px;'
+	            , submitEmptyText: false
+	            , autoScroll: true
+	            , name: 'runScheduleJobForm'
+	            , reference: 'runScheduleJobForm'
+	            , fieldDefaults: {
+	                labelSeparator: ''
+	                , labelWidth: 200
+	                , width: 450
+	                , labelAlign: 'top'
+	                , labelStyle: 'font-weight:bold;'
 	            }
-	        ]
-	    }
-	]
-	, buildItems: function () {
-	   return [
-		   {
-			   xtype:'box'
-			   , html:'<i class="fa fa-play-circle" aria-hidden="true" style="vertical-align: middle;margin-right: 5px;"></i>You may run or schedule multiple jobs.'
-			   , style: 'padding:10px;background: #e6e6d8;font-weight:bold;margin: -20px -20px 10px -20px;'
-		   },
-		   {
-		        xtype: 'tagfield'
-		        , fieldLabel: 'Select Job(s)'	        	
-		        , displayField: 'name'
-		        , valueField: 'id'
-		        , queryMode: 'local'
-	        	, labelWidth: 200
-	        	, width: '100%'
-		        , filterPickList: true
-		        , store: new Ext.create('Ext.data.Store', {
-		            fields: ['id','name'],
-		            data: [
-		                {id: 1, name: 'Job 1'}
-		                , {id: 2, name: 'Job 2'}
-		                , {id: 3, name: 'Job 3'}
-		            ]
-		        })
-		    },
-		    {
-		        xtype: 'radiogroup'
-		        , fieldLabel: 'Choose any one'
-		        , columns: 1
-		        
-		        , items: [
-		        	{ boxLabel: 'Run Now', name: 'rb', inputValue: 1, checked: true, reference: 'RunRadio'},
-		            { boxLabel: 'Schedule for later', name: 'rb', inputValue: 2 }		            
-		        ]
-		    },
-		    {
-		    	xtype: 'container'
-	    		, layout: 'hbox'
-    			, bind:{
-    				hidden: '{RunRadio.checked}'
-    			}
-    			, defaults: {
-    		        labelSeparator: ''
-    		    	, labelAlign: 'top'
-    		        , labelStyle: 'font-weight:bold;'
-    		    }
-	    		, items: [
-	    			{
-	    		    	xtype:'datefield'
-	    	    		, name: 'ScheduleDate'
-	    		    	, minValue: new Date()
-	    				, fieldLabel: 'Date'
-	    				, flex: 1
-	    				, style: 'margin-right:20px;'
+	            , dockedItems: [
+	                {
+	                    xtype: 'toolbar'
+	                    , dock: 'bottom'
+	                    , items: [
+	                        '->',
+	                        {
+	                            xtype: 'button'
+	                            , iconCls: 'x-fa fa-save'
+	                            , text: 'Go'
+	                            , handler: 'onRunScheduleJobWindowGoButtonClick'
+	                            , formBind: true
+	                        },
+	                        {
+	                            xtype: 'button'
+	                            , text: 'Close'
+	                            , iconCls: 'x-fa fa-ban'
+	                            , handler: 'onRunScheduleJobWindowCancelButtonClick'
+	                        }
+	                    ]
+	                }
+	            ]
+	            , items: [	     		   
+	    		   {
+	    		    	xtype: 'container'
+	    	    		, layout: 'hbox'
+	    	   			, defaults: {
+	    	   		        labelSeparator: ''
+	    	   		    	, labelAlign: 'top'
+	    	   		        , labelStyle: 'font-weight:bold;'
+	    	   		    }
+	    	    		, items: [
+	    	    			{
+	    	    		    	xtype:'textfield'
+	    	    				, fieldLabel: 'Job Name'
+	    	    				, flex: 0.75
+	    	    				, bind:{
+	    	    					value: '{jobItem.jobName}'	    					
+	    	    				}
+	    	    				, style: 'margin-right:20px;'
+	        					, allowBlank: false
+	    	    		    },
+	    	    		    {
+	    	    		    	xtype:'textfield'
+	    	    				, fieldLabel: 'Job Path'
+	    	    				, flex: 1
+	    	    				, bind:{
+	    	    					value: '{jobItem.batchFilePath}'	    					
+	    	    				}
+	    	    		    	, allowBlank: false
+	    	    		    }
+	    	    		]
+	    		    },		   
+	    		    {
+	    		        xtype: 'radiogroup'
+	    		        , fieldLabel: 'Choose any one'
+	    		        , columns: 1
+	    		        , items: [
+	    		        	{ 
+	    		        		boxLabel: 'Run Now'
+	    	        			, bind:{
+	    	    					value: '{jobItem.runFrequency}'	    					
+	    	    				}
+	            				, inputValue: 1
+	        					, disabled: me.mode=='edit'
+	        					, reference: 'RunRadio'
+	    					},		        	
+	    		            { 
+	    						boxLabel: 'Schedule for later'
+	    						, inputValue: 0
+	    						, checked: me.mode=='edit'										            
+	    		            }
+	    		        ]
 	    		    },
 	    		    {
-	    		        xtype: 'timefield'
-	    		        , name: 'ScheduleTime'
-	    		        , fieldLabel: 'Time'
-	    		        , increment: 30
-	    		        , flex: 1
-	    		    }
-	    		]
-		    }		    
-	   ]
+	    		    	xtype: 'container'
+	    	    		, layout: 'hbox'
+	        			, bind:{
+	        				hidden: '{RunRadio.checked}'
+	        			}
+	        			, defaults: {
+	        		        labelSeparator: ''
+	        		    	, labelAlign: 'top'
+	        		        , labelStyle: 'font-weight:bold;'
+	    		        	, flex: 1
+	        		    }
+	    	    		, items: [
+	    	    			{
+	    	    		    	xtype:'datefield'
+	    	    		    	, minValue: new Date()
+	    	    				, fieldLabel: 'Date'
+    	    					, reference: 'scheduledDate'
+	        					, bind:{
+	        						value: '{jobItem.displayDate}'
+	    							, disabled:'{RunRadio.checked}'
+	        					}
+	    	    				, style: 'margin-right:20px;'
+	        					, allowBlank: false
+	    	    		    },
+	    	    		    {
+	    	    		        xtype: 'timefield'
+	    	    		        , fieldLabel: 'Time'
+    	    		        	, reference: 'scheduledTime'
+	    	    		        , increment: 30
+	    	    		        , bind:{
+	        						value: '{jobItem.displayTime}'
+	    							, disabled:'{RunRadio.checked}'
+	        					}
+	    	    		    	, allowBlank: false
+	    	    		    }
+	    	    		]
+	    		    }		    
+	    	   ]
+	        }
+	    ]
 	}
 });

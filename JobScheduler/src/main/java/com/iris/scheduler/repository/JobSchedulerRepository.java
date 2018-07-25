@@ -8,6 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import com.iris.scheduler.entity.JobScheduler;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 @Repository
 public interface JobSchedulerRepository extends JpaRepository<JobScheduler, Long> {
 

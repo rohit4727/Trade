@@ -13,11 +13,10 @@ public class PropertiesUtil {
 	private static Properties props;
 	private static final Logger log = LoggerFactory.getLogger(PropertiesUtil.class);
 
-	{
-		FileReader reader = null;
+	static {
 		props = new Properties();
 		try {
-			reader = new FileReader("db.properties");
+			FileReader reader = new FileReader("src/main/resources/application.properties");
 			props.load(reader);
 		} catch (FileNotFoundException e) {
 			log.error("Unable to read property file", e);

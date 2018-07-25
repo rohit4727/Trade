@@ -3,9 +3,18 @@ package com.iris.scheduler.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * 
+ * @author pushpendra.singh
+ *
+ */
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends RuntimeException {
-    private String resourceName;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1905261320287052114L;
+	private String resourceName;
     private String fieldName;
     private Object fieldValue;
 
