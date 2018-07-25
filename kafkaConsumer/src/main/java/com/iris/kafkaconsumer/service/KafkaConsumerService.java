@@ -1,4 +1,4 @@
-package com.iris.kafkaconsumer.dao;
+package com.iris.kafkaconsumer.service;
 
 import java.util.List;
 
@@ -9,13 +9,11 @@ import com.iris.kafkaconsumer.model.Trade;
  * @Date : 23-Jul-2018
  * @Author : Rohit Chauhan
  */
-public interface ConsumerDAO {
-
+public interface KafkaConsumerService {
 	/**
 	 * 
 	 * @param trade
-	 *            insert trade in DB
+	 *            consume Trade List
 	 */
-	void insertLiveFeed(List<Trade> trade);
-
+	public void consumeTradeList(List<Trade> trade);
 }

@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,17 +18,35 @@ import com.iris.kafkaproducer.model.Trade;
 import com.iris.kafkaproducer.service.KafkaService;
 import com.iris.kafkaproducer.serviceImpl.KafkaServiceImpl;
 
+/**
+ * 
+ * @Date : 23-Jul-2018
+ * @Author : Rohit Chauhan
+ *
+ */
 @RestController
 @RequestMapping(IControllerConstants.KAFKA_PRODUCER)
 public class TradeProducerController {
-	
+
 	static Logger logger = Logger.getLogger(TradeProducerController.class.getName());
 
-    @Autowired
-    private KafkaService kafkaService; 
-    
-    @GetMapping("/")
-    public String postTrade() {
-    	return kafkaService.produceTrade();
-    }
+	@Autowired
+	private KafkaService kafkaService;
+
+	/**
+	 * 
+	 * Manual execution of producer URL : http://localhost:8082/kafkaProducer/
+	 */
+	@GetMapping("/")
+	public String postTrade() {
+		return kafkaService.produceTrade();
+	}
+
+	/**
+	 * Self execution of producer
+	 */
+	@PostConstruct
+	public void Init() {
+		kafkaService.produceTrade();
+	}
 }

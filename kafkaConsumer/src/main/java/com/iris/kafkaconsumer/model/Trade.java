@@ -1,8 +1,6 @@
 package com.iris.kafkaconsumer.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -11,17 +9,21 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * 
+ * @Date : 23-Jul-2018
+ * @Author : Rohit Chauhan
+ */
 @Entity
-@Table(name="TRADE_LIVE_FEED")
+@Table(name = "TRADE_LIVE_FEED")
 public class Trade implements Serializable {
 
-	
 	private static final long serialVersionUID = -3193371204566316446L;
-	
+
 	@Id
 	private int tradeId;
 	private String security;
-	private String broker;	
+	private String broker;
 	private double tradePrice;
 	private String instrumentType;
 	@Temporal(TemporalType.DATE)
@@ -29,11 +31,12 @@ public class Trade implements Serializable {
 	@Temporal(TemporalType.TIME)
 	private Date tradeTime;
 	private String currency;
-	
+	private String direction;
+
 	public Trade() {
 		super();
 	}
-	
+
 	public int getTradeId() {
 		return tradeId;
 	}
@@ -100,8 +103,17 @@ public class Trade implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Trade [tradeId=" + tradeId + "security="+security+", tradePrice=" + tradePrice + ", instrumentType=" + instrumentType
-				+ ", tradeDate=" + tradeDate + ", tradeTime=" + tradeTime + ", currency=" + currency + "]";
+		return "Trade [tradeId=" + tradeId + ", security=" + security + ", tradePrice=" + tradePrice
+				+ ", instrumentType=" + instrumentType + ", tradeDate=" + tradeDate + ", tradeTime=" + tradeTime
+				+ ", currency=" + currency + ", direction=" + direction + "]";
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
 	}
 
 }

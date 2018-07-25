@@ -17,27 +17,37 @@ import com.iris.kafkaproducer.constants.IControllerConstants;
 import com.iris.kafkaproducer.model.Trade;
 import com.iris.kafkaproducer.serviceImpl.KafkaServiceImpl;
 
+/**
+ * 
+ * @Date : 23-Jul-2018
+ * @Author : Rohit Chauhan
+ *
+ */
 @Configuration
 public class KakfaConfiguration {
 
+	/**
+	 * 
+	 * @return Kafka Producer Factory
+	 */
+	@Bean
+	public ProducerFactory<String, Trade> producerFactory() {
+		Map<String, Object> config = new HashMap<>();
 
-	
-    @Bean
-    public ProducerFactory<String, Trade> producerFactory() {
-        Map<String, Object> config = new HashMap<>();
+		config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, IControllerConstants.KAFKA_URL);
+		config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+		config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
-        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, IControllerConstants.KAFKA_URL);
-        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+		return new DefaultKafkaProducerFactory<>(config);
+	}
 
-        return new DefaultKafkaProducerFactory<>(config);
-    }
-
-
-    @Bean
-    public KafkaTemplate<String, Trade> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
-    }
-
+	/**
+	 * 
+	 * @return kafka Template
+	 */
+	@Bean
+	public KafkaTemplate<String, Trade> kafkaTemplate() {
+		return new KafkaTemplate<>(producerFactory());
+	}
 
 }

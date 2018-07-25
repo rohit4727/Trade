@@ -1,15 +1,18 @@
 package com.iris.kafkaproducer.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Date;
 
+/**
+ * 
+ * @Date : 23-Jul-2018
+ * @Author : Rohit Chauhan
+ *
+ */
 public class Trade implements Serializable {
 
-	
 	private static final long serialVersionUID = -3193371204566316446L;
-	
+
 	private String security;
 	private String broker;
 	private int tradeId;
@@ -18,11 +21,12 @@ public class Trade implements Serializable {
 	private Date tradeDate;
 	private Date tradeTime;
 	private String currency;
-	
+	private String direction;
+
 	public Trade() {
 		super();
 	}
-	
+
 	public int getTradeId() {
 		return tradeId;
 	}
@@ -89,8 +93,17 @@ public class Trade implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Trade [tradeId=" + tradeId + "security="+security+", tradePrice=" + tradePrice + ", instrumentType=" + instrumentType
-				+ ", tradeDate=" + tradeDate + ", tradeTime=" + tradeTime + ", currency=" + currency + "]";
+		return "Trade [tradeId=" + tradeId + "security=" + security + ", tradePrice=" + tradePrice + ", instrumentType="
+				+ instrumentType + ", tradeDate=" + tradeDate + ", tradeTime=" + tradeTime + ", currency=" + currency
+				+ ", direction="+ direction +"]";
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
 	}
 
 }
