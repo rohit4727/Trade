@@ -44,11 +44,7 @@ public class TradeAppController {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	@RequestMapping("/")
-	public String Trades(Model model) {
-		return "index";
-	}
-
+	
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
