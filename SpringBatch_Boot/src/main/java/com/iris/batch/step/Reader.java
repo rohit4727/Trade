@@ -27,7 +27,7 @@ public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 
 	public Reader() {
 		String filePath = PropertiesUtil.get("trade_file_name");
-
+		
 		// Set input file
 		this.setResource(new ClassPathResource(filePath));
 
