@@ -6,7 +6,7 @@
 	<groupId>com.iris.trade</groupId>
 	<artifactId>MyApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>TradeApp</name>
 	<description>Trade App</description>
