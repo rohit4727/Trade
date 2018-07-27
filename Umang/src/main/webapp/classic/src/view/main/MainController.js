@@ -172,6 +172,7 @@ Ext.define('ui.view.main.MainController', {
     		})
     		.then((willDelete) => {
     		  if (willDelete) {
+    			  jobItem.getProxy().api.destroy = "/TradeApp/deleteJobScheduleDetail/" + (jobItem.getData().id);
     			  jobItem.save({
     			         scope: this 
     			         , maskCmp: grid
