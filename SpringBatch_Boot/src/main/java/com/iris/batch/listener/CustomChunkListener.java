@@ -22,6 +22,7 @@ import com.iris.mvc.model.JobProgressData;
 public class CustomChunkListener implements ChunkListener {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomChunkListener.class);
+	private static final String JOB_PROGRESS_SERVICE_URL = "job_progress_service_url";
 
 	private DataSource dataSource;
 
@@ -55,7 +56,7 @@ public class CustomChunkListener implements ChunkListener {
 	@Override
 	public void afterChunk(ChunkContext context) {
 
-		String uri = PropertiesUtil.get("job_progress_service_url");
+		String uri = PropertiesUtil.get(JOB_PROGRESS_SERVICE_URL);
 		int writeCount = context.getStepContext().getStepExecution().getWriteCount();
 
 		JobProgressData jobProgressData = new JobProgressData();

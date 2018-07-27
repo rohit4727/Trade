@@ -1,7 +1,6 @@
 package com.iris.test.unit;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -37,8 +36,8 @@ public class ProcessorTest {
 	@Qualifier("itemProcessorTest")
 	private ItemProcessor<TradeBase, TradeBase> processor;
 
-//	@Autowired
-//	private ItemReader<? extends TradeBase> reader;
+	// @Autowired
+	// private ItemReader<? extends TradeBase> reader;
 
 	@Mock
 	private TradeServiceImpl tradeService;
@@ -61,7 +60,7 @@ public class ProcessorTest {
 					}
 				});
 			}
-			
+
 		};
 		return tradeList;
 	}

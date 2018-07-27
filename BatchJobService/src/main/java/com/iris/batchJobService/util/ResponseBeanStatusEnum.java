@@ -6,7 +6,7 @@ package com.iris.batchJobService.util;
  * @author Rohit Elayathu
  */
 public enum ResponseBeanStatusEnum {
-	
+
 	SUCCESS("SUCCESS"), FAILED("FAILED");
 
 	private final String value;

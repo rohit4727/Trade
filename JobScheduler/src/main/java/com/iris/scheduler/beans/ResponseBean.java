@@ -14,7 +14,7 @@ public class ResponseBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -8545793343942647102L;
-	
+
 	private String statuscode;
 	private String message;
 
