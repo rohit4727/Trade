@@ -13,13 +13,8 @@ import org.springframework.cache.annotation.EnableCaching;
  */
 @SpringBootApplication
 @EnableCaching
-public class KafkaConsumerApplication  extends SpringBootServletInitializer {
+public class KafkaConsumerApplication{
 
-	@Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(KafkaConsumerApplication.class);
-    }
-	
 	public static void main(String[] args) {
 		SpringApplication.run(KafkaConsumerApplication.class, args);
 

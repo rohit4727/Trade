@@ -1,7 +1,5 @@
 package com.iris.kafkaproducer.service;
 
-import org.springframework.kafka.core.KafkaTemplate;
-
 /**
  * 
  * @Date : 23-Jul-2018

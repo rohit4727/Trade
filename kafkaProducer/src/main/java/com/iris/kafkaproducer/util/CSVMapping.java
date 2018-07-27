@@ -7,11 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource(value="classpath:mapping.properties")
+@PropertySource(value="mapping.properties")
+//classpath:mapping.properties")
 @ConfigurationProperties(prefix="csvmapping")
 public class CSVMapping {
 
 	private int totalColumns;
+	private String fileName;
 	
 	private Map<Integer, String> csvProperty;
 
@@ -29,5 +31,13 @@ public class CSVMapping {
 
 	public void setTotalColumns(int totalColumns) {
 		this.totalColumns = totalColumns;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 }
