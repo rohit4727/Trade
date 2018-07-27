@@ -2,7 +2,6 @@ package com.iris.kafkaproducer.config;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -15,7 +14,6 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import com.iris.kafkaproducer.constants.IControllerConstants;
 import com.iris.kafkaproducer.model.Trade;
-import com.iris.kafkaproducer.serviceImpl.KafkaServiceImpl;
 
 /**
  * 
