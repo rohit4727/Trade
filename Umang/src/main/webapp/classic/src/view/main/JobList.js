@@ -60,6 +60,7 @@ Ext.define('ui.view.main.JobList', {
 	            	iconCls: 'x-fa fa-times'
 	                , tooltip: 'Delete'
                 	, style:'float:right'
+            		, handler: 'onScheduleJobListDeleteBtnClick'
             		, isActionDisabled: function(view, rowIndex, colIndex, item, record) {
             			return record.get('status')!=0;
                     }
