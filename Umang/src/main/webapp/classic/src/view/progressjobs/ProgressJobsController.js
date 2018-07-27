@@ -7,6 +7,17 @@ Ext.define('ui.view.progressjobs.ProgressJobsController', {
     extend: 'Ext.app.ViewController',
 
     alias: 'controller.progressjobs'
+    	
+	, onProgressJobsListAfterRender: function (grid) {  
+		var me = this;
+		Ext.TaskManager.start({
+		  run: function() { 
+			  me.loadProgressJobsList(grid);
+		  },
+		  interval: 1000
+		});
+		me.loadProgressJobsList(grid);
+	}
     
 	, onProgressJobsListRefreshButtonClick: function (btn) {
 	    var grid = btn.up('grid');

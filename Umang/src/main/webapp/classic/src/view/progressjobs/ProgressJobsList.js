@@ -66,4 +66,7 @@ Ext.define('ui.view.progressjobs.ProgressJobsList', {
         	} 
         }        
     ]
+    , listeners: {
+	    //afterrender: 'onProgressJobsListAfterRender'
+	}
 });
