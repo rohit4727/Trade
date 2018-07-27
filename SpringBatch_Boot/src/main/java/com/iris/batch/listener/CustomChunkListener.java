@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 
 import com.iris.batch.util.ETLConstants;
@@ -19,6 +21,7 @@ import com.iris.mvc.model.JobProgressData;
  * 
  * @author Rohit Elayathu
  */
+
 public class CustomChunkListener implements ChunkListener {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomChunkListener.class);
@@ -56,13 +59,20 @@ public class CustomChunkListener implements ChunkListener {
 	@Override
 	public void afterChunk(ChunkContext context) {
 
-		String uri = PropertiesUtil.get(JOB_PROGRESS_SERVICE_URL);
 		int writeCount = context.getStepContext().getStepExecution().getWriteCount();
-
+		
 		JobProgressData jobProgressData = new JobProgressData();
 		jobProgressData.setJobId(getJobId());
 		jobProgressData.setWriterLineCount(writeCount);
 		jobProgressData.setStatus(ETLConstants.JOB_RUNNING);
+		
+		saveProcessedCount(jobProgressData);
+	}
+
+	@Async
+	private void saveProcessedCount(JobProgressData jobProgressData) {
+
+		String uri = PropertiesUtil.get(JOB_PROGRESS_SERVICE_URL);
 
 		RestTemplate restTemplate = new RestTemplate();
 		String result = restTemplate.postForObject(uri, jobProgressData, String.class);

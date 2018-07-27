@@ -4,6 +4,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * The Class Application.
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.ImportResource;
 @SpringBootApplication
 @EnableBatchProcessing
 @ImportResource("classpath:batchjob.xml")
+@EnableAsync
 public class Application {
 	static public void main(String[] args) throws Exception {
 		SpringApplication.run(Application.class, args);
