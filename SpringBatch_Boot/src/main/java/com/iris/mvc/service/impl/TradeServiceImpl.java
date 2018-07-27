@@ -31,10 +31,17 @@ public class TradeServiceImpl implements TradeService {
 			URI uri = new URI(PropertiesUtil.get(LIVE_TRADE_URL) + security + "/" + tradeDate + "/" + tradeTime);
 			ResponseEntity<BestPriceRes> result = restTemplate.<BestPriceRes>getForEntity(uri, BestPriceRes.class);
 			bestPrice = result.getBody();
+			if(bestPrice.getMessage()!=null) {
+				log.error(bestPrice.getMessage());
+			} else {
+				return bestPrice.getValue();
+			}
 		} catch (URISyntaxException e) {
 			log.error(e.getMessage());
 		}
-		return bestPrice != null ? bestPrice.getValue() : 0;
+		return 0;
+//		return 100f;
+		//"89.34" or "Trade price not found!"
 	}
 
 	private static class BestPriceRes {
