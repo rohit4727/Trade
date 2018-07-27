@@ -23,7 +23,7 @@ Ext.define('ui.view.completedjobs.CompletedJobsList', {
             	{
                     xtype: 'button'
                     , iconCls: 'x-fa fa-refresh'
-                    //, handler: 'onCompletedJobsListRefreshButtonClick'
+                    , handler: 'onCompletedJobsListRefreshButtonClick'
                 },
                 {
                 	xtype:'textfield'

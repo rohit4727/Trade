@@ -8,6 +8,10 @@ Ext.define('ui.view.progressjobs.ProgressJobsList', {
     xtype: 'progressjobslist',    
 
     title: 'Progress Jobs'
+    	
+	, viewConfig: {        
+        loadMask: false    
+    }
 
 	//toolbar for progress job list
     , dockedItems: [                
@@ -67,6 +71,6 @@ Ext.define('ui.view.progressjobs.ProgressJobsList', {
         }        
     ]
     , listeners: {
-	    //afterrender: 'onProgressJobsListAfterRender'
+	    afterrender: 'onProgressJobsListAfterRender'
 	}
 });
