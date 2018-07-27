@@ -1,4 +1,4 @@
-package com.iris.batch;
+package com.iris;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,10 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 
  * @author Satyveer
  */
+
 @SpringBootApplication
 public class Application {
-
-	public static void main(String[] args) throws Exception {
+	static public void main(String[] args) throws Exception {
 		SpringApplication.run(Application.class, args);
 	}
 }

@@ -29,6 +29,10 @@ import com.iris.mvc.model.JobProgressData;
 public class CustomStepListener implements StepExecutionListener {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomStepListener.class);
+	
+	private static final String JOB_PROGRESS_SERVICE_URL = "job_progress_service_url";
+	private static final String TRADE_FILE_NAME = "trade_file_name";
+	private static final String LINE_TO_SKIP = "lines_to_skip";
 
 	private DataSource dataSource;
 
@@ -56,7 +60,7 @@ public class CustomStepListener implements StepExecutionListener {
 	@Override
 	public ExitStatus afterStep(StepExecution stepExecution) {
 
-		String uri = PropertiesUtil.get("job_progress_service_url");
+		String uri = PropertiesUtil.get(JOB_PROGRESS_SERVICE_URL);
 
 		JobProgressData jobProgressData = new JobProgressData();
 		jobProgressData.setJobId(getJobId());
@@ -92,12 +96,12 @@ public class CustomStepListener implements StepExecutionListener {
 		int totalLineCount = 0;
 
 		try {
-			uri = PropertiesUtil.get("job_progress_service_url");
-			filePath = PropertiesUtil.get("file_path") + PropertiesUtil.get("trade_file_name");
+			uri = PropertiesUtil.get(JOB_PROGRESS_SERVICE_URL);
+			filePath = PropertiesUtil.get(TRADE_FILE_NAME);
 			reader = new LineNumberReader(new FileReader(filePath));
 			reader.skip(Integer.MAX_VALUE);
 
-			totalLineCount = reader.getLineNumber() - Integer.valueOf(PropertiesUtil.get("lines_to_skip"));
+			totalLineCount = reader.getLineNumber() - Integer.valueOf(PropertiesUtil.get(LINE_TO_SKIP));
 
 			JobProgressData jobProgressData = new JobProgressData();
 			jobProgressData.setJobId(getJobId());

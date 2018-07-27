@@ -59,8 +59,7 @@ public class ShedulerRestController {
 			jobScheduler = jobSchedulerDetailService.createOrUpdateJobScheduler(jobScheduler);
 
 		} catch (Exception ex) {
-			logger.info(IControllerConstants.CREATE_SCHEDULER_EXCEP_LOG_MSG , jobScheduler.getJobName(),
-					ex);
+			logger.info(IControllerConstants.CREATE_SCHEDULER_EXCEP_LOG_MSG, jobScheduler.getJobName(), ex);
 		}
 		if (jobScheduler != null && jobScheduler.getId() != null) {
 			return new ResponseBean(HttpStatus.OK.toString(), IControllerConstants.SUCCESS);
@@ -94,12 +93,12 @@ public class ShedulerRestController {
 
 		JobScheduler updatedJobScheduler = null;
 		try {
-			
+
 			JobScheduler jobScheduler = jobSchedulerDetailService.getJobSchedulerById(jobId);
 			updatedJobScheduler = jobSchedulerDetailService.updateJobScheduler(jobScheduler, jobSchedulerDetails);
 
 		} catch (Exception ex) {
-			logger.info(IControllerConstants.UPDATE_JOB_SCHEDULER_DETAILS_EXCEP_LOG_MSG , jobId, ex);
+			logger.info(IControllerConstants.UPDATE_JOB_SCHEDULER_DETAILS_EXCEP_LOG_MSG, jobId, ex);
 		}
 
 		if (updatedJobScheduler != null && updatedJobScheduler.getId() != null) {

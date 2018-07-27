@@ -2,6 +2,7 @@ package com.iris.scheduler.service;
 
 import java.io.File;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.iris.scheduler.constants.IControllerConstants;
 import com.iris.scheduler.dao.JobSchedularDAO;
 import com.iris.scheduler.entity.JobScheduler;
-import com.iris.scheduler.repository.CronRepository;
 import com.iris.scheduler.repository.JobSchedulerRepository;
 
 /**
@@ -47,7 +47,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 	public void runcmd(String batchfilepath, Long id) {
 
 		try {
-			
+
 			String cronrun = IControllerConstants.CRON_RUN + batchfilepath + " " + id;
 			Runtime.getRuntime().exec(cronrun);
 			logger.info(IControllerConstants.RUNCMDINFO, cronrun);
@@ -68,11 +68,10 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Override
 	public JobScheduler findbyjobId(Long id) {
 
-		
-			JobScheduler Job = jobSchedularDAO.findbyjobId(id);
-			logger.info(IControllerConstants.FINDJOBIDINFO, id);
-			return Job;
-		
+		JobScheduler Job = jobSchedularDAO.findbyjobId(id);
+		logger.info(IControllerConstants.FINDJOBIDINFO, id);
+		return Job;
+
 	}
 
 	@Override

@@ -17,39 +17,42 @@ import com.iris.scheduler.repository.JobSchedulerRepository;
  */
 @Service
 public class JobSchedulerDetailServiceImpl implements JobSchedulerDetailService {
-	
+
 	@Autowired
 	private JobSchedulerRepository jobSchedulerRepository;
 
 	/**
 	 * This method will get all sheduled job list
+	 * 
 	 * @return List<JobScheduler>
 	 */
 	@Override
 	public List<JobScheduler> getAllJobScheduleDetails() {
-		
+
 		return jobSchedulerRepository.findAll();
 	}
 
 	/**
 	 * This will create or update job schedule details
+	 * 
 	 * @param jobScheduler
 	 * @return JobScheduler
 	 */
 	@Override
 	public JobScheduler createOrUpdateJobScheduler(JobScheduler jobScheduler) {
-		
+
 		return jobSchedulerRepository.save(jobScheduler);
 	}
-	
+
 	/**
 	 * This will update job schedule details
+	 * 
 	 * @param jobScheduler
 	 * @return JobScheduler
 	 */
 	@Override
 	public JobScheduler updateJobScheduler(JobScheduler jobScheduler, JobScheduler jobSchedulerDetails) {
-		
+
 		if (jobSchedulerDetails.getJobName() != null) {
 			jobScheduler.setJobName(jobSchedulerDetails.getJobName());
 		}
@@ -66,6 +69,7 @@ public class JobSchedulerDetailServiceImpl implements JobSchedulerDetailService 
 
 	/**
 	 * This method will get schedule job details by Id
+	 * 
 	 * @param jobId
 	 * @return JobScheduler
 	 */
@@ -74,7 +78,7 @@ public class JobSchedulerDetailServiceImpl implements JobSchedulerDetailService 
 		return jobSchedulerRepository.findById(jobId)
 				.orElseThrow(() -> new ResourceNotFoundException(IControllerConstants.JOB_SCHEDULER_LBL,
 						IControllerConstants.ID, jobId));
-    }
+	}
 
 	@Override
 	public void deleteJobScheduler(JobScheduler jobScheduler) {

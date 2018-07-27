@@ -38,7 +38,7 @@ public class JobProgressService implements IJobProgressService {
 
 		return list;
 	}
-	
+
 	/*
 	 * This method gets list of all running jobs
 	 */

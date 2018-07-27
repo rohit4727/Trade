@@ -54,7 +54,7 @@ public class Reader {
 				}
 				return count;
 			};
-			
+
 			int count = StepScopeTestUtils.doInStepScope(stepExecution, callable);
 
 			assertTrue(count > 0);

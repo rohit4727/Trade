@@ -37,7 +37,7 @@ public interface IControllerConstants {
 	public static final String FINDJOBIDERROR = "Unable To Get The Job By Id and Exception is {}";
 	public static final String FINDJOBIDINFO = "Find Job By ID {}";
 	public static final String FINDJOBBYCURDATEERROR = "Unable To Get The Jobs By Currentdate and Exception {} ";
-	public static final String FINDJOBBYCURDATEINFO =	"Find Jobs BY Its Timing {}";
+	public static final String FINDJOBBYCURDATEINFO = "Find Jobs BY Its Timing {}";
 	public static final String GETSCHEDULEDJOBERROR = "Failed To Get Scheduled Jobs and Exception is";
 	public static final String SCHEDULEDJOBERROR = "Failed To Run scheduleJob With Name and Exception {}";
 	public static final String CREATEJOBSCHEDULARERROR = "CreateJobScheduler : Create Job Failed for Run Job Having Name and Exception is {}";
@@ -45,5 +45,5 @@ public interface IControllerConstants {
 	public static final String RUNJOBOKLOGGER = "RUNCMD with ID {}";
 	public static final String CREATE_SCHEDULER_EXCEP_LOG_MSG = "createJobScheduler : create / schedule job faied for JobName: {}";
 	public static final String UPDATE_JOB_SCHEDULER_DETAILS_EXCEP_LOG_MSG = "updateJobSchedulerDetail : update schedule job faied for jobId: {}";
-	public static final String PATHNOTEXIST="BATCH FILE PATH DOES NOT EXISTS";
+	public static final String PATHNOTEXIST = "BATCH FILE PATH DOES NOT EXISTS";
 }

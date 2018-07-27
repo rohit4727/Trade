@@ -34,7 +34,8 @@ public class SpringBatchServiceImpl implements SpringBatchService {
 
 	public boolean runJob(Long jobId) {
 		try {
-			JobParameters jobParameters = new JobParametersBuilder().addLong("jobId", jobId).addDate("date", new Date()).toJobParameters();
+			JobParameters jobParameters = new JobParametersBuilder().addLong("jobId", jobId).addDate("date", new Date())
+					.toJobParameters();
 			JobExecution execution = (JobExecution) jobLauncher.run(job, jobParameters);
 			log.debug(LogMsg.EXIT_STATUS + execution.getExitStatus());
 			log.debug(LogMsg.EXIT_STATUS + execution.getAllFailureExceptions());

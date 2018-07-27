@@ -17,12 +17,13 @@ public class PropertiesUtil {
 
 	private static Properties props;
 	private static final Logger log = LoggerFactory.getLogger(PropertiesUtil.class);
-	private static final String RROPERTY_FILE_PATH = "src/main/resources/application.properties";
+	private static final String RROPERTY_FILE_PATH = "custom.properties";
 
 	static {
 		props = new Properties();
 		try {
 			FileReader reader = new FileReader(RROPERTY_FILE_PATH);
+			System.out.println("property file reader"+reader);
 			props.load(reader);
 		} catch (FileNotFoundException e) {
 			log.error(LogMsg.UNABLE_TO_READ_PROPERTY_FILE, e);

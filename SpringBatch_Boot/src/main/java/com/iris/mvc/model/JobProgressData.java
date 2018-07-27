@@ -1,7 +1,7 @@
 package com.iris.mvc.model;
 
 public class JobProgressData {
-	
+
 	private Long jobId;
 
 	private Integer totalLineCount;
