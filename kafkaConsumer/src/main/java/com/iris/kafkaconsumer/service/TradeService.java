@@ -21,9 +21,10 @@ public interface TradeService {
 	 * @param security
 	 * @param tradeDate
 	 * @param tradeTime
+	 * @param date 
 	 * @return Trade
 	 */
-	public Trade findTrade(String security, Date tradeDate, Date tradeTime);
+	public List<Trade> findTrade(String security, Date tradeDate, Date fromTime, Date toTime);
 
 	/**
 	 * @return get Security List

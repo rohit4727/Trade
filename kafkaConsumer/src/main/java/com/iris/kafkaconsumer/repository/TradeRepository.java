@@ -29,9 +29,12 @@ public interface TradeRepository extends CrudRepository<Trade, Integer> {
 	 * @param security
 	 * @param tradeDate
 	 * @param tradeTime
+	 * @param toTime 
 	 * @return trade as per above parameters
 	 */
-	public Trade findBySecurityAndTradeDateAndTradeTime(String security, Date tradeDate, Date tradeTime);
+	@Query(nativeQuery = true, value = "SELECT trade_id,broker,currency,instrument_type,security,trade_date,trade_price,trade_time,direction "
+			+"FROM trade_live_feed where security=:security and trade_date=:tradeDate and trade_time BETWEEN :fromTime and :toTime")
+	public List<Trade> findBySecurityByTradeDateAndTradeTimeDuration(@Param("security") String security, @Param("tradeDate") Date tradeDate, @Param("fromTime") Date fromTime, @Param("toTime") Date toTime);
 
 	/**
 	 * @return to get Security List

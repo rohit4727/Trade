@@ -50,8 +50,8 @@ public class TradeDAOImpl implements TradeDAO {
 	 * @return
 	 */
 	@Override
-	public Trade findTrade(String security, Date tradeDate, Date tradeTime) {
-		return tradeRepository.findBySecurityAndTradeDateAndTradeTime(security, tradeDate, tradeTime);
+	public List<Trade> findTrade(String security, Date tradeDate, Date fromTime, Date toTime) {
+		return tradeRepository.findBySecurityByTradeDateAndTradeTimeDuration(security, tradeDate, fromTime, toTime);
 	}
 
 	/**

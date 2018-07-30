@@ -39,8 +39,8 @@ public class TradeServiceImpl implements TradeService {
 	 * @return Trade
 	 */
 	@Override
-	public Trade findTrade(String security, Date tradeDate, Date tradeTime) {
-		return tradeDAO.findTrade(security, tradeDate, tradeTime);
+	public List<Trade> findTrade(String security, Date tradeDate, Date fromTime, Date toTime) {
+		return tradeDAO.findTrade(security, tradeDate, fromTime, toTime);
 	}
 
 	/**

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource(value="mapping.properties")
+@PropertySource(value="file:mapping.properties")
 //classpath:mapping.properties")
 @ConfigurationProperties(prefix="csvmapping")
 public class CSVMapping {

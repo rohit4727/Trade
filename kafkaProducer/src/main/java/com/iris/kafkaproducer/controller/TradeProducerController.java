@@ -39,8 +39,8 @@ public class TradeProducerController {
 	/**
 	 * Self execution of producer
 	 */
-	@PostConstruct
+	/*@PostConstruct
 	public void Init() {
 		kafkaService.produceTrade();
-	}
+	}*/
 }

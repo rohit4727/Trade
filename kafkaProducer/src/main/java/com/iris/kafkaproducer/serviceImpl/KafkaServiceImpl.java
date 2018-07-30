@@ -42,8 +42,8 @@ public class KafkaServiceImpl implements KafkaService {
 	@Override
 	public String produceTrade() {
 		String result = IControllerConstants.SUCCESS;
-		try {
-			Files.lines(Paths.get(csvMapping.getFileName())).filter(t -> {
+		try {// csvMapping.getFileName()
+			Files.lines(Paths.get(IControllerConstants.CSV_FILE)).filter(t -> {
 
 				lineNo++;
 				if(lineNo==1) {
@@ -93,7 +93,7 @@ public class KafkaServiceImpl implements KafkaService {
 						}	
 						//System.out.println("--------------------------"+trade);
 						kafkaTemplate.send(IControllerConstants.TOPIC, trade);
-						Thread.sleep(20);
+						Thread.sleep(200);
 						
 				} catch (Exception e) {
 					logger.log(Level.INFO, e.getMessage()+" Issue with date or Time formate"+cells.toString());
@@ -101,7 +101,8 @@ public class KafkaServiceImpl implements KafkaService {
 				return true;
 			}).count();
 		} catch (IOException e) {
-			logger.log(Level.ALL, "Producer issue " + e.getMessage()+" May be "+IControllerConstants.CSV_FILE +" not found!");
+			logger.log(Level.ALL, "Producer issue " + e.getMessage()+" May be "+csvMapping.getFileName() +" not found!");
+			System.out.println("Producer issue " + e.getMessage()+" May be "+csvMapping.getFileName() +" not found!");
 			result = IControllerConstants.FAILURE;
 		}
 		

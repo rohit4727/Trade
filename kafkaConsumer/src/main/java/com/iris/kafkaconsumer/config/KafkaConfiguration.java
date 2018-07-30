@@ -67,6 +67,7 @@ public class KafkaConfiguration {
 		config.put(ConsumerConfig.GROUP_ID_CONFIG, IConstants.GROUP);
 		config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 		config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+		//config.put(JsonDeserializer.TRUSTED_PACKAGES, "com.iris.kafkaproducer.model");
 		config.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 500);
 		return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new JsonDeserializer<>(Trade.class));
 	}

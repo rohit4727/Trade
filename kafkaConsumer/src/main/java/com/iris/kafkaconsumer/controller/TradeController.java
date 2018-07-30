@@ -45,11 +45,11 @@ public class TradeController {
 	 * @throws ParseException
 	 */
 	@GetMapping(value = IConstants.FIND_TRADE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public String findTrade(@PathVariable String security, @PathVariable String tradeDate,
-			@PathVariable String tradeTime) throws ParseException {
-		Trade trade = tradeService.findTrade(security, new SimpleDateFormat(IConstants.DATE_FORMATE).parse(tradeDate),
-				new SimpleDateFormat(IConstants.TIME_FORMATE).parse(tradeTime));
-		return trade != null ? "{\"value\" : " + trade.getTradePrice() + "}" : "{\"message\" : \"Trade not Found!\"}";
+	public List<Trade> findTrade(@PathVariable String security, @PathVariable String tradeDate,
+			@PathVariable String fromTime, @PathVariable String toTime) throws ParseException {
+		List<Trade> trades = tradeService.findTrade(security, new SimpleDateFormat(IConstants.DATE_FORMATE).parse(tradeDate),
+				new SimpleDateFormat(IConstants.TIME_FORMATE).parse(fromTime),  new SimpleDateFormat(IConstants.TIME_FORMATE).parse(toTime));
+		return trades;// != null ? "{\"value\" : " + trade.getTradePrice() + "}" : "{\"message\" : \"Trade not Found!\"}";
 	}
 
 	/**

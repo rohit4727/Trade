@@ -22,7 +22,7 @@ public interface TradeDAO {
 	 * @param tradeTime
 	 * @return Trade
 	 */
-	public Trade findTrade(String security, Date tradeDate, Date tradeTime);
+	public List<Trade> findTrade(String security, Date tradeDate, Date fromTime, Date toTime);
 
 	/**
 	 * @return get unique Security List
