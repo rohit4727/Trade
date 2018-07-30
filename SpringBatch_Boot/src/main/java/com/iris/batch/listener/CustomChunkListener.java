@@ -25,14 +25,16 @@ import com.iris.mvc.model.JobProgressData;
 public class CustomChunkListener implements ChunkListener {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomChunkListener.class);
-	private static final String JOB_PROGRESS_SERVICE_URL = "job_progress_service_url";
 
 	private DataSource dataSource;
 
 	private Long jobId;
 
-	public CustomChunkListener(DataSource dataSource) {
+	private PropertiesUtil props;
+
+	public CustomChunkListener(DataSource dataSource, PropertiesUtil props) {
 		this.dataSource = dataSource;
+		this.props = props;
 	}
 
 	public Long getJobId() {
@@ -60,22 +62,20 @@ public class CustomChunkListener implements ChunkListener {
 	public void afterChunk(ChunkContext context) {
 
 		int writeCount = context.getStepContext().getStepExecution().getWriteCount();
-		
+
 		JobProgressData jobProgressData = new JobProgressData();
 		jobProgressData.setJobId(getJobId());
 		jobProgressData.setWriterLineCount(writeCount);
 		jobProgressData.setStatus(ETLConstants.JOB_RUNNING);
-		
+
 		saveProcessedCount(jobProgressData);
 	}
 
 	@Async
 	private void saveProcessedCount(JobProgressData jobProgressData) {
 
-		String uri = PropertiesUtil.get(JOB_PROGRESS_SERVICE_URL);
-
 		RestTemplate restTemplate = new RestTemplate();
-		String result = restTemplate.postForObject(uri, jobProgressData, String.class);
+		String result = restTemplate.postForObject(props.getJobProgressServiceUrl(), jobProgressData, String.class);
 
 		log.info(LogMsg.CUSTOMER_CHUNK_LISTNER_AFTER_CHUNK_SUCCESS + result);
 	}

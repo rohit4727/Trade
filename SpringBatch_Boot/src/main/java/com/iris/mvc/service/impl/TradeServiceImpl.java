@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,27 +22,30 @@ import com.iris.mvc.service.TradeService;
 public class TradeServiceImpl implements TradeService {
 
 	private static final Logger log = LoggerFactory.getLogger(TradeServiceImpl.class);
-	private static final String LIVE_TRADE_URL = "live_trade_url";
+
+	@Autowired
+	private PropertiesUtil props;
 
 	@Override
-	public double findBestPrice(String security, String tradeDate, String tradeTime) {
-		RestTemplate restTemplate = new RestTemplate();
-		BestPriceRes bestPrice = null;
-		try {
-			URI uri = new URI(PropertiesUtil.get(LIVE_TRADE_URL) + security + "/" + tradeDate + "/" + tradeTime);
-			ResponseEntity<BestPriceRes> result = restTemplate.<BestPriceRes>getForEntity(uri, BestPriceRes.class);
-			bestPrice = result.getBody();
-			if(bestPrice.getMessage()!=null) {
-				log.error(bestPrice.getMessage());
-			} else {
-				return bestPrice.getValue();
-			}
-		} catch (URISyntaxException e) {
-			log.error(e.getMessage());
-		}
-		return 0;
-//		return 100f;
-		//"89.34" or "Trade price not found!"
+	public double findBestPrice(String security, String tradeDate, String fromTime, String toTime) {
+//		RestTemplate restTemplate = new RestTemplate();
+//		BestPriceRes bestPrice = null;
+//		try {
+//			URI uri = new URI(props.getLiveTradeUrl() + security + "/" + tradeDate + "/" + fromTime + "/" + toTime);
+//			ResponseEntity<BestPriceRes> result = restTemplate.<BestPriceRes>getForEntity(uri, BestPriceRes.class);
+//			bestPrice = result.getBody();
+//			if (bestPrice.getMessage() != null) {
+//				log.error(bestPrice.getMessage());
+//				throw new RuntimeException(bestPrice.getMessage());
+//			} else {
+//				return bestPrice.getValue();
+//			}
+//		} catch (URISyntaxException e) {
+//			log.error(e.getMessage());
+//			throw new RuntimeException(e);
+//		}
+		 return 100f;
+		// "89.34" or "Trade price not found!"
 	}
 
 	private static class BestPriceRes {

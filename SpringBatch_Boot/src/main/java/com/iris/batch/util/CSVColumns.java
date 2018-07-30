@@ -5,8 +5,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.iris.batch.step.Reader;
+import org.springframework.stereotype.Component;
 
 /**
  * Utility class to provide csv file column names It reads column names for
@@ -15,43 +14,31 @@ import com.iris.batch.step.Reader;
  * @author Saurabh Gupta
  */
 public class CSVColumns {
-	private static final Logger log = LoggerFactory.getLogger(Reader.class);
+	
+	private static final Logger log = LoggerFactory.getLogger(CSVColumns.class);
 
-	public final static Map<String, Class<?>> properties = new HashMap<String, Class<?>>();
-	public final static String[] colNames;
+	private final PropertiesUtil props;
 
-	static {
-		String cols = PropertiesUtil.get(ETLConstants.TOTAL_COLUMN);
-		if (cols == null || cols.isEmpty()) {
-			log.error(ErrorMsg.TOTAL_CAL_NOT_FOUND);
-			throw new RuntimeException(ErrorMsg.TOTAL_CAL_NOT_FOUND);
-		}
+	private final Map<String, Class<?>> columns = new HashMap<>();
 
-		try {
-			int columns = Integer.parseInt(cols);
+	public CSVColumns(PropertiesUtil props) {
+		this.props = props;		
 
-			String[] columnNames = new String[columns];
-			colNames = new String[columns];
-
-			for (int i = 0; i < columns; i++) {
-				columnNames[i] = PropertiesUtil.get(ETLConstants.COLUMN + (i + 1));
-				if (columnNames[i] == null || columnNames[i].isEmpty()) {
-					log.error(ETLConstants.COLUMN + i + ErrorMsg.NOT_FOUND_IN_PROP_FILE);
-					throw new RuntimeException();
-				}
-
-				String[] colNameAndTypes = columnNames[i].split(",");
-
-				properties.put(colNameAndTypes[0],
-						colNameAndTypes[1] != null ? Class.forName(colNameAndTypes[1]) : String.class);
-				colNames[i] = colNameAndTypes[0];
+		props.getCsvProperty().forEach((String key, String val) -> {
+			try {
+				columns.put(key, Class.forName(val));
+			} catch (ClassNotFoundException e) {
+				log.error("Error", e);
 			}
-		} catch (NumberFormatException e) {
-			log.error(ErrorMsg.TOTAL_COL_NOT_INT);
-			throw new RuntimeException(ErrorMsg.TOTAL_COL_NOT_INT);
-		} catch (ClassNotFoundException e) {
-			log.error("Error", e);
-			throw new RuntimeException(e);
-		}
+		});
 	}
+	
+	public Map<String, Class<?>> getColumns() {
+		return columns;
+	}
+
+	public String[] getColumnNames() {
+		return props.getCsvProperty().keySet().toArray(new String[props.getTotalColumns()]);
+	}
+
 }

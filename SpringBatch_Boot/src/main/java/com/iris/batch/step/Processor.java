@@ -1,5 +1,7 @@
 package com.iris.batch.step;
 
+import java.sql.Time;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -38,7 +40,11 @@ public class Processor<T extends TradeBase> implements ItemProcessor<T, T> {
 		}
 		log.info("processed trade with id " + trade.getTradeId());
 
-		double bestPrice = tradeService.findBestPrice(trade.getSecurity(), trade.getTradeDate(), trade.getTradeTime());
+		String fromTime = trade.getTradeTime();
+		Time time = Time.valueOf(fromTime);
+		time.setTime(time.getTime() + 30 * 60 * 1000);
+
+		double bestPrice = tradeService.findBestPrice(trade.getSecurity(), trade.getTradeDate(), fromTime, time.toString());
 
 		trade.setDeviation(trade.getTradePrice() - bestPrice);
 
