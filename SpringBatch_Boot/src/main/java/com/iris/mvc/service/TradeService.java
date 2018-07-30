@@ -6,5 +6,5 @@ package com.iris.mvc.service;
  * @author Saurabh Gupta
  */
 public interface TradeService {
-	public double findBestPrice(String security, String tradeDate, String tradeTime);
+	public double findBestPrice(String security, String tradeDate, String fromTime, String toTime);
 }

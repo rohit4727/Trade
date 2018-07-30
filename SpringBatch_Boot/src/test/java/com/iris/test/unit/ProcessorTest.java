@@ -69,7 +69,7 @@ public class ProcessorTest {
 
 	@Test
 	public void testProcessor() {
-		when(this.tradeService.findBestPrice(anyString(), anyString(), anyString())).thenReturn(100.02);
+		when(this.tradeService.findBestPrice(anyString(), anyString(), anyString(), anyString())).thenReturn(100.02);
 
 		((Processor<TradeBase>) processor).setTradeService(tradeService);
 		((Processor<TradeBase>) processor).setJobId(1L);
