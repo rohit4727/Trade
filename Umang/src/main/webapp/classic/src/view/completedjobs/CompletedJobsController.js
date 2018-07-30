@@ -18,6 +18,11 @@ Ext.define('ui.view.completedjobs.CompletedJobsController', {
 		});*/
 		me.loadCompletedJobsList(grid);
 	}
+
+	, onCompletedJobsListRefreshButtonClick:function(btn){
+		var grid = btn.up('grid');
+	    this.loadCompletedJobsList(grid);
+	}
 	
 	, onCompletedJobsListFilterChange: function (combo, newValue, oldValue) {
         this.loadCompletedJobsList(combo.up('grid'));

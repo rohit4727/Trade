@@ -8,6 +8,10 @@ Ext.define('ui.view.progressjobs.ProgressJobsList', {
     xtype: 'progressjobslist',    
 
     title: 'Progress Jobs'
+    	
+	, viewConfig: {        
+        loadMask: false    
+    }
 
 	//toolbar for progress job list
     , dockedItems: [                
@@ -32,10 +36,12 @@ Ext.define('ui.view.progressjobs.ProgressJobsList', {
 	}
 
     , columns: [
-    	{ text: 'Job Name',  dataIndex: 'jobName', flex: 0.75 },
-        { text: 'Path',  dataIndex: 'batchFilePath', flex: 0.75 },
+    	{ text: 'Job Name',  dataIndex: 'jobName', flex: 0.5 },
+        { text: 'Path',  dataIndex: 'batchFilePath', flex: 0.5 },
         { text: 'Date', dataIndex: 'displayDate', type: 'date' },
         { text: 'Time', dataIndex: 'displayTime' },
+        { text: 'Total', dataIndex: 'totalLineCount' },
+        { text: 'Processed', dataIndex: 'writerLineCount' },
         
         // Below cell returns progressbar (processed records vs total records ratio in percentage)
         {
@@ -67,6 +73,6 @@ Ext.define('ui.view.progressjobs.ProgressJobsList', {
         }        
     ]
     , listeners: {
-	    //afterrender: 'onProgressJobsListAfterRender'
+	    afterrender: 'onProgressJobsListAfterRender'
 	}
 });

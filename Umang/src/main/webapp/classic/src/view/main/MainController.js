@@ -154,39 +154,53 @@ Ext.define('ui.view.main.MainController', {
     }
     
     //delete mode for schedule jobs
-    , onScheduleJobListEditBtnClick:function(grid, ri){
+    , onScheduleJobListDeleteBtnClick:function(grid, ri){
     	var rec = grid.getStore().getAt(ri)
     		, viewModel = this.getViewModel() 
-    		, jobItem = viewModel.get('jobItem');
+    		, jobItem
+    		, me = this;
     	
     	viewModel.set('jobItem', rec);
+    	jobItem = viewModel.get('jobItem')
     	
-    	jobItem['destroy']({
-	         scope: this
-	         , maskCmp: win	        
-	         , callback: function (records, operation, success) {
-	        	 if (!success) {
-	        		 var error = operation.getError()
-	        		 	, resptext = Ext.decode(error.response.responseText);
-	        		 
-	        		 me.showToast(resptext.message);
-	        	 }
-	        	 else{
-	        		 var response = Ext.decode(operation._response.responseText);
-	        		 if(response.statusCode=='200'){
-	        			 swal({
-		        			  title: "Success",
-		        			  text: response.message,
-		        			  icon: "success"
-	        			});	
-	        		 }
-	        		 else{	
-	        			 me.showToast(response.message);	        			 
-	        		 }	        		 
-	        	 }	 
-	        	 me.loadScheduleJobList();
-	         }
-	     });
+    	swal({
+    		  title: "Confirm",
+    		  text: "Are you sure you want to remove this scheduled job?",
+    		  icon: "warning",
+    		  buttons: true,
+    		  dangerMode: true,
+    		})
+    		.then((willDelete) => {
+    		  if (willDelete) {
+    			  jobItem.getProxy().api.destroy = "/TradeApp/deleteJobScheduleDetail/" + (jobItem.getData().id);
+    			  jobItem.save({
+    			         scope: this 
+    			         , maskCmp: grid
+    			         , callback: function (records, operation, success) {
+    			        	 if (!success) {
+    			        		 var error = operation.getError()
+    			        		 	, resptext = Ext.decode(error.response.responseText);
+    			        		 
+    			        		 me.showToast(resptext.message);
+    			        	 }
+    			        	 else{
+    			        		 var response = Ext.decode(operation._response.responseText);
+    			        		 if(response.statusCode=='200'){
+    			        			 swal({
+    				        			  title: "Success",
+    				        			  text: response.message,
+    				        			  icon: "success"
+    			        			});	
+    			        		 }
+    			        		 else{	
+    			        			 me.showToast(response.message);	        			 
+    			        		 }	        		 
+    			        	 }	 
+    			        	 me.loadScheduleJobList();
+    			         }
+    			     }, 'destroy');
+    		  }
+    		});
     }
     
     

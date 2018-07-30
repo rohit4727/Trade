@@ -22,7 +22,7 @@ Ext.define('ui.view.progressjobs.ProgressJobsViewModel', {
         return {            
         	progressJobsListStore: {
                 model: 'ui.model.ProgressJobsModel'
-                , autoLoad: true
+                , autoLoad: false
                 , storeId: 'progressJobsListStore'                
             	, proxy: {
                     type: 'ajax'
