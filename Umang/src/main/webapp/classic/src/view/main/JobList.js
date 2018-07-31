@@ -31,7 +31,7 @@ Ext.define('ui.view.main.JobList', {
         { text: 'Job Name',  dataIndex: 'jobName', flex: 0.75 },
         { text: 'Path',  dataIndex: 'batchFilePath', flex: 0.75 },
         { text: 'Date', dataIndex: 'displayDate', type: 'date' },
-        { text: 'Time', dataIndex: 'displayTime', type: 'time' },
+        { text: 'Time', dataIndex: 'displayTime' },
         { text: 'Status', dataIndex: 'status', flex: 0.5, renderer:function(v, md){
         		if(Ext.isEmpty(v)){return ''};
         		

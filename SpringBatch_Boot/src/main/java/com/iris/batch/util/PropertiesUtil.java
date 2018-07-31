@@ -1,95 +1,46 @@
 package com.iris.batch.util;
 
-import java.util.Map;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for providing constants from application.properties file
  *
  * @author Saurabh Gupta
  */
-@Configuration
-@PropertySource(value = "classpath:SpringBatchBootCustom.properties")
-@ConfigurationProperties(prefix = "csvmapping")
 public class PropertiesUtil {
 
-	private int totalColumns, concurrencyLimit, linesToSkip;
-	private String tradeFileName, insertionQuery, applicationUrl, liveTradeUrl, jobProgressServiceUrl;
+	private static Properties props;
+	private static final Logger log = LoggerFactory.getLogger(PropertiesUtil.class);
+	private static final String RROPERTY_FILE_PATH = "SpringBatchBootCustom.properties";
+	private static final String PROPERTY_NOT_FOUND = " not found";
 
-	private Map<String, String> csvProperty;
-
-	public int getTotalColumns() {
-		return totalColumns;
+	static {
+		props = new Properties();
+		try {
+			FileReader reader = new FileReader(RROPERTY_FILE_PATH);
+			System.out.println("property file reader" + reader);
+			props.load(reader);
+		} catch (FileNotFoundException e) {
+			log.error(LogMsg.UNABLE_TO_READ_PROPERTY_FILE, e);
+			e.printStackTrace();
+		} catch (IOException e) {
+			log.error(LogMsg.UNABLE_TO_READ_PROPERTY_FILE, e);
+			e.printStackTrace();
+		}
 	}
 
-	public void setTotalColumns(int totalColumns) {
-		this.totalColumns = totalColumns;
-	}
-
-	public int getConcurrencyLimit() {
-		return concurrencyLimit;
-	}
-
-	public void setConcurrencyLimit(int concurrencyLimit) {
-		this.concurrencyLimit = concurrencyLimit;
-	}
-
-	public int getLinesToSkip() {
-		return linesToSkip;
-	}
-
-	public void setLinesToSkip(int linesToSkip) {
-		this.linesToSkip = linesToSkip;
-	}
-
-	public String getTradeFileName() {
-		return tradeFileName;
-	}
-
-	public void setTradeFileName(String tradeFileName) {
-		this.tradeFileName = tradeFileName;
-	}
-
-	public String getInsertionQuery() {
-		return insertionQuery;
-	}
-
-	public void setInsertionQuery(String insertionQuery) {
-		this.insertionQuery = insertionQuery;
-	}
-
-	public String getApplicationUrl() {
-		return applicationUrl;
-	}
-
-	public void setApplicationUrl(String applicationUrl) {
-		this.applicationUrl = applicationUrl;
-	}
-
-	public String getLiveTradeUrl() {
-		return liveTradeUrl;
-	}
-
-	public void setLiveTradeUrl(String liveTradeUrl) {
-		this.liveTradeUrl = liveTradeUrl;
-	}
-
-	public String getJobProgressServiceUrl() {
-		return jobProgressServiceUrl;
-	}
-
-	public void setJobProgressServiceUrl(String jobProgressServiceUrl) {
-		this.jobProgressServiceUrl = jobProgressServiceUrl;
-	}
-
-	public Map<String, String> getCsvProperty() {
-		return csvProperty;
-	}
-
-	public void setCsvProperty(Map<String, String> csvProperty) {
-		this.csvProperty = csvProperty;
+	public static String get(String key) {
+		String propertyValue = props.getProperty(key);
+		if (propertyValue == null || propertyValue.isEmpty()) {
+			log.error(propertyValue + PROPERTY_NOT_FOUND);
+			throw new RuntimeException(propertyValue + PROPERTY_NOT_FOUND);
+		}
+		return propertyValue;
 	}
 }

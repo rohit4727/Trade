@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 
 import com.iris.batch.util.ETLConstants;
@@ -26,15 +25,14 @@ public class CustomChunkListener implements ChunkListener {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomChunkListener.class);
 
+	private static final String JOBPROGRESSIVE_SERVICE_URL = "jobProgressServiceUrl";
+
 	private DataSource dataSource;
 
 	private Long jobId;
 
-	private PropertiesUtil props;
-
-	public CustomChunkListener(DataSource dataSource, PropertiesUtil props) {
+	public CustomChunkListener(DataSource dataSource) {
 		this.dataSource = dataSource;
-		this.props = props;
 	}
 
 	public Long getJobId() {
@@ -75,7 +73,8 @@ public class CustomChunkListener implements ChunkListener {
 	private void saveProcessedCount(JobProgressData jobProgressData) {
 
 		RestTemplate restTemplate = new RestTemplate();
-		String result = restTemplate.postForObject(props.getJobProgressServiceUrl(), jobProgressData, String.class);
+
+		String result = restTemplate.postForObject(PropertiesUtil.get(JOBPROGRESSIVE_SERVICE_URL), jobProgressData, String.class);
 
 		log.info(LogMsg.CUSTOMER_CHUNK_LISTNER_AFTER_CHUNK_SUCCESS + result);
 	}

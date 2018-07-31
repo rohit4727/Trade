@@ -16,6 +16,7 @@ public interface IControllerConstants {
 	public static final String GET_ALL_SCHEDULE_JOB_PROG_LIST = "/getScheduleJobProgressList";
 	public static final String GET_ALL_EXECUTED_JOB_LIST = "/getAllExecutedJobList";
 	public static final String GET_SECURITY_LIST = "/getSecurityList";
+	public static final String ID_PARAM = "/{id}";
 
 	public static final String ID = "id";
 	public static final String SECURITY = "security";

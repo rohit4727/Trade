@@ -11,7 +11,7 @@ Ext.define('ui.model.JobModel', {
             return v == '1' ? 1 : (v == true ? 1 : 0);
         	} 
         }
-        , { name: 'displayDate', defaultValue: new Date(), convert: function (v, rec) {
+        , { name: 'displayDate', convert: function (v, rec) {
         		v = rec.get('scheduleDate');
 	            if (v) {
 	                v = Ext.isDate(v) ? v : new Date(v);
@@ -22,10 +22,9 @@ Ext.define('ui.model.JobModel', {
         	} 
         }
         , {
-            name: 'displayTime', defaultValue: new Date(), convert: function (v, rec) {	
-                v = new Date(rec.get('scheduleDate'));                
-                v = new Date(v.getTime() + (v.getTimezoneOffset() * 60000));
-                                         	
+            name: 'displayTime', convert: function (v, rec) {	
+            	v = new Date(rec.get('scheduleDate'));
+             	
                 if (v) {                	
                 	v = Ext.Date.format(v, 'H:i');
                 }

@@ -1,0 +1,1 @@
+cmd /c start "Spring batch boot" java -jar spring-batch-boot-0.1.0.jar

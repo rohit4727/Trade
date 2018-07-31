@@ -25,17 +25,15 @@ import com.iris.batch.util.PropertiesUtil;
  */
 public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 	private static final Logger log = LoggerFactory.getLogger(Reader.class);
+	private static final String TRADE_FILE_NAME = "tradeFileName";
 
-	@Autowired
-	private CSVColumns csvColumns;
-
-	public Reader(PropertiesUtil props) {
+	public Reader() {
 
 		// Set input file
-		this.setResource(new FileSystemResource(props.getTradeFileName()));
+		this.setResource(new FileSystemResource(PropertiesUtil.get(TRADE_FILE_NAME)));
 
 		// Skip the file header line
-		this.setLinesToSkip(props.getLinesToSkip());
+		this.setLinesToSkip(1);//props.getLinesToSkip());
 		// Line is mapped to item (FxMarketEvent) using setLineMapper(LineMapper)
 
 		try {
@@ -52,7 +50,7 @@ public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 				}
 			});
 			beanGenerator.setSuperclass(TradeBase.class);
-			BeanGenerator.addProperties(beanGenerator, csvColumns.getColumns());
+			BeanGenerator.addProperties(beanGenerator, CSVColumns.getColumns());
 			@SuppressWarnings("unchecked")
 			Class<? extends T> pojoClass = (Class<? extends T>) beanGenerator.createClass();
 
@@ -60,7 +58,7 @@ public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 				{
 					setLineTokenizer(new DelimitedLineTokenizer() {
 						{
-							setNames(csvColumns.getColumnNames());
+							setNames(CSVColumns.getColumnNames());
 						}
 					});
 					setFieldSetMapper(new BeanWrapperFieldSetMapper<T>() {
