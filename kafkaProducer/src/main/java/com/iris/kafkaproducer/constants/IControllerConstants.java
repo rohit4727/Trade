@@ -12,7 +12,7 @@ public interface IControllerConstants {
 	public static final String GROUP = "trade_json";
 	public static final String CONTAINER_FACTORY = "tradeKafkaListenerFactory";
 	public static final String KAFKA_URL = "172.16.14.29:9092";
-	public static final String CSV_FILE = "C:\\Users\\rohit.chauhan\\Desktop\\SampleTradeKafka.csv";
+	public static final String CSV_FILE = "SampleTradeKafka.csv";
 	public static final String KAFKA_PRODUCER = "/kafkaProducer";
 	public static final String SUCCESS = "Published successfully";
 	public static final String FAILURE = "Unable to published Trade";

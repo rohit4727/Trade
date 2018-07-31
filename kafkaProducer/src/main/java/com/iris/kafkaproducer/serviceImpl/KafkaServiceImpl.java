@@ -31,6 +31,8 @@ public class KafkaServiceImpl implements KafkaService {
 	@Autowired
 	private KafkaTemplate<String, Trade> kafkaTemplate;
 	
+	private String filePath;
+	
 	@Autowired
 	private CSVMapping csvMapping;
 	private static int lineNo=0;
@@ -43,7 +45,9 @@ public class KafkaServiceImpl implements KafkaService {
 	public String produceTrade() {
 		String result = IControllerConstants.SUCCESS;
 		try {// csvMapping.getFileName()
-			Files.lines(Paths.get(IControllerConstants.CSV_FILE)).filter(t -> {
+			filePath = Paths.get(Paths.get(".")+"/"+IControllerConstants.CSV_FILE).normalize().toString();
+			//System.out.println(filePath);
+			Files.lines(Paths.get(filePath)).filter(t -> {
 
 				lineNo++;
 				if(lineNo==1) {
