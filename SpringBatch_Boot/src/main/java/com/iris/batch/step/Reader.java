@@ -16,6 +16,7 @@ import com.iris.batch.model.TradeBase;
 import com.iris.batch.util.CSVColumns;
 import com.iris.batch.util.ETLConstants;
 import com.iris.batch.util.ErrorMsg;
+import com.iris.batch.util.PropertiesUtil;
 
 /**
  * Class for reading csv file for spring batch processing
@@ -24,11 +25,12 @@ import com.iris.batch.util.ErrorMsg;
  */
 public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 	private static final Logger log = LoggerFactory.getLogger(Reader.class);
+	private static final String TRADE_FILE_NAME = "tradeFileName";
 
-	public Reader(String tradeFileName, CSVColumns csvColumns) {
+	public Reader() {
 
 		// Set input file
-		this.setResource(new FileSystemResource(tradeFileName));
+		this.setResource(new FileSystemResource(PropertiesUtil.get(TRADE_FILE_NAME)));
 
 		// Skip the file header line
 		this.setLinesToSkip(1);//props.getLinesToSkip());
@@ -48,7 +50,7 @@ public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 				}
 			});
 			beanGenerator.setSuperclass(TradeBase.class);
-			BeanGenerator.addProperties(beanGenerator, csvColumns.getColumns());
+			BeanGenerator.addProperties(beanGenerator, CSVColumns.getColumns());
 			@SuppressWarnings("unchecked")
 			Class<? extends T> pojoClass = (Class<? extends T>) beanGenerator.createClass();
 
@@ -56,7 +58,7 @@ public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 				{
 					setLineTokenizer(new DelimitedLineTokenizer() {
 						{
-							setNames(csvColumns.getColumnNames());
+							setNames(CSVColumns.getColumnNames());
 						}
 					});
 					setFieldSetMapper(new BeanWrapperFieldSetMapper<T>() {
