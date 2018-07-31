@@ -29,12 +29,13 @@ import com.iris.mvc.model.JobProgressData;
 public class CustomStepListener implements StepExecutionListener {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomStepListener.class);
-	
+	private static final String TRADE_FILE_NAME = "tradeFileName";
+	private static final String JOBPROGRESSIVE_SERVICE_URL = "jobProgressServiceUrl";
+	private static final String LINES_TO_SKIP = "linesToSkip";
+
 	private DataSource dataSource;
 
 	private Long jobId;
-	
-	private PropertiesUtil props;
 
 	public Long getJobId() {
 		return jobId;
@@ -48,9 +49,8 @@ public class CustomStepListener implements StepExecutionListener {
 		return dataSource;
 	}
 
-	public CustomStepListener(DataSource dataSource, PropertiesUtil props) {
+	public CustomStepListener(DataSource dataSource) {
 		this.dataSource = dataSource;
-		this.props = props;
 	}
 
 	/*
@@ -74,7 +74,9 @@ public class CustomStepListener implements StepExecutionListener {
 		}
 
 		RestTemplate restTemplate = new RestTemplate();
-		String result = restTemplate.postForObject(props.getJobProgressServiceUrl(), jobProgressData, String.class);
+
+		String result = restTemplate.postForObject(PropertiesUtil.get(JOBPROGRESSIVE_SERVICE_URL), jobProgressData,
+				String.class);
 
 		log.info(LogMsg.CUSTOMER_STEP_LISTNER_AFTER_STEP_SUCCESS + result);
 
@@ -84,6 +86,7 @@ public class CustomStepListener implements StepExecutionListener {
 	/*
 	 * This method stores total line count in DB before step execution starts
 	 */
+	@SuppressWarnings("resource")
 	@Override
 	public void beforeStep(StepExecution arg0) {
 
@@ -91,10 +94,16 @@ public class CustomStepListener implements StepExecutionListener {
 		int totalLineCount = 0;
 
 		try {
-			reader = new LineNumberReader(new FileReader(props.getTradeFileName()));
+			reader = new LineNumberReader(new FileReader(PropertiesUtil.get(TRADE_FILE_NAME)));
 			reader.skip(Integer.MAX_VALUE);
-
-			totalLineCount = reader.getLineNumber() - props.getLinesToSkip();
+			int linesToSkip = 0;
+			try {
+				linesToSkip = Integer.parseInt(PropertiesUtil.get(LINES_TO_SKIP));
+			} catch (NumberFormatException e) {
+				log.error("NumberFormatException", e);
+				throw new RuntimeException(e);
+			}
+			totalLineCount = reader.getLineNumber() - linesToSkip;
 
 			JobProgressData jobProgressData = new JobProgressData();
 			jobProgressData.setJobId(getJobId());
@@ -102,7 +111,8 @@ public class CustomStepListener implements StepExecutionListener {
 			jobProgressData.setStatus(ETLConstants.JOB_RUNNING);
 
 			RestTemplate restTemplate = new RestTemplate();
-			String result = restTemplate.postForObject(props.getJobProgressServiceUrl(), jobProgressData, String.class);
+			String result = restTemplate.postForObject(PropertiesUtil.get(JOBPROGRESSIVE_SERVICE_URL), jobProgressData,
+					String.class);
 
 			log.info(LogMsg.CUSTOMER_STEP_LISTNER_BEFORE_STEP_SUCCESS + result);
 

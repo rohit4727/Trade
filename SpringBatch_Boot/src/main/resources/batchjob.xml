@@ -19,12 +19,16 @@
 		</step>
 	</job>
 
-	<beans:bean id="itemReader" class="com.iris.batch.step.Reader" />
+	<beans:bean id="itemReader" class="com.iris.batch.step.Reader">
+		<beans:constructor-arg name="tradeFileName"
+			value="${props.tradeFileName}" />
+		<beans:constructor-arg name="csvColumns" ref="csvColumns" />
+	</beans:bean>
 	<beans:bean id="itemProcessor" class="com.iris.batch.step.Processor"
 		scope="step">
 		<beans:property name="jobId" value="#{jobParameters[jobId]}" />
 	</beans:bean>
-	
+
 	<beans:bean id="itemProcessorTest" class="com.iris.batch.step.Processor" />
 	<beans:bean id="itemWriter" class="com.iris.batch.step.Writer" />
 	<beans:bean id="taskExecutor" class="com.iris.batch.step.TaskExecuter" />
@@ -32,12 +36,12 @@
 		class="org.springframework.batch.core.scope.StepScope">
 		<beans:property name="autoProxy" value="true" />
 	</beans:bean>
-	<beans:bean id="customStepListener" class="com.iris.batch.listener.CustomStepListener" 
-	scope="step">
+	<beans:bean id="customStepListener" class="com.iris.batch.listener.CustomStepListener"
+		scope="step">
 		<beans:property name="jobId" value="#{jobParameters[jobId]}" />
 	</beans:bean>
-	<beans:bean id="customChunkListener" class="com.iris.batch.listener.CustomChunkListener" 
-	scope="step">
+	<beans:bean id="customChunkListener" class="com.iris.batch.listener.CustomChunkListener"
+		scope="step">
 		<beans:property name="jobId" value="#{jobParameters[jobId]}" />
 	</beans:bean>
 
