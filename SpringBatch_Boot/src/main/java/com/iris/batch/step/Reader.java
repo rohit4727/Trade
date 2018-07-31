@@ -16,7 +16,6 @@ import com.iris.batch.model.TradeBase;
 import com.iris.batch.util.CSVColumns;
 import com.iris.batch.util.ETLConstants;
 import com.iris.batch.util.ErrorMsg;
-import com.iris.batch.util.PropertiesUtil;
 
 /**
  * Class for reading csv file for spring batch processing
@@ -26,16 +25,13 @@ import com.iris.batch.util.PropertiesUtil;
 public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 	private static final Logger log = LoggerFactory.getLogger(Reader.class);
 
-	@Autowired
-	private CSVColumns csvColumns;
-
-	public Reader(PropertiesUtil props) {
+	public Reader(String tradeFileName, CSVColumns csvColumns) {
 
 		// Set input file
-		this.setResource(new FileSystemResource(props.getTradeFileName()));
+		this.setResource(new FileSystemResource(tradeFileName));
 
 		// Skip the file header line
-		this.setLinesToSkip(props.getLinesToSkip());
+		this.setLinesToSkip(1);//props.getLinesToSkip());
 		// Line is mapped to item (FxMarketEvent) using setLineMapper(LineMapper)
 
 		try {

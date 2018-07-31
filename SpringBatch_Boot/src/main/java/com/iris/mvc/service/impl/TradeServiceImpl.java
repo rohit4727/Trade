@@ -5,7 +5,6 @@ import java.net.URISyntaxException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,15 +22,14 @@ public class TradeServiceImpl implements TradeService {
 
 	private static final Logger log = LoggerFactory.getLogger(TradeServiceImpl.class);
 
-	@Autowired
-	private PropertiesUtil props;
+	private static final String LIVE_TRADE_URL = "liveTradeUrl";
 
 	@Override
 	public double findBestPrice(String security, String tradeDate, String fromTime, String toTime) {
 //		RestTemplate restTemplate = new RestTemplate();
 //		BestPriceRes bestPrice = null;
 //		try {
-//			URI uri = new URI(props.getLiveTradeUrl() + security + "/" + tradeDate + "/" + fromTime + "/" + toTime);
+//			URI uri = new URI(PropertiesUtil.get(LIVE_TRADE_URL) + security + "/" + tradeDate + "/" + fromTime + "/" + toTime);
 //			ResponseEntity<BestPriceRes> result = restTemplate.<BestPriceRes>getForEntity(uri, BestPriceRes.class);
 //			bestPrice = result.getBody();
 //			if (bestPrice.getMessage() != null) {
