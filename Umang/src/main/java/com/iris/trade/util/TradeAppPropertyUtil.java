@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @author pushpendra.singh
  *
  */
-@PropertySource(ignoreResourceNotFound = true, value = "classpath:trade_app.properties")
+@PropertySource(ignoreResourceNotFound = true, value = "file:trade_app.properties")
 @Component
 public class TradeAppPropertyUtil {
 
