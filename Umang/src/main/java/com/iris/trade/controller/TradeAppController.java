@@ -125,7 +125,7 @@ public class TradeAppController {
 	 * @param jobId
 	 * @return JobShedulerResponse
 	 */
-	@PostMapping(IControllerConstants.DELETE_JOB_SCHEDULE_DETAIL)
+	@PostMapping(IControllerConstants.DELETE_JOB_SCHEDULE_DETAIL + IControllerConstants.ID_PARAM)
 	@ResponseBody
 	public JobShedulerResponse deleteScheduleJobDetail(@PathVariable(value = IControllerConstants.ID) Long jobId) {
 
