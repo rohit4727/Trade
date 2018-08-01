@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanGenerator;
 import org.springframework.cglib.core.NamingPolicy;
 import org.springframework.cglib.core.Predicate;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 
 import com.iris.batch.model.TradeBase;
@@ -26,15 +27,24 @@ import com.iris.batch.util.PropertiesUtil;
 public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 	private static final Logger log = LoggerFactory.getLogger(Reader.class);
 	private static final String TRADE_FILE_NAME = "tradeFileName";
+	private static final String LINES_TO_SKIP = "linesToSkip";
 
 	public Reader() {
 
 		// Set input file
-		this.setResource(new FileSystemResource(PropertiesUtil.get(TRADE_FILE_NAME)));
+//		this.setResource(new FileSystemResource(PropertiesUtil.get(TRADE_FILE_NAME)));
+		this.setResource(new ClassPathResource(PropertiesUtil.get(TRADE_FILE_NAME)));
 
+		int linesToSkip = 0;
+		try {
+			linesToSkip = Integer.parseInt(PropertiesUtil.get(LINES_TO_SKIP));
+		} catch (NumberFormatException e) {
+			log.error("NumberFormatException", e);
+			throw new RuntimeException(e);
+		}
+		
 		// Skip the file header line
-		this.setLinesToSkip(1);//props.getLinesToSkip());
-		// Line is mapped to item (FxMarketEvent) using setLineMapper(LineMapper)
+		this.setLinesToSkip(linesToSkip);
 
 		try {
 

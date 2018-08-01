@@ -2,6 +2,7 @@ package com.iris.test.unit;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class ProcessorTest {
 
 	@Test
 	public void testProcessor() {
-		when(this.tradeService.findBestPrice(anyString(), anyString(), anyString(), anyString())).thenReturn(100.02);
+		when(this.tradeService.findBestPrice(any())).thenReturn(100.02);
 
 		((Processor<TradeBase>) processor).setTradeService(tradeService);
 		((Processor<TradeBase>) processor).setJobId(1L);

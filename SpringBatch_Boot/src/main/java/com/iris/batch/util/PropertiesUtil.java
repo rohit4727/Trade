@@ -17,7 +17,8 @@ public class PropertiesUtil {
 
 	private static Properties props;
 	private static final Logger log = LoggerFactory.getLogger(PropertiesUtil.class);
-	private static final String RROPERTY_FILE_PATH = "SpringBatchBootCustom.properties";
+	private static final String RROPERTY_FILE_PATH = "src/main/resources/SpringBatchBootCustom.properties";
+//	private static final String RROPERTY_FILE_PATH = "SpringBatchBootCustom.properties";
 	private static final String PROPERTY_NOT_FOUND = " not found";
 
 	static {
@@ -38,8 +39,8 @@ public class PropertiesUtil {
 	public static String get(String key) {
 		String propertyValue = props.getProperty(key);
 		if (propertyValue == null || propertyValue.isEmpty()) {
-			log.error(propertyValue + PROPERTY_NOT_FOUND);
-			throw new RuntimeException(propertyValue + PROPERTY_NOT_FOUND);
+			log.error(key + PROPERTY_NOT_FOUND);
+			throw new RuntimeException(key + PROPERTY_NOT_FOUND);
 		}
 		return propertyValue;
 	}
