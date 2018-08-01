@@ -95,6 +95,7 @@ public class CustomStepListener implements StepExecutionListener {
 
 		try {
 			reader = new LineNumberReader(new FileReader(PropertiesUtil.get(TRADE_FILE_NAME)));
+			//reader = new LineNumberReader(new FileReader("src/main/resources/trades.csv"));
 			reader.skip(Integer.MAX_VALUE);
 			int linesToSkip = 0;
 			try {
