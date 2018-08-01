@@ -40,11 +40,7 @@ public class Processor<T extends TradeBase> implements ItemProcessor<T, T> {
 		}
 		log.info("processed trade with id " + trade.getTradeId());
 
-		String fromTime = trade.getTradeTime();
-		Time time = Time.valueOf(fromTime);
-		time.setTime(time.getTime() + 30 * 60 * 1000);
-
-		double bestPrice = tradeService.findBestPrice(trade.getSecurity(), trade.getTradeDate(), fromTime, time.toString());
+		double bestPrice = tradeService.findBestPrice(trade);
 
 		trade.setDeviation(trade.getTradePrice() - bestPrice);
 

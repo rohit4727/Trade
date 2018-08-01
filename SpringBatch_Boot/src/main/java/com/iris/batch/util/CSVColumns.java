@@ -19,7 +19,7 @@ public class CSVColumns {
 	private final static Map<String, Class<?>> columns = new HashMap<>();
 	private static final String CSV_PROPERTY = "csvProperty";
 	private static final String TOTAL_COLUMNS = "totalColumns";
-	private static final String[] columnNames;
+	private static String[] columnNames;
 
 	static {
 		columnNames = new String[Integer.parseInt(PropertiesUtil.get(TOTAL_COLUMNS))];
@@ -27,11 +27,13 @@ public class CSVColumns {
 			String[] split = csvProp.split(":");
 			try {
 				columns.put(split[0], Class.forName(split[1]));
+				
 			} catch (ClassNotFoundException e) {
 				log.error("Error", e);
 				throw new RuntimeException(e);
 			}
 		}
+		columnNames = columns.keySet().toArray(columnNames);
 	}
 
 	public static Map<String, Class<?>> getColumns() {
