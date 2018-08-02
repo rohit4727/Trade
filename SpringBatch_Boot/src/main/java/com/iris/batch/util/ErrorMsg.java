@@ -18,4 +18,5 @@ public interface ErrorMsg {
 	String CUSTOM_STEP_LISTNER_FILE_NO_FOUND = "FileNotFoundException in CustomStepListener BeforeStep";
 	String CUSTOM_STEP_LISTNER_IO_EXCEPTION = "IOException in CustomStepListener BeforeStep";
 	String CUSTOM_CHUNK_LISTNER_ERROR = "CustomChunkListener afterChunkError called";
+	String KAFKA_MAP_ERROR_STRING = "Best value not found for trade id=";
 }

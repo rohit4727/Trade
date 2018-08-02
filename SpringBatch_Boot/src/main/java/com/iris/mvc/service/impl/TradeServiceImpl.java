@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.iris.batch.model.TradeBase;
+import com.iris.batch.util.ETLConstants;
+import com.iris.batch.util.ErrorMsg;
+import com.iris.batch.util.LogMsg;
 import com.iris.batch.util.PropertiesUtil;
 import com.iris.mvc.service.TradeService;
 
@@ -42,7 +45,7 @@ public class TradeServiceImpl implements TradeService {
 		if (searchedTrade != null) {
 			return searchedTrade;
 		} else {
-			log.error("Best value not found for trade id=" + trade.getTradeId());
+			log.error(ErrorMsg.KAFKA_MAP_ERROR_STRING + trade.getTradeId());
 			return 0f;
 		}
 
@@ -52,7 +55,7 @@ public class TradeServiceImpl implements TradeService {
 	private Double searchTrade(TradeBase trade) {
 		Map map2 = map.get(trade.getSecurity());
 		if (map2 != null) {
-			Object tradeRes = map2.get(trade.getTradeDate() + " " + trade.getTradeTime());
+			Object tradeRes = map2.get(trade.getTradeDate() + ETLConstants.SPACE + trade.getTradeTime());
 			if (tradeRes != null) {
 				return Double.parseDouble(tradeRes.toString());
 			}
@@ -66,15 +69,19 @@ public class TradeServiceImpl implements TradeService {
 
 		for (Map tradeData : (List<Map>) kafkaTradeList) {
 
-			Map securityMap = TradeServiceImpl.map.get(tradeData.get("security"));
+			Map securityMap = TradeServiceImpl.map.get(tradeData.get(ETLConstants.TRADE_SECURITY));
 			if (securityMap == null) {
 				securityMap = new HashMap<>();
-				map.put(tradeData.get("security").toString(), securityMap);
+				map.put(tradeData.get(ETLConstants.TRADE_SECURITY).toString(), securityMap);
 			}
-			securityMap.put(tradeData.get("tradeString") + " " + tradeData.get("tradeTime"),
-					tradeData.get("tradePrice").toString());
+			securityMap.put(
+					tradeData.get(ETLConstants.TRADE_DATE) + ETLConstants.SPACE
+							+ tradeData.get(ETLConstants.TRADE_TIME),
+					tradeData.get(ETLConstants.TRADE_PRICE).toString());
 
 		}
+
+		log.info(LogMsg.KAFKA_SIZE_MSG + kafkaTradeList.size());
 	}
 
 	@SuppressWarnings("rawtypes")
