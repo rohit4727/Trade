@@ -23,17 +23,18 @@ public class CSVColumns {
 
 	static {
 		columnNames = new String[Integer.parseInt(PropertiesUtil.get(TOTAL_COLUMNS))];
+		int i = 0 ;
 		for (String csvProp : PropertiesUtil.get(CSV_PROPERTY).split(",")) {
 			String[] split = csvProp.split(":");
 			try {
 				columns.put(split[0], Class.forName(split[1]));
-				
+				columnNames[i++] = split[0]; 
 			} catch (ClassNotFoundException e) {
 				log.error("Error", e);
 				throw new RuntimeException(e);
 			}
 		}
-		columnNames = columns.keySet().toArray(columnNames);
+		//columnNames = columns.keySet().toArray(columnNames);
 	}
 
 	public static Map<String, Class<?>> getColumns() {
