@@ -10,7 +10,7 @@
 		<step id="step1">
 			<tasklet task-executor="taskExecutor">
 				<chunk reader="itemReader" processor="itemProcessor" writer="itemWriter"
-					commit-interval="100" />
+					commit-interval="1000" />
 				<listeners>
 					<listener ref="customStepListener" />
 					<listener ref="customChunkListener" />

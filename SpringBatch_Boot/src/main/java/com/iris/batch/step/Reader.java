@@ -32,8 +32,8 @@ public class Reader<T extends TradeBase> extends FlatFileItemReader<T> {
 	public Reader() {
 
 		// Set input file
-//		this.setResource(new FileSystemResource(PropertiesUtil.get(TRADE_FILE_NAME)));
-		this.setResource(new ClassPathResource(PropertiesUtil.get(TRADE_FILE_NAME)));
+		this.setResource(new FileSystemResource(PropertiesUtil.get(TRADE_FILE_NAME)));
+		//this.setResource(new ClassPathResource(PropertiesUtil.get(TRADE_FILE_NAME)));
 
 		int linesToSkip = 0;
 		try {
