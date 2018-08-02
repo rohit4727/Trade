@@ -35,9 +35,9 @@ Ext.define('ui.view.main.JobList', {
         { text: 'Status', dataIndex: 'status', flex: 0.5, renderer:function(v, md){
         		if(Ext.isEmpty(v)){return ''};
         		
-        		if(v==0){return "Run Scheduled";}
-        		else if(v==1){return "Run Success";}
-        		else if(v==2){return "Run Failed";}
+        		if(v==0){return "Scheduled";}
+        		else if(v==1){return "Executed";}
+        		else if(v==2){return "Not Executed";}
         		else {return "Unknown";}
         	} 
         },    

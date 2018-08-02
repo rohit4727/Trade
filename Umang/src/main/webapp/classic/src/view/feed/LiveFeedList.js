@@ -51,7 +51,7 @@ Ext.define('ui.view.feed.LiveFeedList', {
         { text: 'Date', dataIndex: 'tradeDate', type: 'date' },
         { text: 'Time', dataIndex: 'tradeTime', type: 'time' },
         { text: 'Broker', dataIndex: 'broker' },
-        { text: 'Trade Price', dataIndex: 'tradePrice', renderer:function(v, md, rec){
+        { text: 'Best Price', dataIndex: 'tradePrice', renderer:function(v, md, rec){
         	var dir = rec.get('direction');
         	md.style="color:#FFF;background:"+(dir=='Buy'?'green':'#ca0202');
         	return v;

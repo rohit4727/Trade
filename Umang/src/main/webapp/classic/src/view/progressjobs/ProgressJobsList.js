@@ -53,13 +53,18 @@ Ext.define('ui.view.progressjobs.ProgressJobsList', {
             		, processed = r.get('writerLineCount');
             	
                 var id = Ext.id();
-                Ext.defer(function () {
-                    Ext.widget('progressbar', {
-                        renderTo: id,
-                        value: processed / total
-                    });
-                }, 50);
-                return Ext.String.format('<div id="{0}"></div>', id);
+                if(id){
+	                Ext.defer(function () {
+	                    Ext.widget('progressbar', {
+	                        renderTo: id,
+	                        value: processed / total
+	                    });
+	                }, 50);
+	                return Ext.String.format('<div id="{0}"></div>', id);
+                }
+                else{
+                	return (value+'%');
+                }
             }
         },
         { text: 'Status', dataIndex: 'jobProgressStatus', flex: 0.5, renderer:function(v, md){

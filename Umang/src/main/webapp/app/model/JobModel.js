@@ -28,6 +28,9 @@ Ext.define('ui.model.JobModel', {
                 if (v) {                	
                 	v = Ext.Date.format(v, 'H:i');
                 }
+                else{
+                	return Ext.Date.format(new Date(), 'H:i');
+                }
 
                 return v;
             }
