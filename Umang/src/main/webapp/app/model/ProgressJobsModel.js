@@ -24,16 +24,14 @@ Ext.define('ui.model.ProgressJobsModel', {
         	} 
         }
         , {
-            name: 'displayTime', convert: function (v, rec) {	
-
-                v = new Date(rec.get('scheduleDate'));                
-                v = new Date(v.getTime() + (v.getTimezoneOffset() * 60000));
-                                         	
+            name: 'displayTime', convert: function (v, rec) {	            	
+                v = new Date(rec.get('scheduleDate'));
+             	
                 if (v) {                	
                 	v = Ext.Date.format(v, 'H:i');
                 }
 
-                return v;
+                return v;                
             }
         }
     ]

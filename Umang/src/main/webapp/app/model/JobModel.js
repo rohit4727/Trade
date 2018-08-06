@@ -5,7 +5,7 @@ Ext.define('ui.model.JobModel', {
         { name: 'id' }
         , { name: 'jobName' }
         , { name: 'batchFilePath' }        
-        , { name: 'scheduleDate'}
+        , { name: 'scheduleDate', defaultValue:new Date()}
         , { name: 'status', type: 'int'}         
         , { name: 'runFrequency', mapping:'status', defaultValue: 1, type: 'int', convert: function (v, rec) {
             return v == '1' ? 1 : (v == true ? 1 : 0);
@@ -27,9 +27,6 @@ Ext.define('ui.model.JobModel', {
              	
                 if (v) {                	
                 	v = Ext.Date.format(v, 'H:i');
-                }
-                else{
-                	return Ext.Date.format(new Date(), 'H:i');
                 }
 
                 return v;
