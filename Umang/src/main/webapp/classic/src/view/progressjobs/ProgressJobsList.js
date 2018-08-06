@@ -51,7 +51,7 @@ Ext.define('ui.view.progressjobs.ProgressJobsList', {
             renderer: function (v, m, r) {
             	var total = r.get('totalLineCount')
             		, processed = r.get('writerLineCount')
-                		, value= (processed / total)*100;
+                		, value= ((processed / total)*100).toFixed(0);
                 	
             	return ['<div style="background-color: #f5f5f5;border-width: 0;height: 20px;border-color: #157fcc;border-style: solid;width:200px;position: relative;">'
             	    , '<div style="padding-top:3px;width: 100%;z-index:1;text-align: center;position: absolute;font-weight: bold;color: #666;">'+value+'%</div>'
