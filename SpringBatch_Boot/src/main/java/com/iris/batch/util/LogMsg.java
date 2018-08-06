@@ -12,4 +12,5 @@ public interface LogMsg {
 	String TEST_JOB_SUCCESS = "Spring batch job has been run successfully with jobId=";
 	String UNABLE_TO_READ_PROPERTY_FILE = "Unable to read property file";
 	String EXIT_STATUS = "Exit Status : ";
+	String KAFKA_SIZE_MSG = "kafkaTradeList size:";
 }

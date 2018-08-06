@@ -21,5 +21,14 @@ public interface ETLConstants {
 
 	// Entity table
 	String TRADE_TABLE = "trade_live_feed_copy";
+	
+	// Kafka Response Map Keys
+	String TRADE_SECURITY = "security";
+	String TRADE_DATE = "tradeString";
+	String TRADE_TIME = "tradeTime";
+	String TRADE_PRICE = "tradePrice";
+	
+	//Empty Space
+	String SPACE = " ";
 
 }
