@@ -84,7 +84,7 @@ Ext.define('ui.view.main.Main', {
 	        	},
 	        	{
 		            xtype: 'joblist'
-		        	, height: Ext.getBody().getHeight()-20
+		        	, height: Ext.getBody().getHeight()-55
 	        	}
 	    	]
 	    },
